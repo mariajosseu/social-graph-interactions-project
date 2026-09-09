@@ -1,4 +1,10 @@
 .week-two-lead { background: var(--acid); padding: 1.5rem; }
+.paradox-page { padding: 4.5rem 8vw 7rem; }
+.paradox-story-grid { display: grid; gap: 6vw; grid-template-columns: .7fr 1.3fr; padding: 3.5rem 0 6rem; }
+.paradox-intro h2 { font-size: clamp(2.8rem, 5vw, 5.4rem); letter-spacing: -.09em; line-height: .9; margin: 0 0 2rem; }
+.paradox-intro > p:last-child { color: var(--muted); font-size: .95rem; line-height: 1.6; max-width: 320px; }
+.paradox-analysis { min-width: 0; }
+.paradox-page .finding-grid { margin-top: 0; }
 .footprint-section { background: var(--ink); color: var(--paper); padding: 7rem 8vw; }
 .footprint-heading { align-items: end; display: flex; gap: 3rem; justify-content: space-between; margin-bottom: 3.5rem; }.footprint-heading .eyebrow { color: #aaa9a2; }.footprint-heading h2 { font-size: clamp(2.8rem, 5vw, 5.4rem); letter-spacing: -.09em; line-height: .9; margin: 0; }.footprint-heading > p { color: #cbc7c0; line-height: 1.55; margin: 0; max-width: 340px; }
 .quiz-shell, .quiz-result { background: var(--paper); color: var(--ink); margin: auto; max-width: 760px; padding: clamp(1.5rem, 4vw, 3rem); }.quiz-progress { align-items: center; display: flex; font: .64rem 'DM Mono', monospace; gap: 1rem; letter-spacing: .08em; text-transform: uppercase; }.quiz-progress > div { background: rgba(23,23,26,.15); height: 3px; overflow: hidden; width: 100%; }.quiz-progress i { background: var(--red); display: block; height: 100%; transition: width .25s ease; width: 16.67%; }
@@ -32,3 +38,4 @@
 .stat-pair strong { display: block; font: 2rem 'DM Mono', monospace; }
 .stat-pair span { display: block; margin-top: .35rem; }
 @media (max-width: 760px) { .footprint-section { padding: 4.5rem 7vw; }.footprint-heading { display: block; }.footprint-heading > p { margin-top: 2rem; }.result-stats { grid-template-columns: 1fr; }.shuffle-layout { display: block; } .shuffle-result { margin-top: 3rem; } .chart-axis { margin-left: 0; } .metric-label { line-height: 1.4; } .week-two-lead strong { font-size: 4rem; } .stat-pair { gap: 1rem; } }
+@media (max-width: 760px) { .paradox-page { padding: 4.5rem 7vw; }.paradox-story-grid { display: block; }.paradox-intro { margin-bottom: 4rem; }.paradox-page .finding-grid { gap: 1rem; grid-template-columns: 1fr 2fr; }.paradox-page .finding-grid > p:last-child { grid-column: 2; } }
