@@ -22,6 +22,17 @@
       </div>
       <div class="finding-grid"><div class="finding-number">01<span>/02</span></div><div><p class="eyebrow">First finding</p><h2>Marvel has a popularity trap.</h2></div><p id="finding-copy">The average character has fewer incoming links than the average character reached by following a link. That is the paradox in its directed form.</p></div>
     </article>
+    <section class="footprint-section" aria-labelledby="footprint-title">
+      <div class="footprint-heading"><div><p class="eyebrow">A small experiment</p><h2 id="footprint-title">Find your<br>network twin.</h2></div><p>Answer six quick questions. We match your social footprint—not your personality—to a character’s position in this Marvel link network.</p></div>
+      <div class="quiz-shell" id="footprint-quiz">
+        <div class="quiz-progress"><span id="quiz-step">01 / 06</span><div><i id="quiz-progress-bar"></i></div></div>
+        <form id="quiz-form" novalidate>
+          <fieldset id="quiz-question"></fieldset>
+          <div class="quiz-actions"><button class="quiz-back" id="quiz-back" type="button">← Back</button><button class="quiz-next" id="quiz-next" type="submit" disabled>Next →</button></div>
+        </form>
+      </div>
+      <div class="quiz-result" id="quiz-result" hidden aria-live="polite"></div>
+    </section>
     <section class="evidence-section shuffle-section" aria-labelledby="shuffle-title"><div class="evidence-heading"><div><p class="eyebrow">The null model</p><h2 id="shuffle-title">Shuffle the<br>names, keep<br>the degrees.</h2></div><p>We repeatedly reassign targets while keeping every character's number of incoming and outgoing links fixed. What survives is a degree effect; what disappears needs a particular arrangement.</p></div><div class="shuffle-layout"><div class="shuffle-chart"><div class="shuffle-bars" id="shuffle-bars"><span class="shuffle-loading">Running 200 shuffles...</span></div><div class="shuffle-axis"><span>less reciprocal</span><span>more reciprocal</span></div></div><div class="shuffle-result"><p class="eyebrow">Second finding</p><h3>The paradox survives. Reciprocity does not.</h3><p id="shuffle-copy">Calculating how often links point both ways...</p><div class="stat-pair"><div><strong id="real-reciprocity">—</strong><span>real reciprocal links</span></div><div><strong id="null-reciprocity">—</strong><span>shuffle average</span></div></div></div></div></section>
     <section class="method-section"><div><p class="eyebrow">What this can say</p><h2>Structure is<br>not a story.</h2></div><div class="method-copy"><p>The friendship paradox is real in this snapshot: following links preferentially lands on well-known characters. Spider-Man, Hulk, and Wolverine drive much of that visibility, but the effect is not only one superstar; degree-weighted sampling makes every popular node easier to encounter.</p><p>The shuffle keeps the degree sequence, so the 3.87× popularity gap is expected to survive. Reciprocity falls because mutual pairs are not preserved. We cannot infer motives, chronology, or influence from Wikipedia links: this is a pattern in an editorial network, not a census of friendships.</p><a class="text-link" href="week-01.html#method">Read the dataset notes <span>↗</span></a></div></section>
   </main>
