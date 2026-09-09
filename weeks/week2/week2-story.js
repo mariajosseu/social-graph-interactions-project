@@ -1,4 +1,4 @@
-const DATA_URL = '../../data/week2_story.json';
+const DATA_URL = 'data/week2_story.json';
 const colors = { ink: '#17171a', red: '#ef5a44', acid: '#d9f05a', muted: '#706f6a', paper: '#f1ede5', blue: '#a7c8e8' };
 let storyData;
 let selectedHero = null;
