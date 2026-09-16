@@ -1,1 +1,128 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WEEK 03 / SMALL WORLDS</title><link rel="stylesheet" href="styles.css"></head><body><header class="site-header"><a class="wordmark" href="index.html">02805</a><nav><a href="index.html#archive">Archive</a><a href="index.html">Home</a></nav></header><main><section class="dispatch"><div class="section-marker"><span>03</span><span>COMING SOON</span><span>FIELD NOTE</span></div><div class="story-grid"><div class="story-intro"><p class="eyebrow">Question / 003</p><h1>Small<br>worlds.</h1></div><div class="method-copy"><p>This weekly post is being assembled from the same Marvel character network.</p><p>Next: paths, clusters, and the social geometry between apparently distant characters.</p><a class="text-link" href="index.html#archive">Return to the field journal <span>↗</span></a></div></div></section></main><footer class="site-footer"><a href="week-02.html">← Week 02</a><span>WEEK 03 / 2026</span><a href="week-04.html">Week 04 →</a></footer></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Week 03: Who carries the Marvel Universe?">
+	<title>WEEK 03 / WHO CARRIES THE MARVEL UNIVERSE?</title>
+	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="weeks/week3/week3.css">
+</head>
+<body>
+	<header class="site-header">
+		<a class="wordmark" href="index.html" aria-label="The Marvel Universe home">02805</a>
+		<nav aria-label="Post navigation"><a href="index.html#archive">Archive</a><a href="index.html">Home</a><a href="week-02.html">← Previous</a></nav>
+	</header>
+	<main>
+		<section class="w3-hero"><div><p class="eyebrow">Week 03 / Paths, bridges, and cliques</p><h1>Who carries<br>the Marvel<br><em>universe?</em></h1><p>Some characters collect connections. Others hold the network together. This week, we follow the paths, bridges, and clusters hiding beneath the surface.</p></div><div class="w3-hero-mark" aria-hidden="true"><span>303</span><b>nodes</b><i>↘</i></div></section>
+		<section class="w3-section route-section"><div class="section-kicker"><span>Experiment 01 /</span><span>THE ROUTE FINDER</span></div><div class="w3-intro-grid"><div><p class="eyebrow">Question 01</p><h2>Can Spider-Man connect anyone?</h2></div><div><p>Pick two characters. Every route is built in two legs through Spider-Man: one shortest path into him, then one shortest path out to the target. The furthest path going though Spider-man is going to be always max. 6 edges.</p><p class="answer-line" id="route-answer">Loading the network...</p></div></div><div class="route-controls"><label>From <select id="route-source"></select></label><button class="story-button" id="surprise-route" type="button">Surprise me <span>✦</span></button><label>To <select id="route-target"></select></label></div><div class="route-output" id="route-output"><span class="route-count">—</span><div id="route-chain" class="route-chain"></div></div></section>
+		<section class="w3-section centrality-section"><div class="section-kicker"><span>Experiment 02 / Centrality</span><span>POPULARITY ≠ BROKERAGE</span></div><div class="w3-intro-grid"><div><p class="eyebrow">Question 02</p><h2>Who sits between the rooms?</h2></div><div><p>Each point is a character. Degree counts immediate neighbors; betweenness counts how often a character lies on other characters' shortest paths. A bridge can be less famous and still matter structurally.</p><p class="answer-line" id="centrality-answer">Computing shortest paths...</p></div></div><div class="centrality-controls"><label>Remove in order of <select id="centrality-order"><option value="degree">Degree</option><option value="betweenness">Betweenness</option><option value="random">Random</option></select></label><label>Characters removed <strong id="centrality-removal-count">0</strong><input id="centrality-removal-slider" type="range" min="0" max="20" value="0" step="1"></label></div><div class="centrality-visual-grid"><div class="network-shell"><svg id="centrality-network" role="img" aria-label="Marvel network with removable nodes and edges"></svg></div><div class="scatter-shell"><svg id="centrality-chart" role="img" aria-label="Degree versus betweenness centrality scatter plot"></svg><div class="chart-tooltip" id="centrality-tooltip"></div></div></div><div class="bridge-list" id="bridge-list"></div></section>
+		<section class="w3-section clique-section">
+            <div class="section-kicker"><span>Experiment 03 / Largest cliques</span><span>REFERENCES AND RECIPROCITY</span></div>
+            <div class="w3-intro-grid">
+                <div><p class="eyebrow">Question 03</p><h2>Who belongs to the tightest circles?</h2><p>Explore Marvel’s largest cliques, their shared teams, and whether team overlap is stronger than chance.</p></div>
+            </div>
+            <div class="clique-explorer">
+                <div class="clique-plot-column">
+                <div class="clique-diagram"><div class="clique-controls"><div class="clique-mode-toggle" role="group" aria-label="Network view" aria-describedby="clique-view-definition"><button id="clique-mode-undirected" type="button" aria-pressed="true">Undirected</button><button id="clique-mode-directed" type="button" aria-pressed="false">Directed</button></div><label>Explore a largest clique <select id="clique-select" aria-describedby="clique-readout"></select></label></div><svg id="clique-chart" viewBox="0 0 800 640" role="img" aria-label="Named members and every connection in the selected largest clique"></svg><p class="clique-legend"><span class="shared-key">Red / Shared core</span><span>Dark / Varies by clique</span></p><div class="clique-readout" id="clique-readout" aria-live="polite">Loading largest cliques...</div></div>
+                    <div class="clique-description">
+                    <p id="clique-view-description" aria-live="polite">Loading largest cliques...</p>
+                    <p id="clique-view-definition">Undirected view: an article reference in either direction counts as one connection. Every pair must connect.</p>
+                    <p>These links describe article references. We also check whether every member shares an affiliation recorded in Wikipedia.</p>
+                </div>
+                </div>
+                <div class="clique-roster"><h3>Members of this clique</h3><p class="clique-affiliation-key"><span aria-hidden="true"></span>Blue affiliations are shared by every member.</p><ul id="clique-members"></ul></div>
+            </div>
+            <div class="homophily-section">
+                <p class="eyebrow">Beyond the cliques / Team homophily</p>
+                <h3>Do teammates link more than chance predicts?</h3>
+                <p>How often do linked characters share a team? We compare the network with 1,000 shuffled versions that keep each character’s number of links.</p>
+                <div class="clique-mode-toggle homophily-mode-toggle" role="group" aria-label="Team homophily network view"><button id="homophily-mode-undirected" type="button" aria-pressed="true">Undirected</button><button id="homophily-mode-directed" type="button" aria-pressed="false">Directed</button></div>
+                <p class="answer-line" id="homophily-answer" aria-live="polite">Loading the homophily comparison...</p>
+                <div class="homophily-chart-shell"><svg id="homophily-chart" role="img" aria-label="Randomized team overlap distribution compared with observed overlap"></svg></div>
+                <details class="homophily-test-details"><summary>How does the chance comparison work?</summary><div id="homophily-method"></div></details>
+            </div>
+        </section>
+		<section class="w3-section mystery-section">
+			<div class="section-kicker">
+				<span>Experiment 04 / The mystery character</span>
+				<span>DEGREE ≠ IMPORTANCE</span>
+			</div>
+
+			<div class="w3-intro-grid">
+				<div>
+					<p class="eyebrow">Case file / Rockman</p>
+					<h2>Why does a character with two links matter so much?</h2>
+				</div>
+
+				<div>
+					<p>
+						Rockman has only two direct connections. That sounds unimportant.
+						But his betweenness is unusually high.
+					</p>
+
+					<p class="answer-line" id="mystery-answer">
+						Click through the evidence.
+					</p>
+				</div>
+			</div>
+
+			<div class="mystery-controls">
+                <button class="story-button" id="mystery-neighbors" type="button">1 / Immediate neighbors ↗</button>
+				<button class="story-button" id="mystery-expand">
+					2 / Look one step further <span>↗</span>
+				</button>
+
+				<button class="story-button" id="mystery-paths">
+					3 / Show shortest paths <span>↗</span>
+				</button>
+
+				<button class="story-button" id="mystery-remove">
+					4 / Remove Rockman <span>×</span>
+				</button>
+
+				<button class="story-button" id="mystery-reset">
+					Reset <span>↺</span>
+				</button>
+			</div>
+
+			<div class="mystery-stage">
+				<svg
+					id="mystery-chart"
+					role="img"
+					aria-label="Interactive network showing Rockman's position between characters"
+				></svg>
+			</div>
+
+			<div class="mystery-readout">
+				<div>
+					<span class="case-label">DIRECT LINKS</span>
+					<strong id="mystery-degree">2</strong>
+				</div>
+
+				<div>
+					<span class="case-label">NORMALIZED BETWEENNESS</span>
+					<strong id="mystery-betweenness">—</strong>
+				</div>
+
+				<div>
+					<span class="case-label">CURRENT STATE</span>
+					<strong id="mystery-state" aria-live="polite">Case opened</strong>
+				</div>
+			</div>
+
+			<ol id="mystery-path-list" class="mystery-path-list" aria-label="Example shortest paths"></ol>
+            <div class="mystery-explanation" id="mystery-explanation" aria-live="polite">
+				<p>
+					<strong>The mystery:</strong>
+					two links do not necessarily mean a small structural role.
+				</p>
+			</div>
+		</section>
+		<section class="w3-conclusion"><h2>Conclusion</h2><p>Short paths, bridging roles, and tightly linked groups reveal different sides of the Marvel network. Shared affiliations occur more often than degree alone predicts, while characters with few links can still connect otherwise separate parts of the universe.</p></section>
+	</main>
+	<footer class="site-footer"><a href="week-02.html">← Week 02</a><span>WEEK 03 / 2026</span><a href="week-04.html">Week 04 →</a></footer>
+	<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+	<script src="weeks/week3/week3.js"></script>
+</body>
+</html>
