@@ -111,13 +111,23 @@ def main():
         })
 
     ranked_degree = [node_id for node_id, _ in sorted(degrees.items(), key=lambda pair: (-pair[1], pair[0]))]
+    ranked_betweenness = [item["id"] for item in centrality]
     connected = [node_id for node_id in graph if degrees[node_id] > 0]
     random_order = sorted(connected, key=lambda node_id: (stable_key(node_id), node_id))
     removal_values = [{
         "removed": count,
-        "targeted": component_size(graph, ranked_degree[:count]),
+        "degree": component_size(graph, ranked_degree[:count]),
+        "betweenness": component_size(graph, ranked_betweenness[:count]),
         "random": component_size(graph, random_order[:count]),
     } for count in range(21)]
+    single_hit = sorted(({
+        "id": node_id,
+        "name": names[node_id],
+        "degree": degrees[node_id],
+        "betweenness": round_value(betweenness[node_id]),
+        "giantComponent": component_size(graph, [node_id]),
+        "fragmented": len(max(nx.connected_components(graph), key=len)) - component_size(graph, [node_id]),
+    } for node_id in connected), key=lambda item: (-item["fragmented"], item["name"]))
 
     triangles = sum(nx.triangles(graph).values()) // 3
     maximal_cliques = sorted((sorted(clique) for clique in nx.find_cliques(graph)), key=lambda clique: (len(clique), clique))
@@ -138,6 +148,8 @@ def main():
         "removal": {
             "giantComponent": len(max(nx.connected_components(graph), key=len)),
             "values": removal_values,
+            "orders": {"degree": ranked_degree[:20], "betweenness": ranked_betweenness[:20], "random": random_order[:20]},
+            "singleHit": single_hit[:10],
         },
         "assortativity": {
             "real": round_value(nx.degree_assortativity_coefficient(graph)),
