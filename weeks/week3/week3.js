@@ -59,3 +59,101 @@ function renderGeneratedRemoval() { const values = data.removal.values; const dr
 function renderClique(nodes) { const select = byId('clique-select'); populateSelect(select, [...nodes].sort((a, b) => adjacency.get(b.id).size - adjacency.get(a.id).size).slice(0, 80)); const update = () => { const id = select.value; const neighbors = [...adjacency.get(id)].slice(0, 100); const closed = neighbors.filter((neighbor, index) => neighbors.slice(index + 1).some((other) => adjacency.get(neighbor)?.has(other))).length; byId('clique-readout').innerHTML = `<strong>${nodeName(id)}</strong><br>${neighbors.length} immediate neighbors · ${triangles(id)} triangles around this node · ${neighbors.length > 1 ? format(triangles(id) * 2 / (neighbors.length * (neighbors.length - 1))) : 0} local closure`; byId('clique-grid').innerHTML = neighbors.slice(0, 70).map((neighbor) => { const hasClosedPair = neighbors.some((other) => other !== neighbor && adjacency.get(neighbor)?.has(other)); return `<span class="clique-cell ${hasClosedPair ? 'is-link' : ''}" title="${nodeName(neighbor)}"></span>`; }).join(''); }; select.addEventListener('change', update); update(); }
 async function init() { data = await fetch(DATA_URL).then((response) => response.json()); makeGraph(); betweenness = new Map(data.centrality.map((node) => [node.id, node.betweenness])); const nodes = data.nodes; initRoutes(nodes); renderCentrality(nodes); renderGeneratedRemoval(); renderClique(nodes); }
 init().catch((error) => { console.error(error); document.querySelectorAll('.answer-line').forEach((element) => { element.textContent = 'Could not load the network snapshot. Run this project through a local HTTP server.'; }); });
+
+function renderMysteryCharacter() {
+	const rockman = "Rockman_(character)";
+	const neighbors = [
+		"Black_Widow_(Natasha_Romanova)",
+		"The_Witness_(character)"
+	];
+
+	const displayNames = {
+		"Rockman_(character)": "Rockman",
+		"Black_Widow_(Natasha_Romanova)": "Black Widow",
+		"The_Witness_(character)": "The Witness"
+	};
+
+	const betweenness = betweennessCentrality[rockman];
+	const degree = neighbors.length;
+
+	document.getElementById("mystery-degree").textContent = degree;
+	document.getElementById("mystery-betweenness").textContent =
+		betweenness.toFixed(1);
+
+	document.getElementById("mystery-neighbor-1").textContent =
+		displayNames[neighbors[0]];
+
+	document.getElementById("mystery-neighbor-2").textContent =
+		displayNames[neighbors[1]];
+
+	document.getElementById("mystery-answer").textContent =
+		"Two links. One surprisingly important bridge.";
+
+	const svg = d3.select("#mystery-chart");
+	svg.selectAll("*").remove();
+
+	const width = svg.node().getBoundingClientRect().width || 500;
+	const height = 300;
+
+	svg.attr("viewBox", `0 0 ${width} ${height}`);
+
+	const nodes = [
+		{
+			id: neighbors[0],
+			label: displayNames[neighbors[0]],
+			x: width * 0.15,
+			y: height * 0.5
+		},
+		{
+			id: rockman,
+			label: displayNames[rockman],
+			x: width * 0.5,
+			y: height * 0.5
+		},
+		{
+			id: neighbors[1],
+			label: displayNames[neighbors[1]],
+			x: width * 0.85,
+			y: height * 0.5
+		}
+	];
+
+	const links = [
+		{
+			source: neighbors[0],
+			target: rockman
+		},
+		{
+			source: rockman,
+			target: neighbors[1]
+		}
+	];
+
+	svg
+		.selectAll(".mystery-edge")
+		.data(links)
+		.enter()
+		.append("line")
+		.attr("class", "mystery-edge")
+		.attr("x1", d => nodes.find(n => n.id === d.source).x)
+		.attr("y1", d => nodes.find(n => n.id === d.source).y)
+		.attr("x2", d => nodes.find(n => n.id === d.target).x)
+		.attr("y2", d => nodes.find(n => n.id === d.target).y);
+
+	const node = svg
+		.selectAll(".mystery-node")
+		.data(nodes)
+		.enter()
+		.append("g")
+		.attr("class", "mystery-node")
+		.attr("transform", d => `translate(${d.x},${d.y})`);
+
+	node
+		.append("circle")
+		.attr("r", d => d.id === rockman ? 18 : 11);
+
+	node
+		.append("text")
+		.attr("dy", d => d.id === rockman ? 38 : 30)
+		.text(d => d.label);
+}

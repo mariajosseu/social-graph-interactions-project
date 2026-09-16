@@ -20,6 +20,80 @@
 		<section class="w3-section removal-section"><div class="section-kicker"><span>Experiment 03 / Targeted removal</span><span>REMOVE THE STARS</span></div><div class="w3-intro-grid"><div><p class="eyebrow">Question 03</p><h2>Does the network need its biggest names?</h2></div><div><p>Remove characters in descending order of degree. The giant component is the largest connected piece left. Compare that targeted attack with removing the same number of characters at random.</p><label class="range-label" for="removal-slider">Stars removed <strong id="removal-count">0</strong></label><input id="removal-slider" type="range" min="0" max="20" value="0" step="1"><p class="answer-line" id="removal-answer">Choose how many hubs to remove.</p></div></div><div class="removal-chart"><svg id="removal-chart" role="img" aria-label="Giant component size after targeted and random removals"></svg></div></section>
 		<section class="w3-section clique-section"><div class="section-kicker"><span>Experiment 04 / Local structure</span><span>TRIANGLES, NOT TEAMS</span></div><div class="w3-intro-grid"><div><p class="eyebrow">Question 04</p><h2>Is a dense neighborhood a clique?</h2></div><div><p>Select a character to inspect the links among their neighbors. We call closed triples triangles here; the graph cannot tell us whether those characters are a real-world team.</p><label>Inspect <select id="clique-select"></select></label><div class="clique-readout" id="clique-readout">Loading local structure...</div></div></div><div class="clique-grid" id="clique-grid"></div></section>
 		<section class="w3-finale"><p class="eyebrow">Answer / 003</p><h2>The universe is held together by more than stars.</h2><p>Hubs make many routes short, but brokerage and local closure tell different stories. This snapshot measures article links, not influence: the interesting characters are the ones whose graph position makes a structural difference.</p><a class="text-link" href="index.html#archive">Return to the field journal <span>↗</span></a></section>
+		<section class="w3-section mystery-section">
+			<div class="section-kicker">
+				<span>Experiment 02B / The mystery character</span>
+				<span>DEGREE ≠ IMPORTANCE</span>
+			</div>
+
+			<div class="w3-intro-grid">
+				<div>
+					<p class="eyebrow">Case file / Rockman</p>
+					<h2>Why does a character with two links matter so much?</h2>
+				</div>
+
+				<div>
+					<p>
+						Rockman has only two direct connections. That sounds unimportant.
+						But his betweenness is unusually high.
+					</p>
+
+					<p class="answer-line" id="mystery-answer">
+						Click through the evidence.
+					</p>
+				</div>
+			</div>
+
+			<div class="mystery-controls">
+				<button class="story-button" id="mystery-expand">
+					Reveal the neighborhood <span>↗</span>
+				</button>
+
+				<button class="story-button" id="mystery-paths">
+					Show shortest paths <span>↗</span>
+				</button>
+
+				<button class="story-button" id="mystery-remove">
+					Remove Rockman <span>×</span>
+				</button>
+
+				<button class="story-button" id="mystery-reset">
+					Reset <span>↺</span>
+				</button>
+			</div>
+
+			<div class="mystery-stage">
+				<svg
+					id="mystery-chart"
+					role="img"
+					aria-label="Interactive network showing Rockman's position between characters"
+				></svg>
+			</div>
+
+			<div class="mystery-readout">
+				<div>
+					<span class="case-label">DIRECT LINKS</span>
+					<strong id="mystery-degree">2</strong>
+				</div>
+
+				<div>
+					<span class="case-label">BETWEENNESS</span>
+					<strong id="mystery-betweenness">—</strong>
+				</div>
+
+				<div>
+					<span class="case-label">CURRENT STATE</span>
+					<strong id="mystery-state">Rockman connected</strong>
+				</div>
+			</div>
+
+			<div class="mystery-explanation" id="mystery-explanation">
+				<p>
+					<strong>The mystery:</strong>
+					two links do not necessarily mean a small structural role.
+				</p>
+			</div>
+		</section>
 	</main>
 	<footer class="site-footer"><a href="week-02.html">← Week 02</a><span>WEEK 03 / 2026</span><a href="week-04.html">Week 04 →</a></footer>
 	<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
