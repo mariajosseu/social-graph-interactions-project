@@ -1,0 +1,60 @@
+const DATA_URL = 'data/week2_story.json';
+const format = (value, digits = 2) => Number(value).toFixed(digits).replace(/\.00$/, '').replace(/(\.\d)0$/, '$1');
+const byId = (id) => document.getElementById(id);
+let data;
+let adjacency;
+let betweenness;
+
+function makeGraph() {
+  adjacency = new Map(data.nodes.map((node) => [node.id, new Set()]));
+  data.real.edges.forEach(([source, target]) => { adjacency.get(source)?.add(target); adjacency.get(target)?.add(source); });
+}
+function shortestPath(source, target, graph = adjacency) {
+  if (source === target) return [source];
+  const queue = [source];
+  const previous = new Map([[source, null]]);
+  while (queue.length) {
+    const current = queue.shift();
+    for (const neighbor of graph.get(current) || []) {
+      if (previous.has(neighbor)) continue;
+      previous.set(neighbor, current);
+      if (neighbor === target) { const path = []; let cursor = target; while (cursor !== null) { path.unshift(cursor); cursor = previous.get(cursor); } return path; }
+      queue.push(neighbor);
+    }
+  }
+  return [];
+}
+function computeBetweenness() {
+  const scores = new Map(data.nodes.map((node) => [node.id, 0]));
+  data.nodes.forEach((sourceNode) => {
+    const source = sourceNode.id;
+    const stack = [];
+    const parents = new Map(data.nodes.map((node) => [node.id, []]));
+    const paths = new Map(data.nodes.map((node) => [node.id, 0]));
+    const distance = new Map([[source, 0]]);
+    paths.set(source, 1);
+    const queue = [source];
+    while (queue.length) {
+      const current = queue.shift(); stack.push(current);
+      for (const neighbor of adjacency.get(current)) {
+        if (!distance.has(neighbor)) { distance.set(neighbor, distance.get(current) + 1); queue.push(neighbor); }
+        if (distance.get(neighbor) === distance.get(current) + 1) { parents.get(neighbor).push(current); paths.set(neighbor, paths.get(neighbor) + paths.get(current)); }
+      }
+    }
+    const dependency = new Map(data.nodes.map((node) => [node.id, 0]));
+    while (stack.length) { const current = stack.pop(); parents.get(current).forEach((parent) => dependency.set(parent, dependency.get(parent) + (paths.get(parent) / paths.get(current)) * (1 + dependency.get(current)))); if (current !== source) scores.set(current, scores.get(current) + dependency.get(current)); }
+  });
+  return scores;
+}
+function nodeName(id) { return data.nodes.find((node) => node.id === id)?.name || id; }
+function populateSelect(select, nodes) { select.innerHTML = nodes.map((node) => `<option value="${node.id}">${node.name}</option>`).join(''); }
+function renderRoute(path) { const output = byId('route-output'); byId('route-answer').textContent = path.length ? `${path.length - 1} links separate these two pages. The route is one shortest path through the undirected snapshot.` : 'No route exists in the same connected component.'; byId('route-chain').innerHTML = path.length ? path.map((id, index) => `${index ? '<span class="route-arrow">→</span>' : ''}<span class="route-node">${nodeName(id)}</span>`).join('') : '<span class="route-node">Disconnected</span>'; output.querySelector('.route-count').textContent = path.length ? `${path.length - 1} degrees` : 'No path'; }
+function initRoutes(nodes) { const source = byId('route-source'); const target = byId('route-target'); populateSelect(source, nodes); populateSelect(target, nodes); source.value = nodes.find((node) => node.name === 'Spider-Man')?.id || nodes[0].id; target.value = nodes.find((node) => node.name === 'Captain America')?.id || nodes[1].id; const update = () => renderRoute(shortestPath(source.value, target.value)); source.addEventListener('change', update); target.addEventListener('change', update); byId('surprise-route').addEventListener('click', () => { const connected = nodes.filter((node) => (adjacency.get(node.id)?.size || 0) > 0); let path = []; while (path.length < 2 || path.length > 7) { const left = connected[Math.floor(Math.random() * connected.length)]; const right = connected[Math.floor(Math.random() * connected.length)]; path = shortestPath(left.id, right.id); source.value = left.id; target.value = right.id; } renderRoute(path); }); update(); }
+function renderCentrality(nodes) { const values = nodes.map((node) => ({ ...node, degree: adjacency.get(node.id).size, betweenness: betweenness.get(node.id) || 0 })).filter((node) => node.degree > 0); const top = [...values].sort((a, b) => b.betweenness - a.betweenness); const maxDegree = Math.max(...values.map((node) => node.degree)); const maxBetween = Math.max(...values.map((node) => node.betweenness)); const svg = d3.select('#centrality-chart'); const width = svg.node().clientWidth || 700; const height = 440; const margin = { top: 24, right: 25, bottom: 48, left: 58 }; const x = d3.scaleLinear().domain([0, maxDegree]).nice().range([margin.left, width - margin.right]); const y = d3.scaleLinear().domain([0, maxBetween]).nice().range([height - margin.bottom, margin.top]); svg.attr('viewBox', `0 0 ${width} ${height}`).selectAll('*').remove(); svg.append('g').attr('class', 'chart-axis').attr('transform', `translate(0,${height - margin.bottom})`).call(d3.axisBottom(x).ticks(6)); svg.append('g').attr('class', 'chart-axis').attr('transform', `translate(${margin.left},0)`).call(d3.axisLeft(y).ticks(5)); svg.append('text').attr('x', width / 2).attr('y', height - 8).attr('text-anchor', 'middle').attr('class', 'chart-axis').text('degree / immediate neighbors'); svg.append('text').attr('transform', 'rotate(-90)').attr('x', -height / 2).attr('y', 15).attr('text-anchor', 'middle').attr('class', 'chart-axis').text('betweenness / shortest paths'); const tooltip = byId('centrality-tooltip'); svg.append('g').selectAll('circle').data(values).join('circle').attr('class', (node) => `scatter-dot ${top.indexOf(node) < 10 ? 'bridge' : ''}`).attr('cx', (node) => x(node.degree)).attr('cy', (node) => y(node.betweenness)).attr('r', (node) => 2.5 + Math.sqrt(node.degree) / 2).on('mouseenter', (event, node) => { tooltip.innerHTML = `<strong>${node.name}</strong><br>Degree: ${node.degree}<br>Betweenness: ${format(node.betweenness)}<br>Triangles: ${triangles(node.id)}`; tooltip.style.display = 'block'; tooltip.style.left = `${event.offsetX + 12}px`; tooltip.style.top = `${event.offsetY + 12}px`; }).on('mouseleave', () => { tooltip.style.display = 'none'; }); byId('centrality-answer').textContent = `${top[0].name} has the highest betweenness in this snapshot, but the top brokers are not simply a ranking of degree. Betweenness is a structural role, not a measure of influence.`; byId('bridge-list').innerHTML = top.slice(0, 3).map((node, index) => `<div class="bridge-card"><strong>${String(index + 1).padStart(2, '0')} / ${node.name}</strong><span>${node.degree} neighbors · betweenness ${format(node.betweenness)} · ${triangles(node.id)} closed neighbor pairs</span></div>`).join(''); }
+function triangles(id) { const neighbors = [...(adjacency.get(id) || [])]; let count = 0; for (let index = 0; index < neighbors.length; index += 1) for (let next = index + 1; next < neighbors.length; next += 1) if (adjacency.get(neighbors[index])?.has(neighbors[next])) count += 1; return count; }
+function componentSize(graph, excluded) { const unseen = new Set(data.nodes.map((node) => node.id).filter((id) => !excluded.has(id))); let largest = 0; while (unseen.size) { const start = unseen.values().next().value; unseen.delete(start); const queue = [start]; let size = 0; while (queue.length) { const current = queue.pop(); size += 1; for (const neighbor of graph.get(current) || []) if (unseen.delete(neighbor)) queue.push(neighbor); } largest = Math.max(largest, size); } return largest; }
+function renderRemoval(nodes) { const ranked = [...nodes].sort((a, b) => (adjacency.get(b.id).size - adjacency.get(a.id).size)); const connected = nodes.filter((node) => adjacency.get(node.id).size > 0); const randomOrder = [...connected].sort((left, right) => hash(left.id) - hash(right.id)); const values = d3.range(21).map((removed) => ({ removed, targeted: componentSize(adjacency, new Set(ranked.slice(0, removed).map((node) => node.id))), random: componentSize(adjacency, new Set(randomOrder.slice(0, removed).map((node) => node.id))) })); const draw = () => { const svg = d3.select('#removal-chart'); const width = svg.node().clientWidth || 700; const height = 360; const margin = { top: 20, right: 25, bottom: 45, left: 50 }; const x = d3.scaleLinear().domain([0, 20]).range([margin.left, width - margin.right]); const y = d3.scaleLinear().domain([0, d3.max(values, (item) => item.targeted)]).range([height - margin.bottom, margin.top]); const line = d3.line().x((item) => x(item.removed)).y((item) => y(item.targeted)); svg.attr('viewBox', `0 0 ${width} ${height}`).selectAll('*').remove(); svg.append('g').attr('class', 'chart-axis').attr('transform', `translate(0,${height - margin.bottom})`).call(d3.axisBottom(x).ticks(5)); svg.append('g').attr('class', 'chart-axis').attr('transform', `translate(${margin.left},0)`).call(d3.axisLeft(y).ticks(5)); [['targeted', 'Targeted hubs'], ['random', 'Random order']].forEach(([key, label]) => { const path = d3.line().x((item) => x(item.removed)).y((item) => y(item[key])); svg.append('path').datum(values).attr('class', `removal-line ${key}`).attr('d', path); svg.append('text').attr('x', width - 120).attr('y', margin.top + (key === 'targeted' ? 0 : 18)).attr('fill', key === 'targeted' ? 'var(--red)' : 'var(--ink)').attr('class', 'chart-axis').text(label); }); }; const update = () => { const count = Number(byId('removal-slider').value); byId('removal-count').textContent = count; const item = values[count]; byId('removal-answer').textContent = `After removing ${count} ${count === 1 ? 'hub' : 'hubs'}, the giant component holds ${item.targeted} characters under targeted removal versus ${item.random} under this deterministic random order.`; draw(); }; byId('removal-slider').addEventListener('input', update); update(); }
+function hash(value) { return [...value].reduce((sum, character) => (sum * 31 + character.charCodeAt(0)) % 997, 7); }
+function renderClique(nodes) { const select = byId('clique-select'); populateSelect(select, [...nodes].sort((a, b) => adjacency.get(b.id).size - adjacency.get(a.id).size).slice(0, 80)); const update = () => { const id = select.value; const neighbors = [...adjacency.get(id)].slice(0, 100); const closed = neighbors.filter((neighbor, index) => neighbors.slice(index + 1).some((other) => adjacency.get(neighbor)?.has(other))).length; byId('clique-readout').innerHTML = `<strong>${nodeName(id)}</strong><br>${neighbors.length} immediate neighbors · ${triangles(id)} triangles around this node · ${neighbors.length > 1 ? format(triangles(id) * 2 / (neighbors.length * (neighbors.length - 1))) : 0} local closure`; byId('clique-grid').innerHTML = neighbors.slice(0, 70).map((neighbor) => { const hasClosedPair = neighbors.some((other) => other !== neighbor && adjacency.get(neighbor)?.has(other)); return `<span class="clique-cell ${hasClosedPair ? 'is-link' : ''}" title="${nodeName(neighbor)}"></span>`; }).join(''); }; select.addEventListener('change', update); update(); }
+async function init() { data = await fetch(DATA_URL).then((response) => response.json()); makeGraph(); betweenness = computeBetweenness(); const nodes = data.nodes; initRoutes(nodes); renderCentrality(nodes); renderRemoval(nodes); renderClique(nodes); }
+init().catch((error) => { console.error(error); document.querySelectorAll('.answer-line').forEach((element) => { element.textContent = 'Could not load the network snapshot. Run this project through a local HTTP server.'; }); });
