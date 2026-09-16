@@ -20,6 +20,13 @@ Then open <http://localhost:8000>.
 
 The data files in `data/` are the frozen Week 01 release from the course data page. Week 02 uses the precomputed snapshot in `data/week2_story.json`; Week 03 uses the generated snapshot in `data/week3_story.json`.
 
+To regenerate the Week 03 snapshot after changing the frozen network, install NetworkX and run:
+
+```sh
+python3 -m pip install networkx
+python3 tools/generate_week3_data.py
+```
+
 The analysis intentionally loads all nodes before adding edges so the 17 isolates remain part of the graph. The links represent article references in the dataset, not verified friendship, influence, or team membership.
 
 ## Project structure

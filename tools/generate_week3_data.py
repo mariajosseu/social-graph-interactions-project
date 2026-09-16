@@ -120,9 +120,9 @@ def main():
     } for count in range(21)]
 
     triangles = sum(nx.triangles(graph).values()) // 3
-    maximal_cliques = list(nx.find_cliques(graph))
+    maximal_cliques = sorted((sorted(clique) for clique in nx.find_cliques(graph)), key=lambda clique: (len(clique), clique))
     largest_clique_size = max((len(clique) for clique in maximal_cliques), default=0)
-    largest_cliques = [sorted(clique) for clique in maximal_cliques if len(clique) == largest_clique_size]
+    largest_cliques = [clique for clique in maximal_cliques if len(clique) == largest_clique_size]
     payload = {
         "nodes": nodes,
         "real": {"edges": [list(edge) for edge in edges]},
