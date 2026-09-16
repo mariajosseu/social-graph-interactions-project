@@ -4,7 +4,7 @@
 .centrality-visual-grid { display: grid; gap: 1rem; grid-template-columns: 1fr 1fr; }.network-shell { background: rgba(241,237,229,.55); min-height: 440px; position: relative; }.network-shell svg { display: block; height: 440px; width: 100%; }.network-edge { stroke: rgba(23,23,26,.18); stroke-width: .7; transition: opacity .25s; }.network-node { cursor: pointer; fill: var(--ink); opacity: .72; transition: opacity .25s, fill .25s; }.network-node.hub { fill: var(--red); opacity: .95; }.network-node.removed, .network-edge.removed { opacity: 0; pointer-events: none; }.network-label { fill: var(--ink); font: 9px 'DM Mono', monospace; pointer-events: none; }.network-key { bottom: .8rem; display: flex; font: .58rem 'DM Mono', monospace; gap: 1rem; left: .8rem; position: absolute; text-transform: uppercase; }.network-key span::before { background: var(--ink); content: ''; display: inline-block; height: .55rem; margin-right: .35rem; width: .55rem; }.network-key span:first-child::before { background: var(--red); }.network-key span:last-child::before { background: rgba(23,23,26,.18); }
 
 /* =========================================================
-   EXPERIMENT 02B — THE MYSTERY CHARACTER
+   EXPERIMENT 05 — THE MYSTERY CHARACTER
    ========================================================= */
 
 .mystery-controls {
@@ -138,3 +138,15 @@
 		height: 400px;
 	}
 }
+.mystery-section { background: #d9e6e0; }
+.mystery-link.highlighted { stroke: var(--red); }
+.mystery-node.rockman circle { fill: var(--red); }
+.mystery-node.isolated circle { fill: var(--paper); stroke: var(--red); stroke-width: 3; }
+.mystery-node text { fill: var(--ink); font: 10px 'DM Mono', monospace; paint-order: stroke; stroke: #d9e6e0; stroke-width: 3px; stroke-linejoin: round; }
+.mystery-node.background text, .mystery-node.background circle { opacity: 1; }
+.mystery-isolation-label { fill: var(--red); font: 12px 'DM Mono', monospace; }
+.mystery-path-list { font: .75rem 'DM Mono', monospace; line-height: 1.8; }
+.mystery-explanation { line-height: 1.6; }
+.mystery-stage { overflow-x: auto; }
+#mystery-chart { min-width: 720px; height: auto; }
+.mystery-readout strong { font-size: clamp(1.1rem, 2.5vw, 1.7rem); }

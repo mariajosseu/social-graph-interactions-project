@@ -22,7 +22,7 @@
 		<section class="w3-finale"><p class="eyebrow">Answer / 003</p><h2>The universe is held together by more than stars.</h2><p>Hubs make many routes short, but brokerage and local closure tell different stories. This snapshot measures article links, not influence: the interesting characters are the ones whose graph position makes a structural difference.</p><a class="text-link" href="index.html#archive">Return to the field journal <span>↗</span></a></section>
 		<section class="w3-section mystery-section">
 			<div class="section-kicker">
-				<span>Experiment 02B / The mystery character</span>
+				<span>Experiment 05 / The mystery character</span>
 				<span>DEGREE ≠ IMPORTANCE</span>
 			</div>
 
@@ -45,16 +45,17 @@
 			</div>
 
 			<div class="mystery-controls">
+                <button class="story-button" id="mystery-neighbors" type="button">1 / Immediate neighbors ↗</button>
 				<button class="story-button" id="mystery-expand">
-					Reveal the neighborhood <span>↗</span>
+					2 / Look one step further <span>↗</span>
 				</button>
 
 				<button class="story-button" id="mystery-paths">
-					Show shortest paths <span>↗</span>
+					3 / Show shortest paths <span>↗</span>
 				</button>
 
 				<button class="story-button" id="mystery-remove">
-					Remove Rockman <span>×</span>
+					4 / Remove Rockman <span>×</span>
 				</button>
 
 				<button class="story-button" id="mystery-reset">
@@ -77,17 +78,18 @@
 				</div>
 
 				<div>
-					<span class="case-label">BETWEENNESS</span>
+					<span class="case-label">NORMALIZED BETWEENNESS</span>
 					<strong id="mystery-betweenness">—</strong>
 				</div>
 
 				<div>
 					<span class="case-label">CURRENT STATE</span>
-					<strong id="mystery-state">Rockman connected</strong>
+					<strong id="mystery-state" aria-live="polite">Case opened</strong>
 				</div>
 			</div>
 
-			<div class="mystery-explanation" id="mystery-explanation">
+			<ol id="mystery-path-list" class="mystery-path-list" aria-label="Example shortest paths"></ol>
+            <div class="mystery-explanation" id="mystery-explanation" aria-live="polite">
 				<p>
 					<strong>The mystery:</strong>
 					two links do not necessarily mean a small structural role.
