@@ -68,100 +68,786 @@ function renderClique(nodes) { const select = byId('clique-select'); populateSel
 async function init() { data = await fetch(DATA_URL).then((response) => response.json()); makeGraph(); betweenness = new Map(data.centrality.map((node) => [node.id, node.betweenness])); const nodes = data.nodes; initRoutes(nodes); renderCentrality(nodes); renderGeneratedRemoval(); renderClique(nodes); }
 init().catch((error) => { console.error(error); document.querySelectorAll('.answer-line').forEach((element) => { element.textContent = 'Could not load the network snapshot. Run this project through a local HTTP server.'; }); });
 
-function renderMysteryCharacter() {
-	const rockman = "Rockman_(character)";
-	const neighbors = [
-		"Black_Widow_(Natasha_Romanova)",
-		"The_Witness_(character)"
-	];
+/* =========================================================
+   EXPERIMENT 02B — THE MYSTERY CHARACTER
+   ========================================================= */
 
-	const displayNames = {
+function initMysteryCharacter() {
+
+	const ROCKMAN = "Rockman_(character)";
+
+	const DISPLAY_NAMES = {
 		"Rockman_(character)": "Rockman",
 		"Black_Widow_(Natasha_Romanova)": "Black Widow",
 		"The_Witness_(character)": "The Witness"
 	};
 
-	const betweenness = betweennessCentrality[rockman];
-	const degree = neighbors.length;
+	/*
+	 * -------------------------------------------------------
+	 * 1. GET THE EDGES
+	 * -------------------------------------------------------
+	 *
+	 * This assumes your existing Week 3 code has an `edges`
+	 * array where each edge looks like:
+	 *
+	 * {
+	 *   source: "...",
+	 *   target: "..."
+	 * }
+	 *
+	 * If your variable has a different name, change `edges`
+	 * below.
+	 */
 
-	document.getElementById("mystery-degree").textContent = degree;
-	document.getElementById("mystery-betweenness").textContent =
-		betweenness.toFixed(1);
+	if (typeof edges === "undefined") {
+		console.error(
+			"Rockman visualization: `edges` was not found."
+		);
+		return;
+	}
 
-	document.getElementById("mystery-neighbor-1").textContent =
-		displayNames[neighbors[0]];
 
-	document.getElementById("mystery-neighbor-2").textContent =
-		displayNames[neighbors[1]];
+	/*
+	 * -------------------------------------------------------
+	 * 2. BUILD AN UNDIRECTED ADJACENCY MAP
+	 * -------------------------------------------------------
+	 *
+	 * Your Marvel network is treated as undirected here,
+	 * matching the centrality analysis.
+	 */
 
-	document.getElementById("mystery-answer").textContent =
-		"Two links. One surprisingly important bridge.";
+	const adjacency = new Map();
+
+	function addNode(node) {
+		if (!adjacency.has(node)) {
+			adjacency.set(node, new Set());
+		}
+	}
+
+	edges.forEach(edge => {
+
+		const source =
+			typeof edge.source === "object"
+				? edge.source.id
+				: edge.source;
+
+		const target =
+			typeof edge.target === "object"
+				? edge.target.id
+				: edge.target;
+
+		addNode(source);
+		addNode(target);
+
+		adjacency.get(source).add(target);
+		adjacency.get(target).add(source);
+	});
+
+
+	/*
+	 * -------------------------------------------------------
+	 * 3. BASIC GRAPH FUNCTIONS
+	 * -------------------------------------------------------
+	 */
+
+	function getNeighbors(node) {
+		return Array.from(adjacency.get(node) || []);
+	}
+
+
+	function bfs(start, blockedNode = null) {
+
+		const distances = new Map();
+		const previous = new Map();
+
+		if (start === blockedNode) {
+			return { distances, previous };
+		}
+
+		const queue = [start];
+
+		distances.set(start, 0);
+
+		while (queue.length > 0) {
+
+			const current = queue.shift();
+
+			for (const neighbor of getNeighbors(current)) {
+
+				if (neighbor === blockedNode) {
+					continue;
+				}
+
+				if (!distances.has(neighbor)) {
+
+					distances.set(
+						neighbor,
+						distances.get(current) + 1
+					);
+
+					previous.set(neighbor, current);
+
+					queue.push(neighbor);
+				}
+			}
+		}
+
+		return { distances, previous };
+	}
+
+
+	function shortestPath(start, target, blockedNode = null) {
+
+		const result = bfs(start, blockedNode);
+
+		if (!result.distances.has(target)) {
+			return null;
+		}
+
+		const path = [];
+		let current = target;
+
+		while (current !== undefined) {
+
+			path.push(current);
+
+			if (current === start) {
+				break;
+			}
+
+			current = result.previous.get(current);
+		}
+
+		path.reverse();
+
+		return path;
+	}
+
+
+	/*
+	 * -------------------------------------------------------
+	 * 4. FIND ROCKMAN'S NEIGHBORHOOD
+	 * -------------------------------------------------------
+	 */
+
+	const rockmanNeighbors = getNeighbors(ROCKMAN);
+
+	console.log(
+		"Rockman neighbors:",
+		rockmanNeighbors
+	);
+
+
+	/*
+	 * -------------------------------------------------------
+	 * 5. TRY TO FIND THE WITNESS
+	 * -------------------------------------------------------
+	 */
+
+	const witness = rockmanNeighbors.find(node =>
+		node.toLowerCase().includes("witness")
+	);
+
+	const blackWidow = rockmanNeighbors.find(node =>
+		node.toLowerCase().includes("black_widow")
+	);
+
+
+	/*
+	 * -------------------------------------------------------
+	 * 6. CREATE THE SVG
+	 * -------------------------------------------------------
+	 */
 
 	const svg = d3.select("#mystery-chart");
+
+	if (svg.empty()) {
+		console.error("Rockman visualization: SVG not found.");
+		return;
+	}
+
 	svg.selectAll("*").remove();
 
-	const width = svg.node().getBoundingClientRect().width || 500;
-	const height = 300;
+	const svgNode = svg.node();
 
-	svg.attr("viewBox", `0 0 ${width} ${height}`);
+	let width =
+		svgNode.getBoundingClientRect().width || 700;
 
-	const nodes = [
-		{
-			id: neighbors[0],
-			label: displayNames[neighbors[0]],
-			x: width * 0.15,
-			y: height * 0.5
-		},
-		{
-			id: rockman,
-			label: displayNames[rockman],
-			x: width * 0.5,
-			y: height * 0.5
-		},
-		{
-			id: neighbors[1],
-			label: displayNames[neighbors[1]],
-			x: width * 0.85,
-			y: height * 0.5
+	let height =
+		svgNode.getBoundingClientRect().height || 480;
+
+	svg.attr(
+		"viewBox",
+		`0 0 ${width} ${height}`
+	);
+
+
+	/*
+	 * -------------------------------------------------------
+	 * 7. STATE
+	 * -------------------------------------------------------
+	 */
+
+	let state = {
+		expanded: false,
+		showPaths: false,
+		removed: false
+	};
+
+
+	/*
+	 * -------------------------------------------------------
+	 * 8. BUILD INITIAL NODES
+	 * -------------------------------------------------------
+	 */
+
+	function buildNodes() {
+
+		const nodes = [];
+
+		/*
+		 * Rockman
+		 */
+
+		nodes.push({
+			id: ROCKMAN,
+			label: DISPLAY_NAMES[ROCKMAN] || "Rockman",
+			type: "rockman"
+		});
+
+
+		/*
+		 * Direct neighbors
+		 */
+
+		rockmanNeighbors.forEach(node => {
+
+			nodes.push({
+				id: node,
+				label: DISPLAY_NAMES[node] || prettyName(node),
+				type: "neighbor"
+			});
+
+		});
+
+
+		/*
+		 * Second neighborhood
+		 */
+
+		if (state.expanded) {
+
+			const secondNeighbors = new Set();
+
+			rockmanNeighbors.forEach(neighbor => {
+
+				getNeighbors(neighbor).forEach(node => {
+
+					if (
+						node !== ROCKMAN &&
+						!rockmanNeighbors.includes(node)
+					) {
+						secondNeighbors.add(node);
+					}
+
+				});
+
+			});
+
+			Array.from(secondNeighbors)
+				.slice(0, 35)
+				.forEach(node => {
+
+					nodes.push({
+						id: node,
+						label: prettyName(node),
+						type: "background"
+					});
+
+				});
 		}
-	];
 
-	const links = [
-		{
-			source: neighbors[0],
-			target: rockman
-		},
-		{
-			source: rockman,
-			target: neighbors[1]
+		return nodes;
+	}
+
+
+	function prettyName(name) {
+
+		return name
+			.replace(/_\(.*?\)/g, "")
+			.replace(/_/g, " ");
+	}
+
+
+	/*
+	 * -------------------------------------------------------
+	 * 9. BUILD LINKS
+	 * -------------------------------------------------------
+	 */
+
+	function buildLinks(nodes) {
+
+		const nodeIds = new Set(nodes.map(node => node.id));
+
+		const links = [];
+
+		edges.forEach(edge => {
+
+			const source =
+				typeof edge.source === "object"
+					? edge.source.id
+					: edge.source;
+
+			const target =
+				typeof edge.target === "object"
+					? edge.target.id
+					: edge.target;
+
+			if (
+				nodeIds.has(source) &&
+				nodeIds.has(target)
+			) {
+
+				links.push({
+					source,
+					target
+				});
+
+			}
+		});
+
+		return links;
+	}
+
+
+	/*
+	 * -------------------------------------------------------
+	 * 10. RENDER
+	 * -------------------------------------------------------
+	 */
+
+	function render() {
+
+		svg.selectAll("*").remove();
+
+		const nodes = buildNodes();
+
+		const links = buildLinks(nodes);
+
+		const nodeMap = new Map(
+			nodes.map(node => [node.id, node])
+		);
+
+
+		/*
+		 * Layout
+		 */
+
+		const centerX = width / 2;
+		const centerY = height / 2;
+
+		const rockmanNode =
+			nodeMap.get(ROCKMAN);
+
+		if (rockmanNode) {
+			rockmanNode.x = centerX;
+			rockmanNode.y = centerY;
 		}
-	];
 
-	svg
-		.selectAll(".mystery-edge")
-		.data(links)
-		.enter()
-		.append("line")
-		.attr("class", "mystery-edge")
-		.attr("x1", d => nodes.find(n => n.id === d.source).x)
-		.attr("y1", d => nodes.find(n => n.id === d.source).y)
-		.attr("x2", d => nodes.find(n => n.id === d.target).x)
-		.attr("y2", d => nodes.find(n => n.id === d.target).y);
 
-	const node = svg
-		.selectAll(".mystery-node")
-		.data(nodes)
-		.enter()
-		.append("g")
-		.attr("class", "mystery-node")
-		.attr("transform", d => `translate(${d.x},${d.y})`);
+		const directNeighbors =
+			nodes.filter(node =>
+				node.type === "neighbor"
+			);
 
-	node
-		.append("circle")
-		.attr("r", d => d.id === rockman ? 18 : 11);
+		directNeighbors.forEach((node, i) => {
 
-	node
-		.append("text")
-		.attr("dy", d => d.id === rockman ? 38 : 30)
-		.text(d => d.label);
+			const angle =
+				(i / Math.max(directNeighbors.length, 1))
+				* Math.PI * 2;
+
+			node.x =
+				centerX + Math.cos(angle) * 150;
+
+			node.y =
+				centerY + Math.sin(angle) * 150;
+		});
+
+
+		const backgroundNodes =
+			nodes.filter(node =>
+				node.type === "background"
+			);
+
+		backgroundNodes.forEach((node, i) => {
+
+			const angle =
+				(i / Math.max(backgroundNodes.length, 1))
+				* Math.PI * 2;
+
+			const radius = 210;
+
+			node.x =
+				centerX + Math.cos(angle) * radius;
+
+			node.y =
+				centerY + Math.sin(angle) * radius;
+		});
+
+
+		/*
+		 * Draw links
+		 */
+
+		const linkSelection = svg
+			.append("g")
+			.selectAll("line")
+			.data(links)
+			.enter()
+			.append("line")
+			.attr("class", "mystery-link")
+			.attr("x1", d => nodeMap.get(d.source).x)
+			.attr("y1", d => nodeMap.get(d.source).y)
+			.attr("x2", d => nodeMap.get(d.target).x)
+			.attr("y2", d => nodeMap.get(d.target).y);
+
+
+		/*
+		 * Draw nodes
+		 */
+
+		const nodeSelection = svg
+			.append("g")
+			.selectAll("g")
+			.data(nodes)
+			.enter()
+			.append("g")
+			.attr(
+				"class",
+				d => `mystery-node ${d.type}`
+			)
+			.attr(
+				"transform",
+				d => `translate(${d.x},${d.y})`
+			);
+
+
+		nodeSelection
+			.append("circle")
+			.attr(
+				"r",
+				d => {
+					if (d.type === "rockman") return 18;
+					if (d.type === "neighbor") return 12;
+					return 7;
+				}
+			);
+
+
+		nodeSelection
+			.append("text")
+			.attr(
+				"dy",
+				d => {
+					if (d.type === "rockman") return 35;
+					return 25;
+				}
+			)
+			.text(d => d.label);
+
+
+		/*
+		 * ---------------------------------------------------
+		 * Highlight shortest paths
+		 * ---------------------------------------------------
+		 */
+
+		if (state.showPaths) {
+
+			const paths = [];
+
+			/*
+			 * Find some paths from background nodes
+			 * to The Witness.
+			 */
+
+			if (witness) {
+
+				backgroundNodes
+					.slice(0, 8)
+					.forEach(node => {
+
+						const path =
+							shortestPath(
+								node.id,
+								witness
+							);
+
+						if (path) {
+							paths.push(path);
+						}
+
+					});
+			}
+
+
+			/*
+			 * Turn path edges into strings so we can
+			 * highlight them.
+			 */
+
+			const highlightedEdges = new Set();
+
+			paths.forEach(path => {
+
+				for (let i = 0; i < path.length - 1; i++) {
+
+					const a = path[i];
+					const b = path[i + 1];
+
+					highlightedEdges.add(
+						`${a}|||${b}`
+					);
+
+					highlightedEdges.add(
+						`${b}|||${a}`
+					);
+				}
+			});
+
+
+			linkSelection
+				.classed(
+					"highlighted",
+					d => highlightedEdges.has(
+						`${d.source}|||${d.target}`
+					)
+				)
+				.classed(
+					"dimmed",
+					d => !highlightedEdges.has(
+						`${d.source}|||${d.target}`
+					)
+				);
+		}
+
+
+		/*
+		 * ---------------------------------------------------
+		 * Rockman removed
+		 * ---------------------------------------------------
+		 */
+
+		if (state.removed) {
+
+			nodeSelection
+				.filter(d => d.id === ROCKMAN)
+				.classed("removed", true);
+
+			linkSelection
+				.filter(d =>
+					d.source === ROCKMAN ||
+					d.target === ROCKMAN
+				)
+				.classed("dimmed", true);
+		}
+	}
+
+
+	/*
+	 * -------------------------------------------------------
+	 * 11. BUTTONS
+	 * -------------------------------------------------------
+	 */
+
+	const expandButton =
+		document.getElementById("mystery-expand");
+
+	const pathsButton =
+		document.getElementById("mystery-paths");
+
+	const removeButton =
+		document.getElementById("mystery-remove");
+
+	const resetButton =
+		document.getElementById("mystery-reset");
+
+
+	expandButton.addEventListener(
+		"click",
+		() => {
+
+			state.expanded = true;
+
+			expandButton.classList.add("active");
+
+			document.getElementById(
+				"mystery-state"
+			).textContent =
+				"Neighborhood revealed";
+
+			document.getElementById(
+				"mystery-explanation"
+			).innerHTML = `
+				<p>
+					<strong>Look closer.</strong>
+					Rockman's two links connect very different parts
+					of the local network. His degree is small, but his
+					position is strategic.
+				</p>
+			`;
+
+			render();
+		}
+	);
+
+
+	pathsButton.addEventListener(
+		"click",
+		() => {
+
+			state.expanded = true;
+			state.showPaths = true;
+
+			expandButton.classList.add("active");
+			pathsButton.classList.add("active");
+
+			document.getElementById(
+				"mystery-state"
+			).textContent =
+				"Shortest paths highlighted";
+
+			document.getElementById(
+				"mystery-explanation"
+			).innerHTML = `
+				<p>
+					<strong>This is the key.</strong>
+					The highlighted routes pass through Rockman.
+					Betweenness rewards exactly this kind of
+					position: sitting between other nodes on their
+					shortest paths.
+				</p>
+			`;
+
+			render();
+		}
+	);
+
+
+	removeButton.addEventListener(
+		"click",
+		() => {
+
+			state.removed = true;
+
+			removeButton.classList.add("active");
+
+			document.getElementById(
+				"mystery-state"
+			).textContent =
+				"Rockman removed";
+
+			document.getElementById(
+				"mystery-explanation"
+			).innerHTML = `
+				<p>
+					<strong>Now remove the bridge.</strong>
+					Rockman's two direct links disappear with him.
+					The visualization shows why a low-degree node can
+					still have a structural role.
+				</p>
+			`;
+
+			render();
+		}
+	);
+
+
+	resetButton.addEventListener(
+		"click",
+		() => {
+
+			state = {
+				expanded: false,
+				showPaths: false,
+				removed: false
+			};
+
+			document.querySelectorAll(
+				".mystery-controls .story-button"
+			).forEach(button => {
+				button.classList.remove("active");
+			});
+
+			document.getElementById(
+				"mystery-state"
+			).textContent =
+				"Rockman connected";
+
+			document.getElementById(
+				"mystery-explanation"
+			).innerHTML = `
+				<p>
+					<strong>The mystery:</strong>
+					two links do not necessarily mean a small
+					structural role.
+				</p>
+			`;
+
+			render();
+		}
+	);
+
+
+	/*
+	 * -------------------------------------------------------
+	 * 12. STATS
+	 * -------------------------------------------------------
+	 */
+
+	document.getElementById(
+		"mystery-degree"
+	).textContent =
+		rockmanNeighbors.length;
+
+
+	/*
+	 * If your existing JS has a betweenness object,
+	 * use it here.
+	 */
+
+	if (
+		typeof betweennessCentrality !== "undefined" &&
+		betweennessCentrality[ROCKMAN] !== undefined
+	) {
+
+		document.getElementById(
+			"mystery-betweenness"
+		).textContent =
+			betweennessCentrality[ROCKMAN].toFixed(1);
+
+	} else {
+
+		document.getElementById(
+			"mystery-betweenness"
+		).textContent =
+			"—";
+
+	}
+
+
+	/*
+	 * -------------------------------------------------------
+	 * 13. INITIAL RENDER
+	 * -------------------------------------------------------
+	 */
+
+	render();
 }
+
+
+/* =========================================================
+   START THE MYSTERY CHARACTER EXPERIMENT
+   ========================================================= */
+
+initMysteryCharacter();

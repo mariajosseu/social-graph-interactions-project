@@ -2,3 +2,139 @@
 @media (max-width: 760px) { .w3-hero { display: block; min-height: auto; padding: 5rem 7vw 4rem; }.w3-hero-mark { margin: 4rem auto 0; min-height: 240px; width: 75%; }.w3-section { padding: 4.5rem 7vw; }.w3-intro-grid { display: block; padding: 3rem 0; }.w3-intro-grid > div + div { margin-top: 2.5rem; }.route-controls { align-items: stretch; display: grid; }.route-controls select { max-width: none; width: 100%; }.scatter-shell, .removal-chart { min-height: 330px; }.scatter-shell svg { height: 330px; }.removal-chart svg { height: 300px; }.bridge-list { grid-template-columns: 1fr; }.clique-grid { grid-template-columns: repeat(7, 1fr); }.w3-finale { padding: 5rem 7vw; }.w3-finale h2 { font-size: clamp(3.2rem, 14vw, 6rem); } }
 .centrality-controls { align-items: end; display: flex; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 1rem; }.centrality-controls label { display: grid; font: .62rem 'DM Mono', monospace; gap: .45rem; text-transform: uppercase; }.centrality-controls select { background: var(--paper); border: 1px solid var(--ink); color: var(--ink); font: .72rem 'DM Mono', monospace; padding: .7rem; }.centrality-controls input { display: block; min-width: 12rem; }.centrality-controls strong { color: var(--red); font-size: 1rem; }.removal-line.degree { stroke: var(--red); }.removal-line.betweenness { stroke: var(--blue); }.removal-line.random { stroke: var(--ink); stroke-dasharray: 6 5; }
 .centrality-visual-grid { display: grid; gap: 1rem; grid-template-columns: 1fr 1fr; }.network-shell { background: rgba(241,237,229,.55); min-height: 440px; position: relative; }.network-shell svg { display: block; height: 440px; width: 100%; }.network-edge { stroke: rgba(23,23,26,.18); stroke-width: .7; transition: opacity .25s; }.network-node { cursor: pointer; fill: var(--ink); opacity: .72; transition: opacity .25s, fill .25s; }.network-node.hub { fill: var(--red); opacity: .95; }.network-node.removed, .network-edge.removed { opacity: 0; pointer-events: none; }.network-label { fill: var(--ink); font: 9px 'DM Mono', monospace; pointer-events: none; }.network-key { bottom: .8rem; display: flex; font: .58rem 'DM Mono', monospace; gap: 1rem; left: .8rem; position: absolute; text-transform: uppercase; }.network-key span::before { background: var(--ink); content: ''; display: inline-block; height: .55rem; margin-right: .35rem; width: .55rem; }.network-key span:first-child::before { background: var(--red); }.network-key span:last-child::before { background: rgba(23,23,26,.18); }
+
+/* =========================================================
+   EXPERIMENT 02B — THE MYSTERY CHARACTER
+   ========================================================= */
+
+.mystery-controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.6rem;
+	margin: 2rem 0;
+}
+
+.mystery-controls .story-button {
+	cursor: pointer;
+}
+
+.mystery-controls .story-button.active {
+	text-decoration: underline;
+	text-underline-offset: 0.25em;
+}
+
+.mystery-stage {
+	position: relative;
+	width: 100%;
+	min-height: 480px;
+	border-top: 1px solid currentColor;
+	border-bottom: 1px solid currentColor;
+	overflow: hidden;
+}
+
+#mystery-chart {
+	width: 100%;
+	height: 480px;
+	display: block;
+	overflow: visible;
+}
+
+.mystery-link {
+	stroke: currentColor;
+	stroke-width: 1.5;
+	opacity: 0.22;
+	transition:
+		opacity 250ms ease,
+		stroke-width 250ms ease;
+}
+
+.mystery-link.highlighted {
+	opacity: 1;
+	stroke-width: 3;
+}
+
+.mystery-link.dimmed {
+	opacity: 0.05;
+}
+
+.mystery-node {
+	cursor: pointer;
+}
+
+.mystery-node circle {
+	fill: currentColor;
+	stroke: none;
+	transition:
+		r 250ms ease,
+		opacity 250ms ease;
+}
+
+.mystery-node.rockman circle {
+	r: 18px;
+}
+
+.mystery-node.neighbor circle {
+	r: 12px;
+}
+
+.mystery-node.background circle {
+	r: 7px;
+	opacity: 0.45;
+}
+
+.mystery-node text {
+	font-size: 11px;
+	text-anchor: middle;
+	dominant-baseline: central;
+	pointer-events: none;
+}
+
+.mystery-node.background text {
+	opacity: 0.5;
+}
+
+.mystery-node.removed {
+	opacity: 0;
+	pointer-events: none;
+}
+
+.mystery-readout {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1rem;
+	margin-top: 1.5rem;
+}
+
+.mystery-readout > div {
+	padding: 1rem 0;
+	border-bottom: 1px solid currentColor;
+}
+
+.mystery-readout strong {
+	display: block;
+	font-size: 1.7rem;
+	margin-top: 0.3rem;
+}
+
+.mystery-explanation {
+	margin-top: 1.5rem;
+	max-width: 60rem;
+}
+
+.mystery-explanation p {
+	line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+	.mystery-readout {
+		grid-template-columns: 1fr;
+	}
+
+	.mystery-stage {
+		min-height: 400px;
+	}
+
+	#mystery-chart {
+		height: 400px;
+	}
+}
