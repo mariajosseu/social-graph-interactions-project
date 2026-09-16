@@ -28,7 +28,7 @@ def build_graph():
     edges = {tuple(sorted((source, target))) for source, target, *_ in edge_rows if source != target and source in ids and target in ids}
     graph = nx.Graph()
     graph.add_nodes_from(ids)
-    graph.add_edges_from(edges)
+    graph.add_edges_from(sorted(edges))
     return nodes, sorted(edges), graph
 
 
@@ -48,8 +48,29 @@ def stable_key(node_id):
 
 
 def shuffle_graph(graph, rng):
-    shuffled = graph.copy()
-    nx.double_edge_swap(shuffled, nswap=10 * shuffled.number_of_edges(), max_tries=100 * shuffled.number_of_edges(), seed=rng)
+    edges = set(tuple(sorted(edge)) for edge in graph.edges())
+    edge_choices = sorted(edges)
+    for _ in range(10 * len(edges)):
+        for _attempt in range(100):
+            first = rng.choice(edge_choices)
+            second = rng.choice(edge_choices)
+            if len(set(first + second)) < 4:
+                continue
+            left, right = first
+            other_left, other_right = second
+            if rng.random() < 0.5:
+                left, other_left = other_left, left
+            new_edges = {tuple(sorted((left, other_right))), tuple(sorted((other_left, right)))}
+            if len(new_edges) != 2 or new_edges & edges:
+                continue
+            edges.remove(first)
+            edges.remove(second)
+            edges.update(new_edges)
+            edge_choices = sorted(edges)
+            break
+    shuffled = nx.Graph()
+    shuffled.add_nodes_from(graph.nodes())
+    shuffled.add_edges_from(sorted(edges))
     return shuffled
 
 

@@ -18,7 +18,7 @@ python3 -m http.server 8000
 
 Then open <http://localhost:8000>.
 
-The data files in `data/` are the frozen Week 01 release from the course data page. Week 02 uses the precomputed snapshot in `data/week2_story.json`; Week 03 derives shortest paths, betweenness, component sizes, and local triangles in the browser.
+The data files in `data/` are the frozen Week 01 release from the course data page. Week 02 uses the precomputed snapshot in `data/week2_story.json`; Week 03 uses the generated snapshot in `data/week3_story.json`.
 
 The analysis intentionally loads all nodes before adding edges so the 17 isolates remain part of the graph. The links represent article references in the dataset, not verified friendship, influence, or team membership.
 
@@ -27,4 +27,5 @@ The analysis intentionally loads all nodes before adding edges so the 17 isolate
 - `index.html` and `app.js` contain the homepage, archive, and shared network overview.
 - `week-01.html`, `week-02.html`, and `week-03.html` are the published weekly posts.
 - `weeks/week2/` and `weeks/week3/` contain post-specific styles and scripts.
+- `tools/generate_week2_data.py` and `tools/generate_week3_data.py` regenerate the analysis snapshots.
 - `data/` contains the frozen network snapshots.
