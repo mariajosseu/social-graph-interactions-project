@@ -1,3 +1,4 @@
+import argparse
 import json
 import random
 import statistics
@@ -30,6 +31,31 @@ def build_graph():
     graph.add_nodes_from(ids)
     graph.add_edges_from(sorted(edges))
     return nodes, sorted(edges), graph
+
+
+def build_clique_views(nodes):
+    ids = {node['id'] for node in nodes}
+    directed = nx.DiGraph()
+    directed.add_nodes_from(sorted(ids))
+    # The edge file has comment headers only, so retain its first data row.
+    for line in (DATA / 'week1_edges.tsv').read_text().splitlines():
+        if not line or line.startswith('#'):
+            continue
+        source, target, *_ = line.split('\t')
+        if source != target and source in ids and target in ids:
+            directed.add_edge(source, target)
+    views = {}
+    for mode in ('undirected', 'directed'):
+        graph = directed.to_undirected(reciprocal=mode == 'directed')
+        maximal = sorted((sorted(clique) for clique in nx.find_cliques(graph)), key=lambda clique: (len(clique), clique))
+        size = max(map(len, maximal), default=0)
+        views[mode] = {
+            'largestSize': size,
+            'maximalCount': len(maximal),
+            'largest': [clique for clique in maximal if len(clique) == size],
+            'edges': [list(edge) for edge in sorted(directed.edges() if mode == 'directed' else (tuple(sorted(edge)) for edge in graph.edges()))],
+        }
+    return views
 
 
 def round_value(value):
@@ -75,7 +101,17 @@ def shuffle_graph(graph, rng):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--cliques-only', action='store_true', help='Update Experiment 04 without rerunning the centrality shuffles')
+    args = parser.parse_args()
     nodes, edges, graph = build_graph()
+    clique_views = build_clique_views(nodes)
+    if args.cliques_only:
+        payload = json.loads(OUT.read_text())
+        payload['cliqueViews'] = clique_views
+        OUT.write_text(json.dumps(payload, separators=(',', ':')) + '\n')
+        print(json.dumps({mode: {'size': view['largestSize'], 'count': len(view['largest'])} for mode, view in clique_views.items()}))
+        return
     names = {node["id"]: node["name"] for node in nodes}
     degrees = dict(graph.degree())
     betweenness = nx.betweenness_centrality(graph, normalized=True)
@@ -139,6 +175,7 @@ def main():
         "centrality": centrality,
         "shuffleSummary": shuffle_summary,
         "shuffleSettings": {"count": SHUFFLES, "seed": SEED},
+        "cliqueViews": clique_views,
         "cliques": {
             "triangles": triangles,
             "maximalCount": len(maximal_cliques),
