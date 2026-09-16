@@ -83,7 +83,7 @@ function renderHomophily() {
   const observed = 100 * result.fraction;
   const baseline = 100 * result.nullMean;
   const significant = result.fraction > result.nullMean && result.pValue < .05;
-  byId('homophily-answer').textContent = `${format(observed, 1)}% of eligible ${cliqueMode === 'directed' ? 'directed references' : 'undirected connections'} share a recorded affiliation, versus ${format(baseline, 1)}% on average in ${homophilyData.count.toLocaleString()} randomized networks (${result.differencePp >= 0 ? '+' : ''}${format(result.differencePp, 1)} percentage points; one-sided empirical p = ${result.pValue.toFixed(4)}). ${significant ? 'Team overlap is stronger than this degree-preserving chance baseline.' : 'This test does not establish stronger team overlap than chance.'}`;
+  byId('homophily-answer').textContent = `${format(observed, 1)}% of ${cliqueMode === 'directed' ? 'directed links' : 'links'} between characters with known teams connect teammates, compared with ${format(baseline, 1)}% in the shuffled networks. ${significant ? 'Shared teams are linked more often than chance predicts' : 'This test does not show more team overlap than chance predicts'} (p = ${result.pValue.toFixed(4)}).`;
   byId('homophily-method').innerHTML = `
     <div class="homophily-process"><span>Observed network</span><b aria-hidden="true">→</b><span>Rewire edges</span><b aria-hidden="true">→</b><span>Measure team overlap</span><b aria-hidden="true">→</b><span>Repeat ${homophilyData.count.toLocaleString()} times</span></div>
     <div class="homophily-rules"><span>Fixed ${cliqueMode === 'directed' ? 'in-degree + out-degree' : 'degree'}</span><span>Fixed affiliations</span><span>${homophilyData.attemptsPerEdge} swap attempts / edge</span><span>No self-links or duplicate edges</span><span>Connectivity may change</span>${cliqueMode === 'directed' ? '<span>Includes triangle reversals</span>' : ''}</div>
@@ -121,14 +121,16 @@ function renderClique() {
   const cliques = view.largest;
   const graph = new Map(data.nodes.map((node) => [node.id, new Set()]));
   view.edges.forEach(([source, target]) => { graph.get(source).add(target); if (!directed) graph.get(target).add(source); });
-  ['undirected', 'directed'].forEach((value) => {
-    const button = byId(`clique-mode-${value}`);
-    button.setAttribute('aria-pressed', String(value === mode));
-    button.onclick = () => {
-      if (cliqueMode === value) return;
-      cliqueMode = value;
-      renderClique();
-    };
+  ['clique', 'homophily'].forEach((section) => {
+    ['undirected', 'directed'].forEach((value) => {
+      const button = byId(`${section}-mode-${value}`);
+      button.setAttribute('aria-pressed', String(value === mode));
+      button.onclick = () => {
+        if (cliqueMode === value) return;
+        cliqueMode = value;
+        renderClique();
+      };
+    });
   });
   const shared = cliques[0].filter((id) => cliques.every((clique) => clique.includes(id)));
   const sharedSet = new Set(shared);

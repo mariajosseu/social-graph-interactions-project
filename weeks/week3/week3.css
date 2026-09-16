@@ -234,3 +234,8 @@
 .route-node.is-spider-man { background: var(--red); color: var(--paper); font-weight: 700; }
 
 .w3-conclusion h2 { font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: -.05em; line-height: 1.1; margin: 0 0 1.25rem; }
+
+.homophily-mode-toggle { margin: 1.25rem 0; }
+
+/* Match Week 02 experiment headers. */
+.w3-section .section-kicker { border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: .5rem 1rem; font: .6rem 'DM Mono', monospace; justify-content: space-between; padding-bottom: .8rem; text-transform: uppercase; }

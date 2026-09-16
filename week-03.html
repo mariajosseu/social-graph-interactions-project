@@ -35,8 +35,9 @@
             </div>
             <div class="homophily-section">
                 <p class="eyebrow">Beyond the cliques / Team homophily</p>
-                <h3>Do shared teams explain more links than chance?</h3>
-                <p>Across the full network, we measure the fraction of edges whose endpoints share at least one recorded affiliation. The network buttons above also switch this comparison between undirected connections and directed article references. The directed test includes one-way references.</p>
+                <h3>Do teammates link more than chance predicts?</h3>
+                <p>How often do linked characters share a team? We compare the network with 1,000 shuffled versions that keep each character’s number of links.</p>
+                <div class="clique-mode-toggle homophily-mode-toggle" role="group" aria-label="Team homophily network view"><button id="homophily-mode-undirected" type="button" aria-pressed="true">Undirected</button><button id="homophily-mode-directed" type="button" aria-pressed="false">Directed</button></div>
                 <p class="answer-line" id="homophily-answer" aria-live="polite">Loading the homophily comparison...</p>
                 <div class="homophily-chart-shell"><svg id="homophily-chart" role="img" aria-label="Randomized team overlap distribution compared with observed overlap"></svg></div>
                 <details class="homophily-test-details"><summary>How does the chance comparison work?</summary><div id="homophily-method"></div></details>
