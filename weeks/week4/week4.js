@@ -8,7 +8,7 @@ function alphaKey(value) { return Number(value).toString(); }
 function format(value) { return Number(value).toLocaleString('en-US'); }
 function backboneFor(alpha) { return data.backbones[alphaKey(alpha)] || []; }
 function renderLegend() {
-  byId('community-legend').innerHTML = Array.from({ length: data.louvain.communities }, (_, index) => `<span class="legend-item"><i style="background:${colors[index % colors.length]}"></i>Community ${String(index + 1).padStart(2, '0')}</span>`).join('');
+  byId('community-legend').innerHTML = Array.from({ length: data.louvain.communities }, (_, index) => `<span class="legend-item"><i style="background:${colors[index % colors.length]}"></i>${data.louvain.names[String(index)]}</span>`).join('');
 }
 function renderTable(activeAlpha) {
   const maxGiant = Math.max(...data.alphaStats.map((item) => item.giant));

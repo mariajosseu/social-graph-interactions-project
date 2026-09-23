@@ -80,6 +80,10 @@ def main():
             "giant": component_size(giant.nodes, kept),
         })
 
+    community_names = {
+        str(index): f"{names[max(group, key=lambda node: strength[node])]} & co. ({len(group)})"
+        for index, group in enumerate(partition)
+    }
     ranked = sorted(giant.nodes, key=lambda node: strength[node], reverse=True)
     nodes_out = [
         {
@@ -99,7 +103,7 @@ def main():
         "edges": edges_out,
         "backbones": backbones,
         "alphaStats": alpha_stats,
-        "louvain": {"communities": len(partition), "modularity": round(nx.community.modularity(giant, partition), 3)},
+        "louvain": {"communities": len(partition), "modularity": round(nx.community.modularity(giant, partition), 3), "names": community_names},
         "topStrength": [{"name": names[node], "strength": strength[node], "degree": degree[node]} for node in ranked[:8]],
         "meta": {"sourceNodes": len(nodes), "giantNodes": len(giant), "giantEdges": giant.number_of_edges(), "totalWeight": sum(strength.values()) // 2},
     }
