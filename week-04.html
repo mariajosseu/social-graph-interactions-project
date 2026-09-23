@@ -31,6 +31,29 @@
 		<section class="comparison-section"><div class="section-kicker"><span>Experiment 04 / Weighted vs unweighted</span><span>DO WEIGHTED LINKS CHANGE THE STORY?</span></div><div class="comparison-heading"><div><h2>Same philosophers.<br>Different <em>history?</em></h2><p>We run Louvain twice on the same giant component. The unweighted run counts whether a link exists; the weighted run also listens to repeated references.</p></div><div class="comparison-stats"><div><strong id="nmi-value">—</strong><span>NMI agreement</span></div><div><strong id="mover-value">—</strong><span>philosophers move</span></div></div></div><div class="comparison-controls"><div class="segmented" role="group" aria-label="Community coloring"><button type="button" class="active" data-comparison-mode="unweighted">Unweighted</button><button type="button" data-comparison-mode="weighted">Weighted</button></div><label class="mover-toggle"><input id="mover-toggle" type="checkbox"> Show movers only</label></div><div class="comparison-legend" id="comparison-legend" aria-label="Community colors"></div><div class="comparison-layout"><div class="comparison-network-frame"><svg id="comparison-network" role="img" aria-label="Comparison of weighted and unweighted philosopher communities"></svg></div><aside class="mover-panel"><p class="eyebrow">Highest-strength movers</p><p id="comparison-answer">Loading comparison...</p><div id="mover-list"></div></aside></div></section>
 		
 		<section class="w4-finale"><p class="eyebrow">Answer / 004</p><h2>The backbone is a choice, not a revelation.</h2><p>At α = 0.20, the local filter keeps more than a simple global threshold would for some peripheral philosophers, while the full graph still tells the story of eight broad traditions. We can draw a cleaner history, but we should say exactly which links we chose to forget.</p><a class="text-link" href="index.html#archive">Return to the field journal <span>↗</span></a></section>
+		<section class="w4-section compare-section">
+			<div class="section-kicker">
+				<span>Experiment 05 / Compare communities</span>
+				<span>GROUP DIFFERENCE</span>
+			</div>
+			<div class="compare-layout">
+				<div class="compare-controls">
+					<div class="compare-select-group">
+						<label for="compare-value-a">First community</label>
+						<select id="compare-value-a"></select>
+					</div>
+					<div class="compare-select-group">
+						<label for="compare-value-b">Second community</label>
+						<select id="compare-value-b"></select>
+					</div>
+				</div>
+				<div class="compare-output">
+					<div class="compare-metrics" id="compare-metrics"></div>
+					<div class="compare-summary" id="compare-summary"></div>
+				</div>
+			</div>
+		</section>
+
 	</main>
 	<footer class="site-footer"><a href="week-03.html">← Week 03</a><span>WEEK 04 / 2026</span><a href="week-05.html">Week 05 →</a></footer>
 	<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
