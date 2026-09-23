@@ -239,3 +239,22 @@
 
 /* Match Week 02 experiment headers. */
 .w3-section .section-kicker { border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: .5rem 1rem; font: .6rem 'DM Mono', monospace; justify-content: space-between; padding-bottom: .8rem; text-transform: uppercase; }
+
+/* Consistent closed dropdown controls, including Safari on macOS and iOS. */
+.w3-section select {
+  -webkit-appearance: none;
+  appearance: none;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background-color: var(--paper);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%2317171a' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right .75rem center;
+  background-size: 1rem;
+  color: var(--ink);
+  font: .72rem 'DM Mono', monospace;
+  padding: .75rem 2.5rem .75rem .75rem;
+  min-height: 2.75rem;
+  cursor: pointer;
+}
+.w3-section select:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
