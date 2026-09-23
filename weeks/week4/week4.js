@@ -75,6 +75,7 @@ function init() {
   nodeById = new Map(data.nodes.map((node) => [node.id, node]));
   renderLegend();
   renderStrength();
+  initCompare();
   let comparisonMode = 'unweighted';
   const updateComparison = () => renderComparison(comparisonMode, byId('mover-toggle').checked);
   document.querySelectorAll('[data-comparison-mode]').forEach((button) => button.addEventListener('click', () => {
@@ -90,4 +91,229 @@ function init() {
   update();
   window.addEventListener('resize', () => { update(); updateComparison(); });
 }
+
+function initCompare() {
+  const compareValueA = document.getElementById('compare-value-a');
+  const compareValueB = document.getElementById('compare-value-b');
+  const compareMetrics = document.getElementById('compare-metrics');
+  const compareSummary = document.getElementById('compare-summary');
+
+  if (!compareValueA || !compareValueB) return;
+
+  const nodes = Array.isArray(data?.nodes) ? data.nodes : [];
+  const edges = backboneFor(0.2);
+  const communityNames = data?.louvain?.names || {};
+  const getName = (node) => node?.name || node?.label || String(node?.id || 'Unnamed');
+  const edgeKey = (source, target) => [String(source), String(target)].sort().join('::');
+
+  const communities = Array.from(
+    nodes.reduce((groups, node) => {
+      const id = String(node.community);
+      if (!groups.has(id)) {
+        groups.set(id, {
+          id,
+          label: communityNames[id] || `Community ${id}`,
+          members: [],
+        });
+      }
+      groups.get(id).members.push(node);
+      return groups;
+    }, new Map()).values()
+  );
+
+  const groupOptions = () => communities;
+
+  const setSelectOptions = (select, options, fallbackValue) => {
+    select.innerHTML = '';
+
+    if (!options.length) {
+      const option = document.createElement('option');
+      option.value = fallbackValue || '';
+      option.textContent = 'No data';
+      select.appendChild(option);
+      return;
+    }
+
+    options.forEach((optionData) => {
+      const option = document.createElement('option');
+      option.value = String(optionData.id);
+      option.textContent = optionData.label;
+      select.appendChild(option);
+    });
+
+    if (fallbackValue) {
+      select.value = String(fallbackValue);
+    }
+  };
+
+  const getSelectedGroup = (value) => {
+    const options = groupOptions();
+    const match = options.find((entry) => String(entry.id) === String(value));
+    if (match) return match;
+
+    if (!options.length) return { id: 'none', label: 'None', members: [] };
+
+    return options[0];
+  };
+
+  const getCentrality = (member) => {
+    return Number(member?.strength || member?.degree || 0);
+  };
+
+  const getWithinEdgeSet = (groupMembers) => {
+    const members = groupMembers || [];
+    const memberKeys = new Set(members.map((member) => String(member.id)));
+    const set = new Set();
+
+    edges.forEach(([source, target]) => {
+      if (memberKeys.has(String(source)) && memberKeys.has(String(target))) {
+        set.add(edgeKey(source, target));
+      }
+    });
+
+    return set;
+  };
+
+  const getCrossEdgeCount = (membersA, membersB) => {
+    const keysA = new Set(membersA.map((member) => String(member.id)));
+    const keysB = new Set(membersB.map((member) => String(member.id)));
+
+    return edges.filter(([source, target]) => (
+      (keysA.has(String(source)) && keysB.has(String(target)))
+      || (keysA.has(String(target)) && keysB.has(String(source)))
+    )).length;
+  };
+
+  const getDensity = (members, internalEdgeCount) => {
+    const possibleEdges = (members.length * (members.length - 1)) / 2;
+    return possibleEdges ? internalEdgeCount / possibleEdges : 0;
+  };
+
+  const getModularityContribution = (members, internalEdgeCount) => {
+    if (!edges.length) return 0;
+
+    const memberKeys = new Set(members.map((member) => String(member.id)));
+    const degreeSum = edges.reduce((sum, [source, target]) => {
+      const sourceInGroup = memberKeys.has(String(source));
+      const targetInGroup = memberKeys.has(String(target));
+      return sum + (sourceInGroup ? 1 : 0) + (targetInGroup ? 1 : 0);
+    }, 0);
+
+    return (internalEdgeCount / edges.length) - ((degreeSum / (2 * edges.length)) ** 2);
+  };
+
+  const getGroupLabel = (group) => group.label || group.name || group.id || 'Group';
+
+  const renderCompareMetrics = (aGroup, bGroup) => {
+    const membersA = Array.isArray(aGroup.members) ? aGroup.members : [];
+    const membersB = Array.isArray(bGroup.members) ? bGroup.members : [];
+    const edgesA = getWithinEdgeSet(membersA);
+    const edgesB = getWithinEdgeSet(membersB);
+    const crossEdges = getCrossEdgeCount(membersA, membersB);
+    const densityA = getDensity(membersA, edgesA.size);
+    const densityB = getDensity(membersB, edgesB.size);
+    const modularityA = getModularityContribution(membersA, edgesA.size);
+    const modularityB = getModularityContribution(membersB, edgesB.size);
+    const avgA = membersA.length ? membersA.reduce((sum, item) => sum + getCentrality(item), 0) / membersA.length : 0;
+    const avgB = membersB.length ? membersB.reduce((sum, item) => sum + getCentrality(item), 0) / membersB.length : 0;
+
+    const topA = [...membersA].sort((x, y) => getCentrality(y) - getCentrality(x)).slice(0, 3);
+    const topB = [...membersB].sort((x, y) => getCentrality(y) - getCentrality(x)).slice(0, 3);
+    const labelA = getGroupLabel(aGroup);
+    const labelB = getGroupLabel(bGroup);
+    const memberKeysA = new Set(membersA.map((member) => String(member.id)));
+    const sameSelection = membersA.length === membersB.length
+      && membersB.every((member) => memberKeysA.has(String(member.id)));
+    const summary = sameSelection
+      ? `<p><strong>Same selection:</strong> ${labelA} contains ${membersA.length} members, ${edgesA.size} internal links, and a density of ${(densityA * 100).toFixed(1)}%. Choose a different community to compare its structure.</p>`
+      : `<p><strong>These communities differ because</strong> ${labelA} has ${membersA.length} members and ${edgesA.size} internal links, while ${labelB} has ${membersB.length} members and ${edgesB.size}. They have ${crossEdges} links between them. The denser community is ${densityA >= densityB ? labelA : labelB}, while the stronger average centrality belongs to ${avgA >= avgB ? labelA : labelB}.</p>`;
+
+    compareMetrics.innerHTML = `
+      <div class="compare-metric">
+        <span>${labelA} size</span>
+        <strong>${membersA.length}</strong>
+      </div>
+      <div class="compare-metric">
+        <span>${labelB} size</span>
+        <strong>${membersB.length}</strong>
+      </div>
+      <div class="compare-metric">
+        <span>size difference</span>
+        <strong>${Math.abs(membersA.length - membersB.length)}</strong>
+      </div>
+      <div class="compare-metric">
+        <span>links between groups</span>
+        <strong>${crossEdges}</strong>
+      </div>
+      <div class="compare-metric">
+        <span>internal density</span>
+        <strong>${(densityA * 100).toFixed(1)}% / ${(densityB * 100).toFixed(1)}%</strong>
+      </div>
+      <div class="compare-metric">
+        <span>modularity contribution</span>
+        <strong>${modularityA.toFixed(3)} / ${modularityB.toFixed(3)}</strong>
+      </div>
+      <div class="compare-metric">
+        <span>avg centrality</span>
+        <strong>${avgA.toFixed(2)} / ${avgB.toFixed(2)}</strong>
+      </div>
+    `;
+
+    const aRank = topA.length ? topA.map((member, index) => `
+      <li>
+        <span class="rank">${index + 1}</span>
+        <span class="name">${getName(member)}</span>
+        <span class="score">${getCentrality(member).toFixed(2)}</span>
+      </li>
+    `).join('') : '<li><span class="name">No members</span></li>';
+
+    const bRank = topB.length ? topB.map((member, index) => `
+      <li>
+        <span class="rank">${index + 1}</span>
+        <span class="name">${getName(member)}</span>
+        <span class="score">${getCentrality(member).toFixed(2)}</span>
+      </li>
+    `).join('') : '<li><span class="name">No members</span></li>';
+
+    compareSummary.innerHTML = `
+      ${summary}
+      <div style="display:grid; gap:1rem; grid-template-columns:1fr 1fr; margin-top:1rem;">
+        <div>
+          <p style="margin:0 0 .5rem; font:.56rem 'DM Mono', monospace; text-transform:uppercase; color:var(--muted);">${getGroupLabel(aGroup)}</p>
+          <ul class="compare-ranking">${aRank}</ul>
+        </div>
+        <div>
+          <p style="margin:0 0 .5rem; font:.56rem 'DM Mono', monospace; text-transform:uppercase; color:var(--muted);">${getGroupLabel(bGroup)}</p>
+          <ul class="compare-ranking">${bRank}</ul>
+        </div>
+      </div>
+    `;
+  };
+
+  const updateCompare = () => {
+    const valueA = compareValueA.value;
+    const valueB = compareValueB.value;
+
+    const groupA = getSelectedGroup(valueA);
+    const groupB = getSelectedGroup(valueB);
+
+    renderCompareMetrics(groupA, groupB);
+  };
+
+  const syncOptions = () => {
+    const optionsA = groupOptions();
+    const optionsB = groupOptions();
+
+    setSelectOptions(compareValueA, optionsA, optionsA[0]?.id || '');
+    setSelectOptions(compareValueB, optionsB, optionsB[0]?.id || '');
+
+    updateCompare();
+  };
+
+  compareValueA.addEventListener('change', updateCompare);
+  compareValueB.addEventListener('change', updateCompare);
+
+  syncOptions();
+}
+
 fetch(DATA_URL).then((response) => response.json()).then((payload) => { window.week4Data = payload; init(); }).catch(() => { byId('filter-answer').textContent = 'Could not load the snapshot. Run this project through a local HTTP server.'; });

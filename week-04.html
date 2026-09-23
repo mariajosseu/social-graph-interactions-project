@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Week 04: When does the philosopher network come apart?">
-	<title>WEEK 04 / WHEN DOES THE NETWORK COME APART?</title>
+	<meta name="description" content="Week 04: How do philosophers form communities?">
+	<title>WEEK 04 / How do philosophers form communities?</title>
 	<link rel="stylesheet" href="styles.css">
 	<link rel="stylesheet" href="weeks/week4/week4.css">
 	<link rel="stylesheet" href="weeks/week4/week4-comparison.css">
@@ -12,7 +12,7 @@
 <body>
 	<header class="site-header"><a class="wordmark" href="index.html">02805</a><nav aria-label="Post navigation"><a href="index.html#archive">Archive</a><a href="index.html">Home</a><a href="week-03.html">← Previous</a></nav></header>
 	<main>
-		<section class="w4-hero"><div><p class="eyebrow">Week 04 / Philosophers, weights, and backbones</p><h1>When does<br>the network<br><em>come apart?</em></h1><p>1,444 philosophers. 11,135 directed references. One question: which links are meaningful enough to keep when the hairball gets too loud?</p><div class="hero-meta"><span>Weighted network / frozen 15 September 2026</span><span>Disparity filter / Louvain</span></div></div><div class="w4-hero-mark" aria-hidden="true"><span>α</span><b>adjust the cut</b><i>↘</i></div></section>
+		<section class="w4-hero"><div><p class="eyebrow">Week 04 / Philosophers, weights, and backbones</p><h1>How do<br>philosophers<br><em>form communities?</em></h1><p>1,444 philosophers. 11,135 directed references. One question: which links are meaningful enough to keep when the hairball gets too loud?</p><div class="hero-meta"><span>Weighted network / frozen 15 September 2026</span><span>Disparity filter / Louvain</span></div></div><div class="w4-hero-mark" aria-hidden="true"><span>α</span><b>adjust the cut</b><i>↘</i></div></section>
 		<section class="w4-section intro-section"><div class="section-kicker"><span>Question 01 / The filter</span><span>LOCAL IMPORTANCE</span></div><div class="w4-intro-grid"><div><p class="eyebrow">A weighted network is not just a bigger unweighted one.</p><h2>Keep a link when it matters to at least one end.</h2></div><div><p>The disparity filter asks whether a link takes an unusually large share of a node's total strength. That keeps a minor philosopher's important tie even when a global weight threshold would erase it.</p><p class="answer-line" id="filter-answer">Loading the philosopher network...</p></div></div></section>
 		<section class="backbone-section"><div class="section-kicker"><span>Experiment 01 / Drag α</span><span>THE BACKBONE</span></div><div class="backbone-heading"><div><h2>At what point<br>do traditions<br><em>separate?</em></h2><p>Color shows the Louvain partition found on the full unweighted giant component. The filter only changes which weighted links remain visible.</p></div><div class="alpha-control"><label for="alpha-slider">Significance threshold <strong id="alpha-value">0.20</strong></label><input id="alpha-slider" type="range" min="0.05" max="0.50" step="0.05" value="0.20"><div class="alpha-ends"><span>strict</span><span>permissive</span></div></div></div><div class="backbone-layout"><div class="network-frame"><svg id="backbone-network" role="img" aria-label="Philosopher network backbone colored by Louvain community"></svg><div class="network-note">Click a node to inspect its local evidence.</div></div><aside class="readout-panel"><div class="readout-stat"><strong id="edge-readout">—</strong><span>links kept</span></div><div class="readout-stat"><strong id="node-readout">—</strong><span>philosophers attached</span></div><div class="readout-stat"><strong id="giant-readout">—</strong><span>in the giant component</span></div><div class="legend" id="community-legend"></div><div class="node-inspector" id="node-inspector"><span>Select a philosopher</span><strong>to see why they remain.</strong></div></aside></div></section>
 		<section class="w4-section evidence-section"><div class="section-kicker"><span>Experiment 02 / What survives?</span><span>THE BREAKING POINT</span></div><div class="w4-intro-grid"><div><p class="eyebrow">A parameter is an argument.</p><h2>The giant component does not vanish all at once.</h2></div><div><p>Pulling α down removes weak local ties first. Watch for the steep drop: that is where the network stops acting like one historical conversation.</p><p class="answer-line" id="break-answer">Move the slider to compare the connected core.</p></div></div><div class="alpha-table" id="alpha-table"></div></section>
@@ -30,7 +30,30 @@
 </section>
 		<section class="comparison-section"><div class="section-kicker"><span>Experiment 04 / Weighted vs unweighted</span><span>DO WEIGHTED LINKS CHANGE THE STORY?</span></div><div class="comparison-heading"><div><h2>Same philosophers.<br>Different <em>history?</em></h2><p>We run Louvain twice on the same giant component. The unweighted run counts whether a link exists; the weighted run also listens to repeated references.</p></div><div class="comparison-stats"><div><strong id="nmi-value">—</strong><span>NMI agreement</span></div><div><strong id="mover-value">—</strong><span>philosophers move</span></div></div></div><div class="comparison-controls"><div class="segmented" role="group" aria-label="Community coloring"><button type="button" class="active" data-comparison-mode="unweighted">Unweighted</button><button type="button" data-comparison-mode="weighted">Weighted</button></div><label class="mover-toggle"><input id="mover-toggle" type="checkbox"> Show movers only</label></div><div class="comparison-legend" id="comparison-legend" aria-label="Community colors"></div><div class="comparison-layout"><div class="comparison-network-frame"><svg id="comparison-network" role="img" aria-label="Comparison of weighted and unweighted philosopher communities"></svg></div><aside class="mover-panel"><p class="eyebrow">Highest-strength movers</p><p id="comparison-answer">Loading comparison...</p><div id="mover-list"></div></aside></div></section>
 		
-		<section class="w4-finale"><p class="eyebrow">Answer / 004</p><h2>The backbone is a choice, not a revelation.</h2><p>At α = 0.20, the local filter keeps more than a simple global threshold would for some peripheral philosophers, while the full graph still tells the story of eight broad traditions. We can draw a cleaner history, but we should say exactly which links we chose to forget.</p><a class="text-link" href="index.html#archive">Return to the field journal <span>↗</span></a></section>
+		
+		<section class="w4-section compare-section">
+			<div class="section-kicker">
+				<span>Experiment 05 / Compare communities</span>
+				<span>GROUP DIFFERENCE</span>
+			</div>
+			<div class="compare-layout">
+				<div class="compare-controls">
+					<div class="compare-select-group">
+						<label for="compare-value-a">First community</label>
+						<select id="compare-value-a"></select>
+					</div>
+					<div class="compare-select-group">
+						<label for="compare-value-b">Second community</label>
+						<select id="compare-value-b"></select>
+					</div>
+				</div>
+				<div class="compare-output">
+					<div class="compare-metrics" id="compare-metrics"></div>
+					<div class="compare-summary" id="compare-summary"></div>
+				</div>
+			</div>
+		</section>
+
 	</main>
 	<footer class="site-footer"><a href="week-03.html">← Week 03</a><span>WEEK 04 / 2026</span><a href="week-05.html">Week 05 →</a></footer>
 	<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
