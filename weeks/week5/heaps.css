@@ -1,0 +1,26 @@
+.heaps-section { background: #d9e6e0; }
+.heaps-heading { align-items: end; display: flex; gap: 3rem; justify-content: space-between; padding: 3rem 0 1.5rem; }
+.heaps-heading h2 { font-size: clamp(2.8rem, 6vw, 6rem); letter-spacing: -.08em; line-height: .88; margin: 0 0 1rem; max-width: 800px; }
+.heaps-heading p { line-height: 1.6; max-width: 480px; }
+.heaps-loading { font: .7rem 'DM Mono', monospace; padding: 2rem 0; text-transform: uppercase; }
+.heaps-loading[hidden], .heaps-output[hidden] { display: none; }
+.heaps-controls { align-items: end; display: flex; flex-wrap: wrap; gap: .8rem; justify-content: space-between; margin: 1rem 0; }
+.heaps-control { display: grid; font: .6rem 'DM Mono', monospace; gap: .45rem; text-transform: uppercase; }
+.heaps-control select, .heaps-controls button { background: var(--paper); border: 1px solid var(--ink); border-radius: 0; color: var(--ink); font: .75rem 'DM Mono', monospace; padding: .7rem .85rem; }
+.heaps-controls button { cursor: pointer; }
+.heaps-controls button:hover, .heaps-controls button:focus-visible { background: var(--ink); color: var(--paper); }
+.heaps-controls button:disabled { cursor: not-allowed; opacity: .4; }
+.heaps-actions { display: flex; gap: .6rem; }
+.heaps-graph-frame { background: var(--paper); }
+.heaps-graph-frame svg { display: block; height: auto; min-height: 320px; width: 100%; }
+.heaps-grid { stroke: rgba(23,23,26,.12); stroke-width: 1; }
+.heaps-axis { stroke: var(--ink); stroke-width: 1; }
+.heaps-tick, .heaps-label { fill: var(--muted); font: 11px 'DM Mono', monospace; }
+.heaps-label { fill: var(--ink); font-size: 12px; }
+.heaps-law-line { fill: none; stroke: #777b7a; stroke-dasharray: 7 6; stroke-width: 2.5; }
+.heaps-point { fill: var(--red); opacity: .8; stroke: var(--paper); stroke-width: 1; }
+.heaps-point:last-child { fill: var(--ink); opacity: 1; }
+.heaps-caption { align-items: center; display: flex; flex-wrap: wrap; font: .62rem 'DM Mono', monospace; gap: .8rem 2rem; justify-content: space-between; padding: .8rem 0; text-transform: uppercase; }
+.heaps-caption i { background: #777b7a; display: inline-block; height: 2px; margin-right: .45rem; vertical-align: middle; width: 1.5rem; }
+.heaps-current { border-left: 3px solid var(--red); line-height: 1.5; margin: 1rem 0 0; padding-left: 1rem; }
+@media (max-width: 760px) { .heaps-heading { align-items: start; display: block; }.heaps-controls { align-items: stretch; display: grid; }.heaps-actions { display: grid; grid-template-columns: 1fr 1fr; }.heaps-actions button { width: 100%; } }

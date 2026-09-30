@@ -7,6 +7,8 @@
 	<title>WEEK 05 / Does network fame buy you more words?</title>
 	<link rel="stylesheet" href="styles.css">
 	<link rel="stylesheet" href="weeks/week5/week5.css">
+	<link rel="stylesheet" href="weeks/week5/relationships.css">
+	<link rel="stylesheet" href="weeks/week5/heaps.css">
 </head>
 <body>
 	<header class="site-header"><a class="wordmark" href="index.html" aria-label="The Marvel Universe home">02805</a><nav aria-label="Post navigation"><a href="index.html#archive">Archive</a><a href="index.html">Home</a><a href="week-04.html">← Previous</a></nav></header>
@@ -38,6 +40,58 @@
 				<div class="inspector-stats"><span><strong id="selected-indegree">—</strong> incoming links</span><span><strong id="selected-wordcount">—</strong> description words</span></div>
 			</div>
 		</section>
+		<section class="w5-section relationship-section">
+			<div class="section-marker"><span>Figure 02 / Links become relationships</span><span>FROZEN EDGE LIST</span></div>
+			<div class="relationship-heading">
+				<h2>Who is friend, foe, or family?</h2>
+				<p>For every network link, inspect the sentence on the source character's Wikipedia page where the target is mentioned. A small, explicit vocabulary turns those sentences into typed edges.</p>
+			</div>
+			<div id="relationship-loading" class="relationship-loading">Loading the Wikipedia concordance...</div>
+			<div id="relationship-output" class="relationship-output" hidden>
+				<div id="relationship-counts" class="relationship-counts"></div>
+				<div class="relationship-controls">
+					<label class="relationship-control">Filter relationship<select id="relationship-filter" aria-label="Filter relationship type"></select></label>
+					<label class="relationship-control">Character mentioned<select id="relationship-target" aria-label="Filter by character mentioned"></select></label>
+				</div>
+				<p id="relationship-finding" class="relationship-finding" aria-live="polite"></p>
+				<p id="relationship-method-note" class="relationship-method-note"></p>
+				<div class="relationship-legend" aria-label="Relationship legend">
+					<span><i class="legend-killed"></i>Killed (directed)</span>
+					<span><i class="legend-married"></i>Married</span>
+					<span><i class="legend-enemy"></i>Enemy</span>
+					<span><i class="legend-ally"></i>Ally</span>
+					<span><i class="legend-teammate"></i>Teammate</span>
+				</div>
+				<div class="relationship-graph-frame">
+					<svg id="relationship-network" role="img" aria-label="Typed Marvel relationship network"></svg>
+					<p id="relationship-graph-note" class="relationship-graph-note"></p>
+				</div>
+				<p id="relationship-row-count" class="relationship-row-count"></p>
+				<div class="relationship-table-wrap">
+					<table class="relationship-table">
+						<thead><tr><th>From</th><th>To</th><th>Label</th><th>Sentence inspected</th></tr></thead>
+						<tbody id="relationship-table-body"></tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+		<section class="w5-section heaps-section">
+			<div class="section-marker"><span>Figure 03 / Heaps' law</span><span>VOCABULARY × NETWORK ORDER</span></div>
+			<div class="heaps-heading">
+				<div><h2>Does the Marvel universe keep inventing words?</h2><p>Add the pages one at a time and watch the cumulative vocabulary grow.</p></div>
+				<p>Famous first means highest in-degree first. Minor first reverses that order. The grey curve is a fitted Heaps' law model; the dots are the observed corpus.</p>
+			</div>
+			<div id="heaps-loading" class="heaps-loading">Loading the Marvel article vocabulary...</div>
+			<div id="heaps-output" class="heaps-output" hidden>
+				<div class="heaps-controls">
+					<label class="heaps-control">Page order<select id="heaps-order" aria-label="Choose page order"><option value="famous">Most-linked first</option><option value="minor">Least-linked first</option></select></label>
+					<div class="heaps-actions"><button id="heaps-add" type="button">Start visualization</button><button id="heaps-reset" type="button">Reset</button></div>
+				</div>
+				<div class="heaps-graph-frame"><svg id="heaps-graph" role="img" aria-label="Cumulative Marvel vocabulary growth graph"></svg></div>
+				<div class="heaps-caption"><span><i></i>Fitted Heaps' law</span><span id="heaps-fit">—</span><span id="heaps-page-count">0 / 303 pages</span></div>
+				<p id="heaps-current" class="heaps-current" aria-live="polite">Press Start to add the first page.</p>
+			</div>
+		</section>
 		<section class="w5-section interpretation-section">
 			<div class="section-marker"><span>Reading the result / Limits matter</span><span>WHAT THIS DOES NOT SAY</span></div>
 			<div class="w5-intro-grid">
@@ -48,5 +102,7 @@
 	</main>
 	<footer class="site-footer"><a href="week-04.html">← Week 04</a><span>WEEK 05 / 2026</span><a href="week-06.html">Week 06 →</a></footer>
 	<script src="weeks/week5/week5.js"></script>
+	<script src="weeks/week5/relationships.js?v=7"></script>
+	<script src="weeks/week5/heaps.js"></script>
 </body>
 </html>

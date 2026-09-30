@@ -1,0 +1,42 @@
+.relationship-section { background: #f3d9c4; }
+.relationship-heading { padding: 3rem 0 1.5rem; }
+.relationship-heading h2 { font-size: clamp(2.8rem, 6vw, 6rem); letter-spacing: -.08em; line-height: .88; margin: 0 0 1rem; max-width: 800px; }
+.relationship-heading p { line-height: 1.6; max-width: 560px; }
+.relationship-loading { font: .7rem 'DM Mono', monospace; padding: 2rem 0; text-transform: uppercase; }
+.relationship-loading[hidden], .relationship-output[hidden] { display: none; }
+.relationship-controls { align-items: end; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; margin: 1rem 0; }
+.relationship-control { display: grid; font: .6rem 'DM Mono', monospace; gap: .45rem; text-transform: uppercase; }
+.relationship-control select, .relationship-control input { background: var(--paper); border: 1px solid var(--ink); border-radius: 0; color: var(--ink); font: .8rem 'Space Grotesk', sans-serif; min-width: 220px; padding: .65rem; }
+.relationship-counts { display: flex; flex-wrap: wrap; gap: .65rem; margin: 1rem 0 1.5rem; }
+.relationship-count { background: var(--paper); border: 1px solid var(--ink); color: var(--ink); cursor: pointer; display: grid; gap: .25rem; min-width: 105px; padding: .7rem .8rem; text-align: left; }
+.relationship-count strong { font: 1.35rem 'DM Mono', monospace; }
+.relationship-count span { font: .56rem 'DM Mono', monospace; text-transform: uppercase; }
+.relationship-count:hover, .relationship-count:focus-visible { background: var(--ink); color: var(--paper); }
+.relationship-finding { border-left: 3px solid var(--red); line-height: 1.6; margin: 1rem 0 .7rem; max-width: 760px; padding-left: 1rem; }
+.relationship-method-note, .relationship-row-count { color: var(--muted); font: .65rem/1.5 'DM Mono', monospace; }
+.relationship-legend { display: flex; flex-wrap: wrap; font: .6rem 'DM Mono', monospace; gap: .75rem 1.3rem; margin: 1rem 0; text-transform: uppercase; }
+.relationship-legend span { align-items: center; display: inline-flex; gap: .45rem; }
+.relationship-legend i { border-radius: 50%; display: inline-block; height: .65rem; width: .65rem; }
+.legend-killed, .legend-enemy { background: var(--red); }
+.legend-married { background: #6c5b7b; }
+.legend-ally, .legend-teammate { background: #31758b; }
+.relationship-graph-frame { background: var(--paper); margin: 1.5rem 0 1rem; padding: .5rem; }
+.relationship-graph-frame svg { display: block; height: auto; min-height: 320px; width: 100%; }
+.relationship-graph-edge { fill: none; opacity: .55; stroke-linecap: round; stroke-width: 1.5; }
+.relationship-graph-edge.relationship-killed, .relationship-graph-edge.relationship-enemy { stroke: var(--red); }
+.relationship-graph-edge.relationship-married { stroke: #6c5b7b; }
+.relationship-graph-edge.relationship-ally, .relationship-graph-edge.relationship-teammate { stroke: #31758b; }
+.relationship-arrow-killed { fill: var(--red); }
+.relationship-graph-node { fill: var(--ink); stroke: var(--paper); stroke-width: 2; }
+.relationship-graph-label { fill: var(--ink); font: 10px 'DM Mono', monospace; pointer-events: none; }
+.relationship-graph-note { font: .62rem/1.5 'DM Mono', monospace; margin: .3rem .5rem .7rem; text-transform: uppercase; }
+.relationship-table-wrap { background: var(--paper); margin-top: 1rem; max-height: 620px; overflow: auto; }
+.relationship-table { border-collapse: collapse; font-size: .78rem; min-width: 930px; width: 100%; }
+.relationship-table th, .relationship-table td { border-bottom: 1px solid var(--line); padding: .8rem; text-align: left; vertical-align: top; }
+.relationship-table th { background: var(--ink); color: var(--paper); font: .58rem 'DM Mono', monospace; position: sticky; text-transform: uppercase; top: 0; }
+.relationship-table td:last-child { line-height: 1.5; max-width: 580px; }
+.relationship-label { font: .58rem 'DM Mono', monospace; text-transform: uppercase; }
+.relationship-killed, .relationship-enemy { color: var(--red); }
+.relationship-married { color: #6c5b7b; }
+.relationship-ally, .relationship-teammate { color: #31758b; }
+@media (max-width: 760px) { .relationship-controls { align-items: stretch; display: grid; }.relationship-control select, .relationship-control input { width: 100%; } }
