@@ -8,6 +8,7 @@ An eight-week field journal for Social Graphs and Interactions, exploring networ
 - **Week 02 — What makes the Marvel Universe look like Marvel?** Interactive experiments with degree-preserving shuffles, preferential attachment, degree distributions, and the friendship paradox.
 - **Week 03 — Who carries the Marvel Universe?** Explore shortest paths, betweenness centrality, targeted hub removal, and triangle-rich neighborhoods.
 - **Week 04 — When does the network come apart?** Explore weighted philosopher links, Louvain communities, and the disparity-filter backbone at five values of α.
+- **Week 05 — Does network fame buy you more words?** Compare Marvel in-degree with local description length, inspect the text behind each point, and test how much the frozen blurbs say about a character.
 
 ## Run locally
 
@@ -39,7 +40,7 @@ python3 tools/generate_week4_data.py
 ## Project structure
 
 - `index.html` and `app.js` contain the homepage, archive, and shared network overview.
-- `week-01.html`, `week-02.html`, `week-03.html`, and `week-04.html` are the published weekly posts.
-- `weeks/week2/`, `weeks/week3/`, and `weeks/week4/` contain post-specific styles and scripts.
+- `week-01.html` through `week-05.html` are the published weekly posts.
+- `weeks/week2/` through `weeks/week5/` contain post-specific styles and scripts.
 - `tools/generate_week2_data.py`, `tools/generate_week3_data.py`, and `tools/generate_week4_data.py` regenerate the analysis snapshots.
 - `data/` contains the frozen network snapshots.
