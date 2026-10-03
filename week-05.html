@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="weeks/week5/week5.css">
 	<link rel="stylesheet" href="weeks/week5/relationships.css">
 	<link rel="stylesheet" href="weeks/week5/heaps.css">
+	<link rel="stylesheet" href="weeks/week5/copying.css">
 </head>
 <body>
 	<header class="site-header"><a class="wordmark" href="index.html" aria-label="The Marvel Universe home">02805</a><nav aria-label="Post navigation"><a href="index.html#archive">Archive</a><a href="index.html">Home</a><a href="week-04.html">← Previous</a></nav></header>
@@ -40,8 +41,28 @@
 				<div class="inspector-stats"><span><strong id="selected-indegree">—</strong> incoming links</span><span><strong id="selected-wordcount">—</strong> description words</span></div>
 			</div>
 		</section>
+		<section class="w5-section copying-section">
+			<div class="section-marker"><span>Figure 02 / Catch Wikipedia copying itself</span><span>SHARED PASSAGE NETWORK</span></div>
+			<div class="copying-heading"><p class="eyebrow">Question 02 / When pages repeat each other</p><h2>Different heroes.<br>The same words.</h2><p>Which Marvel pages share long passages? Connect two pages whenever they contain the same sequence of at least 16 tokens, then read the largest clusters to find out what the overlap means.</p></div>
+			<p id="copying-loading" class="copying-loading" role="status">Loading the shared-passage network...</p>
+			<div id="copying-output" hidden>
+				<p id="copying-summary" aria-live="polite"></p>
+				<div class="copying-controls">
+					<label>Minimum shared length<select id="copying-threshold"><option value="16">16 tokens</option><option value="32" selected>32 tokens · longer passages</option><option value="64">64 tokens · longest overlaps</option></select></label>
+					<label>Connected cluster<select id="copying-cluster"></select></label>
+				</div>
+				<div id="copying-detail">
+					<div class="copying-network-frame"><svg id="copying-network" role="img" aria-label="Network of Marvel pages sharing long token sequences"></svg></div>
+					<p id="copying-graph-note" class="copying-note"></p>
+					<label class="copying-pair-control">Inspect a page pair<select id="copying-pair"></select></label>
+					<h3 id="copying-pair-title" aria-live="polite"></h3>
+					<div class="copying-excerpts"><article><a id="copying-source-link" target="_blank" rel="noopener"></a><blockquote id="copying-source-text"></blockquote></article><article><a id="copying-target-link" target="_blank" rel="noopener"></a><blockquote id="copying-target-text"></blockquote></article></div>
+				</div>
+			</div>
+
+		</section>
 		<section class="w5-section relationship-section">
-			<div class="section-marker"><span>Figure 02 / Links become relationships</span><span>FROZEN EDGE LIST</span></div>
+			<div class="section-marker"><span>Figure 03 / Links become relationships</span><span>FROZEN EDGE LIST</span></div>
 			<div class="relationship-heading">
 				<h2>Who is friend, foe, or family?</h2>
 				<p>For every network link, inspect the sentence on the source character's Wikipedia page where the target is mentioned. A small, explicit vocabulary turns those sentences into typed edges.</p>
@@ -76,7 +97,7 @@
 			</div>
 		</section>
 		<section class="w5-section heaps-section">
-			<div class="section-marker"><span>Figure 03 / Heaps' law</span><span>VOCABULARY × NETWORK ORDER</span></div>
+			<div class="section-marker"><span>Figure 04 / Heaps' law</span><span>VOCABULARY × NETWORK ORDER</span></div>
 			<div class="heaps-heading">
 				<div><h2>Does the Marvel universe keep inventing words?</h2><p>Add the pages one at a time and watch the cumulative vocabulary grow.</p></div>
 				<p>Famous first means highest in-degree first. Minor first reverses that order. The grey curve is a fitted Heaps' law model; the dots are the observed corpus.</p>
@@ -102,6 +123,7 @@
 	</main>
 	<footer class="site-footer"><a href="week-04.html">← Week 04</a><span>WEEK 05 / 2026</span><a href="week-06.html">Week 06 →</a></footer>
 	<script src="weeks/week5/week5.js"></script>
+	<script src="weeks/week5/copying.js"></script>
 	<script src="weeks/week5/relationships.js?v=7"></script>
 	<script src="weeks/week5/heaps.js"></script>
 </body>
