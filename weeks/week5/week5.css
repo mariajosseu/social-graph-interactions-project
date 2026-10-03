@@ -15,7 +15,8 @@
 .w5-intro-grid h2 { font-size: clamp(2.5rem, 4.5vw, 4.5rem); line-height: .95; margin: 0; }
 .w5-intro-grid > div:last-child p { font-size: 1rem; line-height: 1.65; margin: 0 0 1.25rem; max-width: 680px; }
 .w5-finding { border-left: 3px solid var(--red); font-weight: 600; padding: .2rem 0 .2rem 1rem; }
-.figure-section { background: #d9e6e0; }
+.question-section, .figure-section { background: #eedce5; }
+.question-section + .figure-section { padding-top: 0; }
 .figure-heading { align-items: end; display: flex; gap: 2rem; justify-content: space-between; padding: 3rem 0 1.3rem; }
 .figure-heading h2 { font-size: clamp(2.2rem, 4vw, 3.8rem); line-height: .95; margin: 0 0 .8rem; }
 .figure-heading p { line-height: 1.5; margin: 0; }

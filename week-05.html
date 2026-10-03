@@ -24,57 +24,6 @@
 			</div>
 			<div class="w5-hero-mark" aria-hidden="true"><strong>106</strong><span>links in</span><i>↘</i></div>
 		</section>
-		<section class="w5-section question-section">
-			<div class="section-marker"><span>Question 06 / Network fame and description length</span><span>NETWORK × LANGUAGE</span></div>
-			<div class="w5-intro-grid">
-				<div><h2>Are the most-mentioned characters described in more words?</h2></div>
-				<div><p>For every character, compare incoming links in the frozen Marvel graph with the word count of its local description field. The surprise is how little these two signals line up.</p><p class="w5-finding" id="finding-line" aria-live="polite">Loading the frozen snapshots...</p></div>
-			</div>
-		</section>
-		<section class="w5-section figure-section">
-			<div class="section-marker"><span>Figure 06 / Incoming links vs. description word count</span><span>303 CHARACTERS</span></div>
-			<div class="figure-heading"><div><h2>Incoming links vs. description word count</h2><p>One dot per character. Select a dot or use the name menu to read the description behind it.</p></div><label class="character-select">Inspect a character<select id="character-select" aria-label="Inspect a character"></select></label></div>
-			<div class="scatter-frame"><svg id="description-scatter" role="img" aria-labelledby="scatter-title scatter-description"><title id="scatter-title">Incoming links versus description word count</title><desc id="scatter-description">A scatter plot of all 303 Marvel characters. The selected character's local description appears below.</desc></svg><p id="chart-loading" class="chart-loading">Loading the Marvel snapshots...</p></div>
-			<div class="figure-caption"><span><i class="caption-dot"></i>Each dot is one character</span><span>Incoming links →</span><span>Description words ↑</span></div>
-			<div class="w5-inspector" aria-live="polite">
-				<div class="inspector-name"><span>Text check / selected description</span><h3 id="selected-name">—</h3></div>
-				<p id="selected-description">Choose a character to inspect the exact local text.</p>
-				<div class="inspector-stats"><span><strong id="selected-indegree">—</strong> incoming links</span><span><strong id="selected-wordcount">—</strong> description words</span></div>
-			</div>
-		</section>
-		<section class="w5-section copying-section">
-			<div class="section-marker"><span>Question 02 / Shared passages</span><span>SHARED PASSAGE NETWORK</span></div>
-			<div class="copying-heading"><p class="eyebrow">Figure 02 / Shared-passage network</p><h2>Which Marvel pages share long passages?</h2><p>Connect two pages whenever they contain the same sequence of at least 16 tokens, then read the largest clusters to find out what the overlap means.</p></div>
-			<p id="copying-loading" class="copying-loading" role="status">Loading the shared-passage network...</p>
-			<div id="copying-output" hidden>
-				<p id="copying-summary" aria-live="polite"></p>
-				<div class="copying-controls">
-					<label>Minimum shared length<select id="copying-threshold"><option value="16">16 tokens</option><option value="32" selected>32 tokens · longer passages</option><option value="64">64 tokens · longest overlaps</option></select></label>
-					<label>Connected cluster<select id="copying-cluster"></select></label>
-				</div>
-				<div id="copying-detail">
-					<div class="copying-network-frame"><svg id="copying-network" role="img" aria-label="Network of Marvel pages sharing long token sequences"></svg></div>
-					<p id="copying-graph-note" class="copying-note"></p>
-					<label class="copying-pair-control">Inspect a page pair<select id="copying-pair"></select></label>
-					<h3 id="copying-pair-title" aria-live="polite"></h3>
-					<div class="copying-excerpts"><article><a id="copying-source-link" target="_blank" rel="noopener"></a><blockquote id="copying-source-text"></blockquote></article><article><a id="copying-target-link" target="_blank" rel="noopener"></a><blockquote id="copying-target-text"></blockquote></article></div>
-				</div>
-			</div>
-
-		</section>
-		<section class="w5-section search-section">
-			<div class="section-marker"><span>Question 03 / A Marvel search engine</span><span>BAG OF WORDS × COSINE</span></div>
-			<div class="search-heading"><p class="eyebrow">Figure 03 / Query-to-page similarity</p><h2>Can a bag of words<br>find your hero?</h2><p>Treat your query as a tiny document and compare its word-count vector with all 303 Marvel articles. Which pages point in the same direction?</p></div>
-			<form id="search-form" class="search-form"><label for="search-query">Describe a character</label><div class="search-input-row"><input id="search-query" type="search" value="Norse god of thunder" placeholder="Norse god of thunder" maxlength="300" required><button id="search-submit" type="submit" disabled>Search</button></div></form>
-			<p id="search-loading" role="status">Loading the Marvel search index...</p>
-			<div id="search-output" hidden>
-				<p class="search-note">Try the collected failure cases:</p><div id="search-examples"></div>
-				<p id="search-explanation" aria-live="polite"></p><p id="search-summary" class="search-note" role="status"></p>
-				<div class="search-layout"><div id="search-results" aria-label="Top ten search results"></div>
-					<article id="search-inspector" hidden><a id="search-page-link" target="_blank" rel="noopener"></a><p id="search-score" class="search-note"></p><table class="search-counts"><caption>What contributes to the dot product?</caption><thead><tr><th>Term</th><th>Query count</th><th>Page count</th><th>Product</th></tr></thead><tbody id="search-contributions"></tbody></table><p class="search-note">Local paragraph with the most distinct query terms. Word counts above cover the full article.</p><blockquote id="search-excerpt"></blockquote></article>
-				</div>
-			</div>
-		</section>
 		<section class="w5-section relationship-section">
 			<div class="section-marker"><span>Question 01 / Character relationships</span><span>FROZEN EDGE LIST</span></div>
 			<div class="relationship-heading">
@@ -111,6 +60,39 @@
 				</div>
 			</div>
 		</section>
+		<section class="w5-section copying-section">
+			<div class="section-marker"><span>Question 02 / Shared passages</span><span>SHARED PASSAGE NETWORK</span></div>
+			<div class="copying-heading"><p class="eyebrow">Figure 02 / Shared-passage network</p><h2>Which Marvel pages share long passages?</h2><p>Connect two pages whenever they contain the same sequence of at least 16 tokens, then read the largest clusters to find out what the overlap means.</p></div>
+			<p id="copying-loading" class="copying-loading" role="status">Loading the shared-passage network...</p>
+			<div id="copying-output" hidden>
+				<p id="copying-summary" aria-live="polite"></p>
+				<div class="copying-controls">
+					<label>Minimum shared length<select id="copying-threshold"><option value="16">16 tokens</option><option value="32" selected>32 tokens · longer passages</option><option value="64">64 tokens · longest overlaps</option></select></label>
+					<label>Connected cluster<select id="copying-cluster"></select></label>
+				</div>
+				<div id="copying-detail">
+					<div class="copying-network-frame"><svg id="copying-network" role="img" aria-label="Network of Marvel pages sharing long token sequences"></svg></div>
+					<p id="copying-graph-note" class="copying-note"></p>
+					<label class="copying-pair-control">Inspect a page pair<select id="copying-pair"></select></label>
+					<h3 id="copying-pair-title" aria-live="polite"></h3>
+					<div class="copying-excerpts"><article><a id="copying-source-link" target="_blank" rel="noopener"></a><blockquote id="copying-source-text"></blockquote></article><article><a id="copying-target-link" target="_blank" rel="noopener"></a><blockquote id="copying-target-text"></blockquote></article></div>
+				</div>
+			</div>
+
+		</section>
+		<section class="w5-section search-section">
+			<div class="section-marker"><span>Question 03 / A Marvel search engine</span><span>BAG OF WORDS × COSINE</span></div>
+			<div class="search-heading"><p class="eyebrow">Figure 03 / Query-to-page similarity</p><h2>Can a bag of words<br>find your hero?</h2><p>Treat your query as a tiny document and compare its word-count vector with all 303 Marvel articles. Which pages point in the same direction?</p></div>
+			<form id="search-form" class="search-form"><label for="search-query">Describe a character</label><div class="search-input-row"><input id="search-query" type="search" value="Norse god of thunder" placeholder="Norse god of thunder" maxlength="300" required><button id="search-submit" type="submit" disabled>Search</button></div></form>
+			<p id="search-loading" role="status">Loading the Marvel search index...</p>
+			<div id="search-output" hidden>
+				<p class="search-note">Try the collected failure cases:</p><div id="search-examples"></div>
+				<p id="search-explanation" aria-live="polite"></p><p id="search-summary" class="search-note" role="status"></p>
+				<div class="search-layout"><div id="search-results" aria-label="Top ten search results"></div>
+					<article id="search-inspector" hidden><a id="search-page-link" target="_blank" rel="noopener"></a><p id="search-score" class="search-note"></p><table class="search-counts"><caption>What contributes to the dot product?</caption><thead><tr><th>Term</th><th>Query count</th><th>Page count</th><th>Product</th></tr></thead><tbody id="search-contributions"></tbody></table><p class="search-note">Local paragraph with the most distinct query terms. Word counts above cover the full article.</p><blockquote id="search-excerpt"></blockquote></article>
+				</div>
+			</div>
+		</section>
 		<section class="w5-section heaps-section">
 			<div class="section-marker"><span>Question 05 / Vocabulary growth</span><span>VOCABULARY × NETWORK ORDER</span></div>
 			<div class="heaps-heading">
@@ -128,6 +110,24 @@
 				<p id="heaps-current" class="heaps-current" aria-live="polite">Press Start to add the first page.</p>
 			</div>
 		</section>
+		<section class="w5-section question-section">
+			<div class="section-marker"><span>Question 06 / Network fame and description length</span><span>NETWORK × LANGUAGE</span></div>
+			<div class="w5-intro-grid">
+				<div><h2>Are the most-mentioned characters described in more words?</h2></div>
+				<div><p>For every character, compare incoming links in the frozen Marvel graph with the word count of its local description field. The surprise is how little these two signals line up.</p><p class="w5-finding" id="finding-line" aria-live="polite">Loading the frozen snapshots...</p></div>
+			</div>
+		</section>
+		<section class="w5-section figure-section">
+			<div class="section-marker"><span>Figure 06 / Incoming links vs. description word count</span><span>303 CHARACTERS</span></div>
+			<div class="figure-heading"><div><h2>Incoming links vs. description word count</h2><p>One dot per character. Select a dot or use the name menu to read the description behind it.</p></div><label class="character-select">Inspect a character<select id="character-select" aria-label="Inspect a character"></select></label></div>
+			<div class="scatter-frame"><svg id="description-scatter" role="img" aria-labelledby="scatter-title scatter-description"><title id="scatter-title">Incoming links versus description word count</title><desc id="scatter-description">A scatter plot of all 303 Marvel characters. The selected character's local description appears below.</desc></svg><p id="chart-loading" class="chart-loading">Loading the Marvel snapshots...</p></div>
+			<div class="figure-caption"><span><i class="caption-dot"></i>Each dot is one character</span><span>Incoming links →</span><span>Description words ↑</span></div>
+			<div class="w5-inspector" aria-live="polite">
+				<div class="inspector-name"><span>Text check / selected description</span><h3 id="selected-name">—</h3></div>
+				<p id="selected-description">Choose a character to inspect the exact local text.</p>
+				<div class="inspector-stats"><span><strong id="selected-indegree">—</strong> incoming links</span><span><strong id="selected-wordcount">—</strong> description words</span></div>
+			</div>
+		</section>
 		<section class="w5-section interpretation-section">
 			<div class="section-marker"><span>Reading the result / Limits matter</span><span>WHAT THIS DOES NOT SAY</span></div>
 			<div class="w5-intro-grid">
@@ -135,6 +135,7 @@
 				<div><p>Spider-Man's description reads, “Spider-Man is a superhero in American comic books published by Marvel Comics.” That is 12 words beside 106 incoming links. Super Rabbit has no incoming links in this snapshot and a 36-word description. The points fit the weak overall association, but these are metadata descriptions, not measurements of full Wikipedia page length.</p><p class="w5-limit">The frozen node file contains short descriptions, not article bodies. This comparison can test whether graph attention predicts the length of these blurbs; it cannot answer whether famous characters have longer articles. Link counts also reflect this dataset's page-to-page references, not readership or cultural fame.</p></div>
 			</div>
 		</section>
+
 	</main>
 	<footer class="site-footer"><a href="week-04.html">← Week 04</a><span>WEEK 05 / 2026</span><a href="week-06.html">Week 06 →</a></footer>
 	<script src="weeks/week5/week5.js"></script>
