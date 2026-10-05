@@ -1,0 +1,27 @@
+.search-section { background:#e8dfcd; }
+.search-heading { padding:3rem 0 1.5rem; }
+.search-heading h2 { font-size:clamp(2.8rem,6vw,6rem); letter-spacing:-.08em; line-height:.9; margin:0 0 1.5rem; max-width:850px; }
+.search-heading p { max-width:760px; line-height:1.6; }
+.search-form label { display:block; font:.65rem 'DM Mono',monospace; text-transform:uppercase; margin-bottom:.6rem; }
+.search-input-row { display:flex; gap:.6rem; }
+.search-input-row input { flex:1; min-width:0; }
+.search-input-row input, .search-input-row button, #search-examples button { background:var(--paper); color:var(--ink); border:1px solid var(--ink); padding:.85rem; font:.85rem 'Space Grotesk',sans-serif; }
+.search-input-row button, #search-examples button { cursor:pointer; }
+.search-input-row button:disabled { cursor:wait; opacity:.5; }
+#search-examples { display:flex; flex-wrap:wrap; gap:.5rem; margin:1rem 0; }
+#search-examples button { font-size:.7rem; padding:.55rem; }
+#search-explanation { border-left:3px solid var(--red); padding-left:1rem; line-height:1.6; max-width:900px; }
+.search-note { font:.65rem/1.6 'DM Mono',monospace; }
+.search-layout { display:grid; grid-template-columns:1fr 1.2fr; gap:1.5rem; margin-top:1.5rem; align-items:start; }
+#search-results { display:grid; gap:.5rem; }
+.search-result { display:flex; gap:1rem; justify-content:space-between; position:relative; overflow:hidden; padding:1rem; border:1px solid var(--ink); color:var(--ink); background:var(--paper); cursor:pointer; text-align:left; font:.8rem 'Space Grotesk',sans-serif; }
+.search-result>span:not(.search-bar) { position:relative; z-index:1; }
+.search-bar { position:absolute; left:0; bottom:0; top:0; background:#a9b9ac; opacity:.35; pointer-events:none; }
+.search-result:hover,.search-result:focus-visible { outline:2px solid var(--red); }
+#search-inspector { background:var(--paper); padding:1.5rem; min-width:0; }
+#search-page-link { font-size:1.4rem; }
+.search-counts { width:100%; border-collapse:collapse; font:.7rem 'DM Mono',monospace; }
+.search-counts td,.search-counts th { padding:.6rem .3rem; border-bottom:1px solid var(--line); text-align:left; }
+#search-excerpt { margin:1rem 0 0; white-space:pre-wrap; overflow-wrap:anywhere; line-height:1.6; max-height:350px; overflow:auto; }
+.search-section [hidden] { display:none; }
+@media(max-width:760px) { .search-layout { grid-template-columns:1fr; } }

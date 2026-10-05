@@ -1,1 +1,180 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WEEK 05 / POWER LAWS &amp; PLOT TWISTS</title><link rel="stylesheet" href="styles.css"></head><body><header class="site-header"><a class="wordmark" href="index.html">02805</a><nav><a href="index.html#archive">Archive</a><a href="index.html">Home</a></nav></header><main><section class="dispatch"><div class="section-marker"><span>05</span><span>COMING SOON</span><span>FIELD NOTE</span></div><div class="story-grid"><div class="story-intro"><p class="eyebrow">Question / 005</p><h1>Power laws<br>&amp; plot<br>twists.</h1></div><div class="method-copy"><p>This weekly post is being assembled from the same Marvel character network.</p><p>Next: when a few names dominate, what does that tell us about the system?</p><a class="text-link" href="index.html#archive">Return to the field journal <span>↗</span></a></div></div></section></main><footer class="site-footer"><a href="week-04.html">← Week 04</a><span>WEEK 05 / 2026</span><a href="week-06.html">Week 06 →</a></footer></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Week 05: Does network fame buy a Marvel character more words?">
+	<title>WEEK 05 / Does network fame buy you more words?</title>
+	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="weeks/week5/week5.css">
+	<link rel="stylesheet" href="weeks/week5/relationships.css">
+	<link rel="stylesheet" href="weeks/week5/heaps.css">
+	<link rel="stylesheet" href="weeks/week5/copying.css">
+	<link rel="stylesheet" href="weeks/week5/search.css">
+	<link rel="stylesheet" href="weeks/week5/autocomplete.css">
+	<link rel="stylesheet" href="weeks/week5/weirdness.css">
+</head>
+<body>
+	<header class="site-header"><a class="wordmark" href="index.html" aria-label="The Marvel Universe home">02805</a><nav aria-label="Post navigation"><a href="index.html#archive">Archive</a><a href="index.html">Home</a><a href="week-04.html">← Previous</a></nav></header>
+	<main>
+		<section class="w5-hero">
+			<div class="w5-hero-copy">
+				<p class="eyebrow">Week 05 / The graph meets the text</p>
+				<h1 class="post-title">Does network fame<br><em>buy you more words?</em></h1>
+				<p data-archive-summary>Spider-Man draws 106 incoming links, but his frozen description is just 12 words. Does that short blurb mean anything about the text behind the network?</p>
+				<div class="w5-meta"><span>303 Marvel character pages</span><span>Frozen Week 01 snapshot</span></div>
+			</div>
+			<div class="w5-hero-mark" aria-hidden="true"><strong>106</strong><span>links in</span><i>↘</i></div>
+		</section>
+		<section class="w5-section relationship-section">
+			<div class="section-marker"><span>Question 01 / Character relationships</span><span>FROZEN EDGE LIST</span></div>
+			<div class="relationship-heading">
+				<p class="eyebrow">Figure 01 / Typed relationship network</p>
+				<h2>Who is friend, foe, or family?</h2>
+				<p>For every network link, inspect the sentence on the source character's Wikipedia page where the target is mentioned. A small, explicit vocabulary turns those sentences into typed edges.</p>
+			</div>
+			<div id="relationship-loading" class="relationship-loading">Loading the Wikipedia concordance...</div>
+			<div id="relationship-output" class="relationship-output" hidden>
+				<div id="relationship-counts" class="relationship-counts"></div>
+				<div class="relationship-controls">
+					<label class="relationship-control">Filter relationship<select id="relationship-filter" aria-label="Filter relationship type"></select></label>
+					<label class="relationship-control">Character mentioned<select id="relationship-target" aria-label="Filter by character mentioned"></select></label>
+				</div>
+				<p id="relationship-finding" class="relationship-finding" aria-live="polite"></p>
+				<p id="relationship-method-note" class="relationship-method-note"></p>
+				<div class="relationship-legend" aria-label="Relationship legend">
+					<span><i class="legend-killed"></i>Killed (directed)</span>
+					<span><i class="legend-married"></i>Married</span>
+					<span><i class="legend-enemy"></i>Enemy</span>
+					<span><i class="legend-ally"></i>Ally</span>
+					<span><i class="legend-teammate"></i>Teammate</span>
+				</div>
+				<div class="relationship-graph-frame">
+					<svg id="relationship-network" role="img" aria-label="Typed Marvel relationship network"></svg>
+					<p id="relationship-graph-note" class="relationship-graph-note"></p>
+				</div>
+				<p id="relationship-row-count" class="relationship-row-count"></p>
+				<div class="relationship-table-wrap">
+					<table class="relationship-table">
+						<thead><tr><th>From</th><th>To</th><th>Label</th><th>Sentence inspected</th></tr></thead>
+						<tbody id="relationship-table-body"></tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+		<section class="w5-section copying-section">
+			<div class="section-marker"><span>Question 02 / Shared passages</span><span>SHARED PASSAGE NETWORK</span></div>
+			<div class="copying-heading"><p class="eyebrow">Figure 02 / Shared-passage network</p><h2>Which Marvel pages share long passages?</h2><p>Connect two pages whenever they contain the same sequence of at least 16 tokens, then read the largest clusters to find out what the overlap means.</p></div>
+			<p id="copying-loading" class="copying-loading" role="status">Loading the shared-passage network...</p>
+			<div id="copying-output" hidden>
+				<p id="copying-summary" aria-live="polite"></p>
+				<div class="copying-controls">
+					<label>Minimum shared length<select id="copying-threshold"><option value="16">16 tokens</option><option value="32" selected>32 tokens · longer passages</option><option value="64">64 tokens · longest overlaps</option></select></label>
+					<label>Connected cluster<select id="copying-cluster"></select></label>
+				</div>
+				<div id="copying-detail">
+					<div class="copying-network-frame"><svg id="copying-network" role="img" aria-label="Network of Marvel pages sharing long token sequences"></svg></div>
+					<p id="copying-graph-note" class="copying-note"></p>
+					<label class="copying-pair-control">Inspect a page pair<select id="copying-pair"></select></label>
+					<h3 id="copying-pair-title" aria-live="polite"></h3>
+					<div class="copying-excerpts"><article><a id="copying-source-link" target="_blank" rel="noopener"></a><blockquote id="copying-source-text"></blockquote></article><article><a id="copying-target-link" target="_blank" rel="noopener"></a><blockquote id="copying-target-text"></blockquote></article></div>
+				</div>
+			</div>
+
+		</section>
+		<section class="w5-section search-section">
+			<div class="section-marker"><span>Question 03 / A Marvel search engine</span><span>BAG OF WORDS × COSINE</span></div>
+			<div class="search-heading"><p class="eyebrow">Figure 03 / Query-to-page similarity</p><h2>Can a bag of words<br>find your hero?</h2><p>Treat your query as a tiny document and compare its word-count vector with all 303 Marvel articles. Which pages point in the same direction?</p></div>
+			<form id="search-form" class="search-form"><label for="search-query">Describe a character</label><div class="search-input-row"><input id="search-query" type="search" value="Norse god of thunder" placeholder="Norse god of thunder" maxlength="300" required><button id="search-submit" type="submit" disabled>Search</button></div></form>
+			<p id="search-loading" role="status">Loading the Marvel search index...</p>
+			<div id="search-output" hidden>
+				<p class="search-note">Try the collected failure cases:</p><div id="search-examples"></div>
+				<p id="search-explanation" aria-live="polite"></p><p id="search-summary" class="search-note" role="status"></p>
+				<div class="search-layout"><div id="search-results" aria-label="Top ten search results"></div>
+					<article id="search-inspector" hidden><a id="search-page-link" target="_blank" rel="noopener"></a><p id="search-score" class="search-note"></p><table class="search-counts"><caption>What contributes to the dot product?</caption><thead><tr><th>Term</th><th>Query count</th><th>Page count</th><th>Product</th></tr></thead><tbody id="search-contributions"></tbody></table><p class="search-note">Local paragraph with the most distinct query terms. Word counts above cover the full article.</p><blockquote id="search-excerpt"></blockquote></article>
+				</div>
+			</div>
+		</section>
+		<section class="w5-section ac-section">
+			<div class="section-marker"><span>Question 04 / Community autocomplete</span><span>TRIGRAMS × COMMUNITIES</span></div>
+			<div class="ac-heading"><p class="eyebrow">Figure 04 / Fake pages from community language models</p><h2>Can you tell which community wrote the page?</h2><p>Louvain splits the Week 04 network into communities. Each community gets one trigram generator trained on its pages' text: the next word is sampled given the previous two. Every round writes one fake page per community in random order. Guess the source, then compare yourself with a word-count classifier.</p></div>
+			<p id="ac-loading" role="status">Loading the community models...</p>
+			<div id="ac-output" hidden>
+				<div class="ac-controls"><button id="ac-new" type="button">New fake pages</button><button id="ac-reset" type="button">Reset score</button><label><input id="ac-clue-toggle" type="checkbox"> Show community clues</label></div>
+				<div id="ac-clues-wrap" hidden><ol id="ac-clues"></ol></div>
+				<p id="ac-score" aria-live="polite"></p>
+				<div id="ac-pages" class="ac-pages"></div>
+				<h3>Baseline: a classifier reading word counts</h3>
+				<div class="ac-controls"><label>Pages per community<select id="ac-trials"><option value="20">20</option><option value="50" selected>50</option><option value="200">200</option></select></label><button id="ac-bot" type="button">Run classifier</button></div>
+				<p id="ac-bot-summary" aria-live="polite">Run it to see how often word counts alone recover the community.</p>
+				<div class="ac-table-wrap"><table id="ac-confusion"></table></div>
+			</div>
+		</section>
+		<section class="w5-section heaps-section">
+			<div class="section-marker"><span>Question 05 / Vocabulary growth</span><span>VOCABULARY × NETWORK ORDER</span></div>
+			<div class="heaps-heading">
+				<div><p class="eyebrow">Figure 05 / Vocabulary growth and Heaps' law</p><h2>Does the Marvel universe keep inventing words?</h2><p>Add the pages one at a time and watch the cumulative vocabulary grow.</p></div>
+				<p>Famous first means highest in-degree first. Minor first reverses that order. The grey curve is a fitted Heaps' law model; the dots are the observed corpus.</p>
+			</div>
+			<div id="heaps-loading" class="heaps-loading">Loading the Marvel article vocabulary...</div>
+			<div id="heaps-output" class="heaps-output" hidden>
+				<div class="heaps-controls">
+					<label class="heaps-control">Page order<select id="heaps-order" aria-label="Choose page order"><option value="famous">Most-linked first</option><option value="minor">Least-linked first</option></select></label>
+					<div class="heaps-actions"><button id="heaps-add" type="button">Start visualization</button><button id="heaps-reset" type="button">Reset</button></div>
+				</div>
+				<div class="heaps-graph-frame"><svg id="heaps-graph" role="img" aria-label="Cumulative Marvel vocabulary growth graph"></svg></div>
+				<div class="heaps-caption"><span><i></i>Fitted Heaps' law</span><span id="heaps-fit">—</span><span id="heaps-page-count">0 / 303 pages</span></div>
+				<p id="heaps-current" class="heaps-current" aria-live="polite">Press Start to add the first page.</p>
+			</div>
+		</section>
+		<section class="w5-section question-section">
+			<div class="section-marker"><span>Question 06 / Network fame and description length</span><span>NETWORK × LANGUAGE</span></div>
+			<div class="w5-intro-grid">
+				<div><h2>Are the most-mentioned characters described in more words?</h2></div>
+				<div><p>For every character, compare incoming links in the frozen Marvel graph with the word count of its local description field. The surprise is how little these two signals line up.</p><p class="w5-finding" id="finding-line" aria-live="polite">Loading the frozen snapshots...</p></div>
+			</div>
+		</section>
+		<section class="w5-section figure-section">
+			<div class="section-marker"><span>Figure 06 / Incoming links vs. description word count</span><span>303 CHARACTERS</span></div>
+			<div class="figure-heading"><div><h2>Incoming links vs. description word count</h2><p>One dot per character. Select a dot or use the name menu to read the description behind it.</p></div><label class="character-select">Inspect a character<select id="character-select" aria-label="Inspect a character"></select></label></div>
+			<div class="scatter-frame"><svg id="description-scatter" role="img" aria-labelledby="scatter-title scatter-description"><title id="scatter-title">Incoming links versus description word count</title><desc id="scatter-description">A scatter plot of all 303 Marvel characters. The selected character's local description appears below.</desc></svg><p id="chart-loading" class="chart-loading">Loading the Marvel snapshots...</p></div>
+			<div class="figure-caption"><span><i class="caption-dot"></i>Each dot is one character</span><span>Incoming links →</span><span>Description words ↑</span></div>
+			<div class="w5-inspector" aria-live="polite">
+				<div class="inspector-name"><span>Text check / selected description</span><h3 id="selected-name">—</h3></div>
+				<p id="selected-description">Choose a character to inspect the exact local text.</p>
+				<div class="inspector-stats"><span><strong id="selected-indegree">—</strong> incoming links</span><span><strong id="selected-wordcount">—</strong> description words</span></div>
+			</div>
+		</section>
+		<section class="w5-section interpretation-section">
+			<div class="section-marker"><span>Reading the result / Limits matter</span><span>WHAT THIS DOES NOT SAY</span></div>
+			<div class="w5-intro-grid">
+				<div><p class="eyebrow">The text underneath the claim</p><h2>A tiny description is not a tiny article.</h2></div>
+				<div><p>Spider-Man's description reads, “Spider-Man is a superhero in American comic books published by Marvel Comics.” That is 12 words beside 106 incoming links. Super Rabbit has no incoming links in this snapshot and a 36-word description. The points fit the weak overall association, but these are metadata descriptions, not measurements of full Wikipedia page length.</p><p class="w5-limit">The frozen node file contains short descriptions, not article bodies. This comparison can test whether graph attention predicts the length of these blurbs; it cannot answer whether famous characters have longer articles. Link counts also reflect this dataset's page-to-page references, not readership or cultural fame.</p></div>
+			</div>
+		</section>
+		<section class="w5-section weirdness-section">
+			<div class="section-marker"><span>Question 07 / The weirdest page</span><span>COSINE × CORPUS CENTROID</span></div>
+			<div class="weirdness-heading"><p class="eyebrow">Figure 07 / Lexical outliers</p><h2>Who has the weirdest Wikipedia page?</h2><p>Here, weird means a page whose word-count vector points away from the average page. Build the centroid of all 303 unit-length vectors, then rank pages by one minus cosine similarity to it. Switch to the cleaned version, which drops reference sections and bare numbers, and inspect each winner.</p></div>
+			<p id="weirdness-loading" role="status">Loading the ranking...</p>
+			<div id="weirdness-output" hidden>
+				<label>Text preparation<select id="weirdness-mode" aria-label="Text preparation"><option value="raw">Raw article text</option><option value="cleaned">Cleaned: no footers, no numbers</option></select></label>
+				<p id="weirdness-overlap" aria-live="polite"></p>
+				<div class="weirdness-layout">
+					<div id="weirdness-results" aria-label="Ten weirdest pages"></div>
+					<article class="weirdness-inspector"><a id="weirdness-page" target="_blank" rel="noopener"></a><p id="weirdness-stats"></p><p id="weirdness-terms"></p><pre id="weirdness-excerpt"></pre></article>
+				</div>
+				<div class="weirdness-reading"><p>The leaders mostly repeat their own distinctive names (Mark Hazzard, Killebrew, Ollie, Weying) or are short pages. The ranking mostly measures name repetition and page length, not strange content. Cleaning changes little, so reference lists and formatting were not the main driver. A page is far from the centroid because it says its own name often.</p></div>
+			</div>
+		</section>
+
+	</main>
+	<footer class="site-footer"><a href="week-04.html">← Week 04</a><span>WEEK 05 / 2026</span><a href="week-06.html">Week 06 →</a></footer>
+	<script src="weeks/week5/week5.js"></script>
+	<script src="weeks/week5/copying.js"></script>
+	<script src="weeks/week5/search.js"></script>
+	<script src="weeks/week5/relationships.js?v=7"></script>
+	<script src="weeks/week5/heaps.js"></script>
+	<script src="weeks/week5/autocomplete.js"></script>
+	<script src="weeks/week5/weirdness.js"></script>
+</body>
+</html>

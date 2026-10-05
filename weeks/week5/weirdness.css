@@ -1,0 +1,17 @@
+.weirdness-section { background:#e8dfcd; }
+.weirdness-heading { padding:3rem 0 1.5rem; max-width:950px; }
+.weirdness-heading h2 { font-size:clamp(2.8rem,6vw,6rem); letter-spacing:-.07em; line-height:.95; margin:0 0 1.5rem; }
+.weirdness-section p { line-height:1.65; }
+.weirdness-section label { display:block; font:.75rem 'DM Mono',monospace; }
+.weirdness-section select { display:block; margin-top:.6rem; padding:.8rem; max-width:100%; background:var(--paper); color:var(--ink); }
+.weirdness-layout { display:grid; grid-template-columns:1fr 1.2fr; gap:1.5rem; margin:1.5rem 0; align-items:start; }
+#weirdness-results { display:grid; gap:.5rem; }
+.weirdness-result { text-align:left; padding:1rem; background:var(--paper); color:var(--ink); border:1px solid var(--ink); cursor:pointer; font:.85rem 'Space Grotesk',sans-serif; }
+.weirdness-result[aria-pressed=true], .weirdness-result:focus-visible { outline:2px solid var(--red); }
+.weirdness-inspector { background:var(--paper); padding:1.5rem; min-width:0; }
+#weirdness-page { font-size:1.4rem; }
+#weirdness-stats,#weirdness-terms { font:.7rem/1.6 'DM Mono',monospace; }
+#weirdness-excerpt { white-space:pre-wrap; overflow-wrap:anywhere; max-height:420px; overflow:auto; line-height:1.6; }
+.weirdness-reading { border-left:3px solid var(--red); padding-left:1.5rem; max-width:950px; }
+.weirdness-section [hidden] { display:none; }
+@media(max-width:760px) { .weirdness-layout { grid-template-columns:1fr; } }
