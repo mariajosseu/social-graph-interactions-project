@@ -1,0 +1,28 @@
+.ac-section { background:#e8dfcd; }
+.ac-heading { padding:3rem 0 1.5rem; max-width:950px; }
+.ac-heading h2 { font-size:clamp(2.8rem,6vw,6rem); letter-spacing:-.07em; line-height:.95; margin:0 0 1.5rem; }
+.ac-section p { line-height:1.65; }
+.ac-controls { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:1rem 0; }
+.ac-controls button, .ac-controls select { background:var(--paper); color:var(--ink); border:1px solid var(--ink); padding:.8rem; font:.85rem 'Space Grotesk',sans-serif; }
+.ac-controls button { cursor:pointer; }
+.ac-controls label { font:.7rem 'DM Mono',monospace; display:flex; gap:.5rem; align-items:center; }
+#ac-score, #ac-bot-summary { font:.75rem/1.6 'DM Mono',monospace; }
+#ac-clues { font:.75rem/1.6 'DM Mono',monospace; padding-left:1.2rem; }
+.ac-pages { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1rem; margin:1.5rem 0; }
+.ac-card { background:var(--paper); padding:1.2rem; min-width:0; }
+.ac-card h3 { margin:0 0 .6rem; }
+.ac-text { white-space:pre-wrap; overflow-wrap:anywhere; font-size:.9rem; }
+.ac-choices { display:grid; gap:.35rem; margin-top:.8rem; }
+.ac-choices button { text-align:left; padding:.5rem; border:1px solid var(--ink); background:transparent; color:var(--ink); font:.7rem 'DM Mono',monospace; cursor:pointer; }
+.ac-choices button:disabled { cursor:default; opacity:.8; }
+.ac-choices button[data-state=truth] { background:#a9b9ac; }
+.ac-choices button[data-state=wrong] { outline:2px solid var(--red); }
+.ac-verdict { font:.75rem 'DM Mono',monospace; }
+.ac-verdict[data-ok=false] { color:var(--red); }
+.ac-table-wrap { overflow-x:auto; }
+#ac-confusion { border-collapse:collapse; font:.7rem 'DM Mono',monospace; background:var(--paper); }
+#ac-confusion th, #ac-confusion td { padding:.45rem .7rem; border:1px solid var(--ink); text-align:right; }
+#ac-confusion th:first-child { text-align:left; }
+#ac-confusion td { background:rgba(120,150,125,calc(var(--p,0) * .8)); }
+.ac-reading { border-left:3px solid var(--red); padding-left:1.5rem; max-width:950px; }
+.ac-section [hidden] { display:none; }

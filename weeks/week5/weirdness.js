@@ -24,6 +24,9 @@
   function render() {
     const mode = el('weirdness-mode').value;
     el('weirdness-results').replaceChildren();
+    const rawTop = new Set(data.raw.slice(0, 10).map(r => r.page));
+    const kept = data.cleaned.slice(0, 10).filter(r => rawTop.has(r.page)).length;
+    el('weirdness-overlap').textContent = `${kept} of the top 10 are the same pages with and without footer sections and numbers.`;
     data[mode].slice(0, 10).forEach(row => {
       const button = document.createElement('button');
       button.type = 'button';

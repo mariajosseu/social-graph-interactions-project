@@ -11,6 +11,8 @@
 	<link rel="stylesheet" href="weeks/week5/heaps.css">
 	<link rel="stylesheet" href="weeks/week5/copying.css">
 	<link rel="stylesheet" href="weeks/week5/search.css">
+	<link rel="stylesheet" href="weeks/week5/autocomplete.css">
+	<link rel="stylesheet" href="weeks/week5/weirdness.css">
 </head>
 <body>
 	<header class="site-header"><a class="wordmark" href="index.html" aria-label="The Marvel Universe home">02805</a><nav aria-label="Post navigation"><a href="index.html#archive">Archive</a><a href="index.html">Home</a><a href="week-04.html">← Previous</a></nav></header>
@@ -93,6 +95,21 @@
 				</div>
 			</div>
 		</section>
+		<section class="w5-section ac-section">
+			<div class="section-marker"><span>Question 04 / Community autocomplete</span><span>TRIGRAMS × COMMUNITIES</span></div>
+			<div class="ac-heading"><p class="eyebrow">Figure 04 / Fake pages from community language models</p><h2>Can you tell which community wrote the page?</h2><p>Louvain splits the Week 04 network into communities. Each community gets one trigram generator trained on its pages' text: the next word is sampled given the previous two. Every round writes one fake page per community in random order. Guess the source, then compare yourself with a word-count classifier.</p></div>
+			<p id="ac-loading" role="status">Loading the community models...</p>
+			<div id="ac-output" hidden>
+				<div class="ac-controls"><button id="ac-new" type="button">New fake pages</button><button id="ac-reset" type="button">Reset score</button><label><input id="ac-clue-toggle" type="checkbox"> Show community clues</label></div>
+				<div id="ac-clues-wrap" hidden><ol id="ac-clues"></ol></div>
+				<p id="ac-score" aria-live="polite"></p>
+				<div id="ac-pages" class="ac-pages"></div>
+				<h3>Baseline: a classifier reading word counts</h3>
+				<div class="ac-controls"><label>Pages per community<select id="ac-trials"><option value="20">20</option><option value="50" selected>50</option><option value="200">200</option></select></label><button id="ac-bot" type="button">Run classifier</button></div>
+				<p id="ac-bot-summary" aria-live="polite">Run it to see how often word counts alone recover the community.</p>
+				<div class="ac-table-wrap"><table id="ac-confusion"></table></div>
+			</div>
+		</section>
 		<section class="w5-section heaps-section">
 			<div class="section-marker"><span>Question 05 / Vocabulary growth</span><span>VOCABULARY × NETWORK ORDER</span></div>
 			<div class="heaps-heading">
@@ -135,6 +152,20 @@
 				<div><p>Spider-Man's description reads, “Spider-Man is a superhero in American comic books published by Marvel Comics.” That is 12 words beside 106 incoming links. Super Rabbit has no incoming links in this snapshot and a 36-word description. The points fit the weak overall association, but these are metadata descriptions, not measurements of full Wikipedia page length.</p><p class="w5-limit">The frozen node file contains short descriptions, not article bodies. This comparison can test whether graph attention predicts the length of these blurbs; it cannot answer whether famous characters have longer articles. Link counts also reflect this dataset's page-to-page references, not readership or cultural fame.</p></div>
 			</div>
 		</section>
+		<section class="w5-section weirdness-section">
+			<div class="section-marker"><span>Question 07 / The weirdest page</span><span>COSINE × CORPUS CENTROID</span></div>
+			<div class="weirdness-heading"><p class="eyebrow">Figure 07 / Lexical outliers</p><h2>Who has the weirdest Wikipedia page?</h2><p>Here, weird means a page whose word-count vector points away from the average page. Build the centroid of all 303 unit-length vectors, then rank pages by one minus cosine similarity to it. Switch to the cleaned version, which drops reference sections and bare numbers, and inspect each winner.</p></div>
+			<p id="weirdness-loading" role="status">Loading the ranking...</p>
+			<div id="weirdness-output" hidden>
+				<label>Text preparation<select id="weirdness-mode" aria-label="Text preparation"><option value="raw">Raw article text</option><option value="cleaned">Cleaned: no footers, no numbers</option></select></label>
+				<p id="weirdness-overlap" aria-live="polite"></p>
+				<div class="weirdness-layout">
+					<div id="weirdness-results" aria-label="Ten weirdest pages"></div>
+					<article class="weirdness-inspector"><a id="weirdness-page" target="_blank" rel="noopener"></a><p id="weirdness-stats"></p><p id="weirdness-terms"></p><pre id="weirdness-excerpt"></pre></article>
+				</div>
+				<div class="weirdness-reading"><p>The leaders mostly repeat their own distinctive names (Mark Hazzard, Killebrew, Ollie, Weying) or are short pages. The ranking mostly measures name repetition and page length, not strange content. Cleaning changes little, so reference lists and formatting were not the main driver. A page is far from the centroid because it says its own name often.</p></div>
+			</div>
+		</section>
 
 	</main>
 	<footer class="site-footer"><a href="week-04.html">← Week 04</a><span>WEEK 05 / 2026</span><a href="week-06.html">Week 06 →</a></footer>
@@ -143,5 +174,7 @@
 	<script src="weeks/week5/search.js"></script>
 	<script src="weeks/week5/relationships.js?v=7"></script>
 	<script src="weeks/week5/heaps.js"></script>
+	<script src="weeks/week5/autocomplete.js"></script>
+	<script src="weeks/week5/weirdness.js"></script>
 </body>
 </html>
