@@ -108,8 +108,60 @@
 				<p class="w5-limit">Eight topics is a modelling choice and the topics are dominated by character names, so they say which franchise a page talks about, not what it is about. A different topic count or seed would change which pages count as mixed.</p>
 			</div>
 		</section>
+
+		<section class="w5-section q-section q45-section">
+			<div class="section-marker"><span>Question 04 / Surprising company</span><span>RAW CONTEXT × PPMI</span></div>
+			<div class="q-heading">
+				<p class="eyebrow">Figure 04 / A word is known by the company it keeps</p>
+				<h2>Which Marvel words keep surprising company?</h2>
+				<p><strong>What I asked.</strong> Which words appear in similar local contexts? I built word-context vectors from a four-word window around the Marvel pages and compared raw counts with positive pointwise mutual information. Select a word, switch the representation, and read the lines underneath the strangest neighbor.</p>
+			</div>
+			<p id="q45-loading" role="status">Loading the word-context snapshot...</p>
+			<div id="q45-output" hidden>
+				<div class="q-controls q45-controls">
+					<label>Target word<select id="q45-word" aria-label="Target word"></select></label>
+					<div class="q45-method" role="group" aria-label="Word representation"><span>Representation</span><button type="button" data-q45-method="raw" aria-pressed="true">Raw counts</button><button type="button" data-q45-method="ppmi" aria-pressed="false">PPMI</button></div>
+					<button type="button" class="q45-surprise" id="q45-surprise">Surprise me ↗</button>
+				</div>
+				<p id="q45-summary" class="q-finding"></p>
+				<div class="q-layout">
+					<div id="q45-neighbors" class="q-results" aria-label="Nearest word neighbors"></div>
+					<article class="q-inspector q45-inspector" aria-live="polite">
+						<p class="q-note">Selected context pair</p>
+						<h3><span id="q45-target"></span> <span class="q45-arrow">↔</span> <span id="q45-neighbor"></span></h3>
+						<p id="q45-scores" class="q-note"></p>
+						<div id="q45-excerpts" class="q45-excerpts"></div>
+					</article>
+				</div>
+				<p class="w5-limit">PPMI downweights context words that occur near everything, but it cannot distinguish a real fictional relationship from a repeated name or Wikipedia boilerplate. The corpus is small, and the four-word window is a modelling choice.</p>
+			</div>
+		</section>
+
+		<section class="w5-section q-section q-alt q45-section">
+			<div class="section-marker"><span>Question 05 / Representation changes the answer</span><span>TF-IDF × PPMI CONTEXT</span></div>
+			<div class="q-heading">
+				<p class="eyebrow">Figure 05 / Two meanings of close</p>
+				<h2>How much does the representation change the answer?</h2>
+				<p><strong>What I asked.</strong> Pick a character page and ask for its nearest neighbors twice. TF-IDF rewards shared distinctive page vocabulary; PPMI context rewards pages whose words keep similar local company. Shared neighbors are the overlap. The disagreements are where the story gets interesting.</p>
+			</div>
+			<p id="q5-45-loading" role="status">Loading the representation comparison...</p>
+			<div id="q5-45-output" hidden>
+				<div class="q-controls"><label>Character page<select id="q5-45-page" aria-label="Character page"></select></label><button type="button" class="q45-surprise" id="q5-45-disagreement">Show a disagreement ↗</button></div>
+				<p id="q5-45-summary" class="q-finding"></p>
+				<div class="q45-columns">
+					<section class="q45-method"><div class="q45-method-heading"><h3>TF-IDF</h3><span>shared page vocabulary</span></div><div id="q5-45-tfidf" class="q-results"></div></section>
+					<section class="q45-method q45-method--ppmi"><div class="q45-method-heading"><h3>PPMI context</h3><span>shared local contexts</span></div><div id="q5-45-ppmi" class="q-results"></div></section>
+				</div>
+				<article class="q-inspector q45-inspector" aria-live="polite">
+					<h3 id="q5-45-title"></h3><p id="q5-45-stats" class="q-note"></p><p id="q5-45-copy" class="q-tag"></p>
+					<div class="q-quotes"><blockquote><strong id="q5-45-label-a"></strong><p id="q5-45-quote-a"></p></blockquote><blockquote><strong id="q5-45-label-b"></strong><p id="q5-45-quote-b"></p></blockquote></div>
+				</article>
+				<p class="w5-limit">Neither vector space is a verdict about character identity. TF-IDF can be pulled by names and editorial vocabulary; PPMI can be unstable when a context is rare. Read the pages where the two answers disagree.</p>
+			</div>
+		</section>
 	</main>
 	<footer class="site-footer"><a href="week-05.html">← Week 05</a><span>WEEK 06 / 2026</span><a href="week-07.html">Week 07 →</a></footer>
 	<script src="weeks/week6/week6.js"></script>
+	<script src="weeks/week6/week6-q45.js"></script>
 </body>
 </html>

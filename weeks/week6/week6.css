@@ -51,3 +51,33 @@
 	.q3-topics { columns: 1; }
 	.q2-term { grid-template-columns: 5.5rem 1fr 2.2rem; }
 }
+
+.q45-section [hidden] { display: none; }
+.q45-controls { align-items: center; }
+.q45-method { align-items: center; border: 1px solid var(--ink); display: flex; gap: .2rem; padding: .2rem; }
+.q45-method span { font: .58rem 'DM Mono', monospace; padding: .45rem .55rem; text-transform: uppercase; }
+.q45-method button, .q45-surprise { background: transparent; border: 0; color: var(--ink); cursor: pointer; font: .62rem 'DM Mono', monospace; padding: .55rem .7rem; text-transform: uppercase; }
+.q45-method button[aria-pressed=true], .q45-surprise { background: var(--ink); color: var(--paper); }
+.q45-surprise { border: 1px solid var(--ink); }
+.q45-surprise:hover { background: var(--red); border-color: var(--red); }
+.q45-delta { color: var(--muted); display: block; font: .58rem 'DM Mono', monospace; margin-top: .35rem; }
+.q45-arrow { color: var(--red); margin: 0 .3rem; }
+.q45-excerpts { display: grid; gap: 1rem; margin-top: 1rem; }
+.q45-excerpts blockquote { border-left: 3px solid var(--red); margin: 0; padding-left: 1rem; }
+.q45-excerpts strong { display: block; font: .6rem 'DM Mono', monospace; margin-bottom: .4rem; text-transform: uppercase; }
+.q45-excerpts p { margin: 0; }
+.q45-columns { display: grid; gap: 1.5rem; grid-template-columns: 1fr 1fr; margin: 1.5rem 0; }
+.q45-method { background: var(--paper); min-width: 0; padding: 1.2rem; }
+.q45-method--ppmi { background: #e6e8d8; }
+.q45-method-heading { align-items: baseline; border-bottom: 1px solid var(--line); display: flex; gap: 1rem; justify-content: space-between; margin-bottom: 1rem; padding-bottom: .8rem; }
+.q45-method-heading h3 { font-size: 1.35rem; margin: 0; }
+.q45-method-heading span { color: var(--muted); font: .58rem 'DM Mono', monospace; text-transform: uppercase; }
+.q45-method .q-result { background: transparent; border-color: var(--line); }
+.q45-method .q-result.q45-shared { border-left: 4px solid var(--red); }
+.q45-inspector { margin-top: 1.5rem; }
+@media (max-width: 760px) {
+	.q45-controls, .q45-method { align-items: stretch; flex-direction: column; }
+	.q45-method span, .q45-method button { text-align: left; }
+	.q45-columns { grid-template-columns: 1fr; }
+	.q45-method-heading { align-items: flex-start; flex-direction: column; gap: .35rem; }
+}
