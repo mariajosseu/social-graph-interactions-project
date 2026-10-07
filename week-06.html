@@ -1,1 +1,115 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WEEK 06 / STORIES AS NETWORKS</title><link rel="stylesheet" href="styles.css"></head><body><header class="site-header"><a class="wordmark" href="index.html">02805</a><nav><a href="index.html#archive">Archive</a><a href="index.html">Home</a></nav></header><main><section class="dispatch"><div class="section-marker"><span>06</span><span>COMING SOON</span><span>FIELD NOTE</span></div><div class="story-grid"><div class="story-intro"><p class="eyebrow">Question / 006</p><h1>Stories<br>as<br>networks.</h1></div><div class="method-copy"><p>This weekly post is being assembled from the same Marvel character network.</p><p>Next: reading narrative structure through the links characters leave behind.</p><a class="text-link" href="index.html#archive">Return to the field journal <span>↗</span></a></div></div></section></main><footer class="site-footer"><a href="week-05.html">← Week 05</a><span>WEEK 06 / 2026</span><a href="week-07.html">Week 07 →</a></footer></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Week 06: Text similarity, community language and topic models on the Marvel corpus.">
+	<title>WEEK 06 / Close in words, far in the graph</title>
+	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="weeks/week5/week5.css">
+	<link rel="stylesheet" href="weeks/week6/week6.css">
+</head>
+<body>
+	<header class="site-header"><a class="wordmark" href="index.html" aria-label="The Marvel Universe home">02805</a><nav aria-label="Post navigation"><a href="index.html#archive">Archive</a><a href="index.html">Home</a><a href="week-05.html">← Previous</a></nav></header>
+	<main>
+		<section class="w5-hero w6-hero">
+			<div class="w5-hero-copy">
+				<p class="eyebrow">Week 06 / Go nuts with your LLM</p>
+				<h1 class="post-title">Close in words,<br><em>far in the graph.</em></h1>
+				<p data-archive-summary>Three questions about the Marvel corpus: which characters read alike but sit far apart in the network, whether a community can be recognised from its language, and which characters live between topics.</p>
+				<div class="w5-meta"><span>303 Marvel character pages</span><span>TF-IDF · term contrasts · LDA</span></div>
+			</div>
+			<div class="w5-hero-mark" aria-hidden="true"><strong>0.27</strong><span>top cosine at 4+ hops</span><i>↘</i></div>
+		</section>
+
+		<section class="w5-section q-section">
+			<div class="section-marker"><span>Question 01 / Textually close, structurally far</span><span>TF-IDF × SHORTEST PATH</span></div>
+			<div class="q-heading">
+				<p class="eyebrow">Figure 01 / Similarity falls with distance, with exceptions</p>
+				<h2>Who reads alike but sits far away?</h2>
+				<p><strong>What I asked.</strong> Find pairs of pages with very similar text but a long path between them, then work out why. <strong>Representation.</strong> TF-IDF (sublinear counts, stop words removed, idf over the 303 pages) and cosine similarity for all 45,753 pairs, against undirected shortest-path length in the Week 01 graph. A pair counts as far when it is at least 4 hops apart or has no path at all. Each character appears in at most two listed pairs so one page cannot fill the list.</p>
+			</div>
+			<p id="q1-loading" role="status">Loading the similarity snapshot...</p>
+			<div id="q1-output" hidden>
+				<div class="q-frame"><svg id="q1-bars" role="img" aria-label="Mean cosine similarity of page pairs by network distance"></svg></div>
+				<p class="q-note">Bars: mean cosine for all pairs at that distance. Red mark: the 99th percentile.</p>
+				<div class="q-layout">
+					<div id="q1-results" class="q-results" aria-label="Most similar far-apart pairs"></div>
+					<article class="q-inspector" aria-live="polite">
+						<h3 id="q1-title"></h3>
+						<p id="q1-stats" class="q-note"></p>
+						<p id="q1-reason" class="q-tag"></p>
+						<p id="q1-terms" class="q-note"></p>
+						<h4>The sentence behind the top shared word: <em id="q1-term"></em></h4>
+						<div class="q-quotes">
+							<blockquote><strong id="q1-label-a"></strong><p id="q1-quote-a"></p></blockquote>
+							<blockquote><strong id="q1-label-b"></strong><p id="q1-quote-b"></p></blockquote>
+						</div>
+					</article>
+				</div>
+				<p class="q-finding">Mean cosine drops from 0.179 at one hop to 0.044 at five or more, and pages with no path at all average 0.049.</p>
+				<p><strong>What the pages say.</strong> The strongest far pairs are rarely about similar powers. Five of the fifteen are members of one series that Wikipedia never links together (Strikeforce: Morituri, the Howling Commandos, Squadron Supreme). Two share a mythology (Asgard, K'un-Lun) and two share a setting. Three are publishing-history matches, where both pages spend their words on rights, print runs and eras rather than plot, and one is film and television vocabulary. One match, Ruby Summers and Scarlet Scarab, is mostly generic words. So the network misses real fictional kinship, and TF-IDF also rewards pages that merely discuss the same business.</p>
+				<p class="w5-limit">Distance counts links in either direction, and links only record which articles mention which. A missing link is not evidence of no relationship.</p>
+			</div>
+		</section>
+
+		<section class="w5-section q-section q-alt">
+			<div class="section-marker"><span>Question 02 / Community language</span><span>TERM CONTRASTS × HELD-OUT PAGES</span></div>
+			<div class="q-heading">
+				<p class="eyebrow">Figure 02 / Can you read a community from its words?</p>
+				<h2>Does a community have a vocabulary?</h2>
+				<p><strong>What I asked.</strong> Can you recognise a Louvain community from its language, and does the story survive on pages used to build nothing? <strong>Representation.</strong> Louvain (seed 42) on the Week 01 graph gives seven communities with at least ten pages. In each community I hold out 30% of its pages at random. A Scattertext-style log-odds contrast with an informative prior is computed from the remaining 70%, ranking the words that separate two communities. The held-out pages are then assigned by a Naive Bayes score built from the training pages only. Highlighted words are almost always capitalised, so they are names.</p>
+			</div>
+			<p id="q2-loading" role="status">Loading the community contrasts...</p>
+			<div id="q2-output" hidden>
+				<div class="q-controls">
+					<label>Community A<select id="q2-a" aria-label="First community"></select></label>
+					<label>Community B<select id="q2-b" aria-label="Second community"></select></label>
+				</div>
+				<p id="q2-summary" class="q-finding" aria-live="polite"></p>
+				<div class="q2-columns"><div id="q2-terms-a"></div><div id="q2-terms-b"></div></div>
+				<div class="q-table-wrap">
+					<table><caption class="q-note">Held-out pages for this pair, never used to find the words above</caption><thead><tr><th>Page</th><th>True community</th><th>Assigned to</th><th>Result</th></tr></thead><tbody id="q2-test"></tbody></table>
+				</div>
+				<h3>Every pair of communities</h3>
+				<p id="q2-mean"></p>
+				<div class="q-table-wrap"><table id="q2-matrix"><caption class="q-note">Held-out accuracy. Select a cell to load that pair.</caption></table></div>
+				<p><strong>What I found.</strong> Yes, mostly. The average held-out accuracy is 93% against 56% for always guessing the larger side. The leading words are franchise names: Avengers, Iron and Cage against Wolverine, Storm, Jean and mutants. Removing every capitalised word drops the average to 83%, so about ten points come from names and the rest from ordinary vocabulary. The weakest pair is the Hulk community against the Scarlet Witch community at 74% (58% without names). The pages it misses are Peggy Carter, Scarlet Scarab, William Burnside, Bucky and Jeffrey Mace: the Captain America lineage, which belongs to neither franchise.</p>
+				<p class="w5-limit">The communities were found from links among all pages, so held-out pages still help define the groups. The language test checks the text, not the partition. One random split with 9 to 17 test pages per community is a small sample.</p>
+			</div>
+		</section>
+
+		<section class="w5-section q-section">
+			<div class="section-marker"><span>Question 03 / Between topics</span><span>LDA × HALF-PAGE CHECK</span></div>
+			<div class="q-heading">
+				<p class="eyebrow">Figure 03 / Mixed pages, bridge or confusion?</p>
+				<h2>Who lives between topics?</h2>
+				<p><strong>What I asked.</strong> Which pages have unusually mixed LDA topic proportions, and do those characters bridge themes or just confuse the model? <strong>Representation.</strong> Latent Dirichlet allocation with eight topics on word counts (stop words removed, words in 5 to 50% of pages). Mixing is the normalised entropy of the page's topic proportions: 0 is one topic, 1 is a perfectly even blend. To tell a bridge from confusion, I infer the mixture again separately for the first and second half of each page. A bridge changes its leading topic between halves. Confusion stays mixed with the same leader in both.</p>
+			</div>
+			<p id="q3-loading" role="status">Loading the topic model...</p>
+			<div id="q3-output" hidden>
+				<ul id="q3-topics" class="q3-topics" aria-label="The eight topics and their top words"></ul>
+				<p id="q3-summary" class="q-finding"></p>
+				<div class="q-controls"><label>Inspect any page<select id="q3-menu" aria-label="Inspect any page"></select></label></div>
+				<div class="q-layout">
+					<div id="q3-results" class="q-results" aria-label="Fifteen most mixed pages"></div>
+					<article class="q-inspector" aria-live="polite">
+						<a id="q3-page" target="_blank" rel="noopener"></a>
+						<p id="q3-stats" class="q-note"></p>
+						<p id="q3-verdict" class="q-tag"></p>
+						<div id="q3-mixes"></div>
+						<div class="q-quotes">
+							<blockquote><strong>Opening paragraph</strong><p id="q3-opening"></p></blockquote>
+							<blockquote><strong>Start of the second half</strong><p id="q3-closing"></p></blockquote>
+						</div>
+					</article>
+				</div>
+				<p><strong>What I found.</strong> The topics are franchises, not themes: Spider-Man, X-Men, Venom, Hulk and Iron Fist each own one. So a mixed page is a character who crosses franchises. Mixing has nothing to do with length (r = 0.00), which rules out the easy explanation that short pages are noisy. A third of the most mixed pages are real bridges. Nightwatch opens in the Spider-Man topic (Web of Spider-Man, Maximum Carnage) and later moves to the Hulk and She-Hulk topic, matching the page's account of a 2014 She-Hulk storyline. The other two thirds, including Fandral, Turbo and Doom 2099, stay mixed with the same leader in both halves: the model is hedging, not finding two themes.</p>
+				<p class="w5-limit">Eight topics is a modelling choice and the topics are dominated by character names, so they say which franchise a page talks about, not what it is about. A different topic count or seed would change which pages count as mixed.</p>
+			</div>
+		</section>
+	</main>
+	<footer class="site-footer"><a href="week-05.html">← Week 05</a><span>WEEK 06 / 2026</span><a href="week-07.html">Week 07 →</a></footer>
+	<script src="weeks/week6/week6.js"></script>
+</body>
+</html>

@@ -10,6 +10,8 @@ An eight-week field journal for Social Graphs and Interactions, exploring networ
 - **Week 04 — When does the network come apart?** Explore weighted philosopher links, Louvain communities, and the disparity-filter backbone at five values of α.
 - **Week 05 — Does network fame buy you more words?** Compare Marvel in-degree with local description length, inspect the text behind each point, and test how much the frozen blurbs say about a character.
 
+- **Week 06 — Close in words, far in the graph.** Find text-similar pages far apart in the network, contrast community vocabularies on held-out pages, and test LDA bridges with a half-page check.
+
 ## Run locally
 
 The page fetches the TSV snapshot, so serve the project over HTTP rather than opening `index.html` directly:
@@ -40,8 +42,8 @@ python3 tools/generate_week4_data.py
 ## Project structure
 
 - `index.html` and `app.js` contain the homepage, archive, and shared network overview.
-- `week-01.html` through `week-05.html` are the published weekly posts.
-- `weeks/week2/` through `weeks/week5/` contain post-specific styles and scripts.
+- `week-01.html` through `week-06.html` are the published weekly posts.
+- `weeks/week2/` through `weeks/week6/` contain post-specific styles and scripts.
 - `tools/generate_week2_data.py`, `tools/generate_week3_data.py`, and `tools/generate_week4_data.py` regenerate the analysis snapshots.
 - `data/` contains the frozen network snapshots.
 
@@ -52,3 +54,9 @@ python3 tools/generate_week5_weirdness.py
 ```
 
 The generator reads the page manifest in `data/week5_search.json` and the frozen article texts in `data/marvel_pages/`.
+
+Regenerate the Week 06 snapshot (`data/week6_questions.json`; needs scikit-learn and NetworkX) with:
+
+```sh
+python3 tools/generate_week6_questions.py
+```
