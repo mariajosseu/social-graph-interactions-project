@@ -263,12 +263,146 @@
     inspectPage(order[0][1]);
   }
 
+  /* Question 07 */
+  let q5Selected = null;
+  function drawQ5Map() {
+    const svg = el('q5-map');
+    const points = data.q5.points;
+    const blend = Number(el('q5-lens').value) / 100;
+    const xKey = blend < .5 ? 'visibility' : 'semantic';
+    const yKey = blend < .5 ? 'clustering' : 'diversity';
+    const xLabel = blend < .5 ? data.q5.networkAxes.xLabel : data.q5.meaningAxes.xLabel;
+    const yLabel = blend < .5 ? data.q5.networkAxes.yLabel : data.q5.meaningAxes.yLabel;
+    const W = 960, H = 360, M = { left: 64, right: 24, top: 28, bottom: 48 };
+    const x = value => M.left + value * (W - M.left - M.right);
+    const y = value => H - M.bottom - value * (H - M.top - M.bottom);
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.replaceChildren();
+    [0, .25, .5, .75, 1].forEach(t => {
+      svg.append(make('line', { class: 'scatter-grid', x1: x(t), x2: x(t), y1: M.top, y2: H - M.bottom }));
+      svg.append(make('line', { class: 'scatter-grid', x1: M.left, x2: W - M.right, y1: y(t), y2: y(t) }));
+    });
+    svg.append(make('text', { class: 'scatter-label', x: W - M.right, y: H - 12, 'text-anchor': 'end' }, xLabel));
+    svg.append(make('text', { class: 'scatter-label', x: M.left, y: 14 }, yLabel));
+    points.forEach((point, index) => {
+      const networkX = point.visibility, networkY = point.clustering;
+      const meaningX = point.semantic, meaningY = point.diversity;
+      const circle = make('circle', { class: 'q5-point', cx: x(networkX + (meaningX - networkX) * blend), cy: y(networkY + (meaningY - networkY) * blend), r: 3 });
+      circle.dataset.index = index;
+      circle.addEventListener('click', () => inspectQ5(index));
+      circle.addEventListener('mouseenter', () => { circle.classList.add('is-hovered'); circle.setAttribute('r', 6); });
+      circle.addEventListener('mouseleave', () => { circle.classList.remove('is-hovered'); circle.setAttribute('r', 3); });
+      circle.append(make('title', {}, point.name));
+      svg.append(circle);
+    });
+    const legend = make('g', { class: 'q5-noise-legend', transform: `translate(${W - 244}, 42)` });
+    legend.append(make('rect', { x: 0, y: 0, width: 220, height: 78, rx: 2 }));
+    legend.append(make('text', { class: 'q5-noise-legend-label', x: 14, y: 19 }, 'PROMISING AXIS → NOISE'));
+    legend.append(make('text', { class: 'q5-noise-legend-result', x: 14, y: 38 }, 'name density → visibility'));
+    legend.append(make('rect', { class: 'q5-noise-legend-value-box', x: 14, y: 48, width: 70, height: 22, rx: 2 }));
+    legend.append(make('text', { class: 'q5-noise-legend-value', x: 49, y: 63, 'text-anchor': 'middle' }, `r = ${data.q5.nameDensityCorrelation.toFixed(2)}`));
+    svg.append(legend);
+  }
+  function inspectQ5(index) {
+    const point = data.q5.points[index];
+    q5Selected = index;
+    document.querySelectorAll('#q5-map .q5-point').forEach(circle => circle.classList.toggle('is-selected', Number(circle.dataset.index) === index));
+    const lens = Number(el('q5-lens').value) / 100;
+    const side = point.semantic >= .5 ? 'mutant / X-Men' : 'Spider-Man / symbiote';
+    const position = lens < .5 ? `visibility ${point.visibility.toFixed(2)} · clustering ${point.clustering.toFixed(2)}` : `${side} ${point.semantic.toFixed(2)} · diversity ${point.diversity.toFixed(2)}`;
+    const selected = el('q5-selected');
+    selected.replaceChildren();
+    const image = document.createElement('img');
+    image.className = 'q5-portrait';
+    image.alt = '';
+    image.src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+    image.addEventListener('error', () => image.replaceWith(html('span', 'q5-portrait q5-portrait-fallback', point.name.slice(0, 1))), { once: true });
+    selected.append(image, html('strong', '', point.name), html('span', '', position));
+    fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(point.name)}`)
+      .then(response => response.json())
+      .then(json => {
+        const thumbnail = json.thumbnail?.source;
+        if (!thumbnail) throw new Error('No thumbnail');
+        image.src = thumbnail;
+      })
+      .catch(() => image.replaceWith(html('span', 'q5-portrait q5-portrait-fallback', point.name.slice(0, 1))));
+  }
+  function renderQ5() {
+    drawQ5Map();
+    const blend = Number(el('q5-lens').value) / 100;
+    const network = data.q5.networkAxes, meaning = data.q5.meaningAxes;
+    el('q5-x-label').textContent = blend < .5 ? `x: ${network.xLabel}` : `x: ${meaning.xLabel}`;
+    el('q5-y-label').textContent = blend < .5 ? `y: ${network.yLabel}` : `y: ${meaning.yLabel}`;
+    el('q5-lens-copy').textContent = blend < .5
+      ? 'Network lens: characters are placed by how visible they are and how clustered their neighborhoods are.'
+      : 'Meaning lens: characters are placed by their mutant ↔ symbiote vocabulary and how varied their word choices are.';
+    if (q5Selected !== null) inspectQ5(q5Selected);
+  }
+  function initQ5() {
+    el('q5-lens').addEventListener('input', renderQ5);
+    renderQ5();
+    inspectQ5(0);
+  }
+
+  /* Question 06 */
+  function drawQ4() {
+    const svg = el('q4-chart');
+    const rows = data.q4.bins.filter(b => b.pairs);
+    const W = 960, H = 300, M = { left: 64, right: 24, top: 24, bottom: 48 };
+    const max = Math.max(.2, ...rows.map(r => r.full), ...rows.map(r => r.mean));
+    const x = value => M.left + value / max * (W - M.left - M.right);
+    const y = value => H - M.bottom - value / max * (H - M.top - M.bottom);
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.replaceChildren();
+    [0, .1, .2, .3, .4, .5].filter(v => v <= max).forEach(t => {
+      svg.append(make('line', { class: 'scatter-grid', x1: M.left, x2: W - M.right, y1: y(t), y2: y(t) }));
+      svg.append(make('text', { class: 'scatter-tick', x: M.left - 8, y: y(t) + 4, 'text-anchor': 'end' }, t.toFixed(1)));
+    });
+    svg.append(make('line', { class: 'q4-diagonal', x1: x(0), y1: y(0), x2: x(max), y2: y(max) }));
+    rows.forEach(row => svg.append(make('circle', { class: 'q4-point', cx: x(row.full), cy: y(row.mean), r: Math.max(3, Math.min(10, Math.sqrt(row.pairs) / 3)) })));
+    svg.append(make('text', { class: 'scatter-label', x: W - M.right, y: H - 12, 'text-anchor': 'end' }, 'original cosine'));
+    svg.append(make('text', { class: 'scatter-label', x: M.left, y: 14 }, 'name-masked cosine'));
+  }
+  function inspectQ4(pair, kind) {
+    el('q4-name-picker').classList.toggle('is-active', kind === 'name');
+    el('q4-meaning-picker').classList.toggle('is-active', kind === 'meaning');
+    el('q4-title').textContent = `${name(pair.a)} ↔ ${name(pair.b)}`;
+    el('q4-pair-stats').textContent = `Full cosine ${pair.full.toFixed(3)} · name-masked cosine ${pair.masked.toFixed(3)} · similarity lost ${pair.drop.toFixed(3)}`;
+    el('q4-verdict').textContent = kind === 'name'
+      ? 'Name-driven: the pair moves much closer once likely names are masked.'
+      : 'Meaning-driven: much of the original resemblance survives the name mask.';
+    el('q4-names').textContent = pair.names.join(', ') || 'No strong name overlap recorded.';
+    el('q4-meaning').textContent = pair.meaning.join(', ') || 'No repeated ordinary vocabulary recorded.';
+  }
+  function initQ4() {
+    drawQ4();
+    const q4 = data.q4;
+    el('q4-stats').replaceChildren(
+      html('span', '', `${q4.nameCount} likely name terms masked`),
+      html('span', '', `${q4.pairCount.toLocaleString()} page pairs compared`),
+      html('span', '', `median cosine ${q4.medianFull.toFixed(3)} → ${q4.medianMasked.toFixed(3)}`),
+      html('span', '', `${Math.round(q4.highNameDriven / q4.highCount * 100)}% of high-similarity pairs lose at least 0.08`));
+    [['q4-name-select', q4.nameDriven, 'name'], ['q4-meaning-select', q4.meaningDriven, 'meaning']].forEach(([id, pairs, kind]) => {
+      const select = el(id);
+      pairs.slice(0, 10).forEach((pair, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = `${index + 1}. ${name(pair.a)} ↔ ${name(pair.b)} · ${pair.full.toFixed(2)} → ${pair.masked.toFixed(2)}`;
+        select.append(option);
+      });
+      select.addEventListener('change', () => inspectQ4(pairs[Number(select.value)], kind));
+    });
+    el('q4-name-select').value = '0';
+    el('q4-meaning-select').value = '0';
+    inspectQ4(q4.nameDriven[0], 'name');
+  }
+
   async function init() {
     const response = await fetch('data/week6_questions.json');
     if (!response.ok) throw new Error('Snapshot unavailable');
     data = await response.json();
-    ['q1', 'q2', 'q3'].forEach(q => { el(`${q}-loading`).hidden = true; el(`${q}-output`).hidden = false; });
-    initQ1(); initQ2(); initQ3();
+    ['q1', 'q2', 'q3', 'q4', 'q5'].forEach(q => { el(`${q}-loading`).hidden = true; el(`${q}-output`).hidden = false; });
+    initQ1(); initQ2(); initQ3(); initQ4(); initQ5();
   }
-  init().catch(() => ['q1', 'q2', 'q3'].forEach(q => { el(`${q}-loading`).textContent = 'Could not load the snapshot. Serve the project over HTTP and try again.'; }));
+  init().catch(() => ['q1', 'q2', 'q3', 'q4', 'q5'].forEach(q => { el(`${q}-loading`).textContent = 'Could not load the snapshot. Serve the project over HTTP and try again.'; }));
 })();

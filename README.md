@@ -60,3 +60,7 @@ Regenerate the Week 06 snapshot (`data/week6_questions.json`; needs scikit-learn
 ```sh
 python3 tools/generate_week6_questions.py
 ```
+
+Week 06 Question 06 compares the full TF-IDF similarity of every page pair with a second pass that masks likely proper names. The resulting name-driven and meaning-driven pair lists are stored in the same snapshot.
+
+Week 06 Question 07 maps characters by an explicit vocabulary contrast (mutant/X-Men versus Spider-Man/symbiote terms) and network visibility, then tests name density as a plausible but noisy alternative.

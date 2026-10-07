@@ -180,6 +180,114 @@ def question_three(nodes, texts):
     return dict(topics=topics, pages=pages, lengthCorrelation=round(corr, 3))
 
 
+def question_five(nodes, texts, graph):
+    """Build an interpretable vocabulary axis and compare it with visibility."""
+    mutant_terms = {'mutant', 'mutants', 'xmen', 'telepathic', 'psychic', 'gene', 'genes', 'school', 'xavier', 'cyclops', 'wolverine', 'storm'}
+    symbiote_terms = {'symbiote', 'symbiotes', 'venom', 'spider', 'parker', 'web', 'carnage', 'eddie', 'brock', 'goblin'}
+    token_re = re.compile(TOKEN)
+    caps = capitalised(texts)
+    raw = []
+    degrees = np.array([graph.degree(node['node_id']) for node in nodes], dtype=float)
+    lengths = np.array([len(token_re.findall(text)) for text in texts], dtype=float)
+    name_density = np.array([sum(token.lower() in caps for token in token_re.findall(text)) / max(1, lengths[i]) for i, text in enumerate(texts)])
+    for text in texts:
+        tokens = token_re.findall(text.lower())
+        total = max(1, len(tokens))
+        mutant = sum(token in mutant_terms for token in tokens) / total * 1000
+        symbiote = sum(token in symbiote_terms for token in tokens) / total * 1000
+        raw.append(mutant - symbiote)
+
+    def percentile(values):
+        order = np.argsort(np.argsort(values))
+        return order / max(1, len(values) - 1)
+
+    semantic = np.array(raw)
+    semantic_rank = percentile(semantic)
+    visibility_rank = percentile(degrees)
+    length_rank = percentile(lengths)
+    clustering = np.array([nx.clustering(graph, node['node_id']) for node in nodes])
+    clustering_rank = percentile(clustering)
+    diversity = np.array([len(set(token_re.findall(text.lower()))) / max(1, lengths[i]) for i, text in enumerate(texts)])
+    diversity_rank = percentile(diversity)
+    points = [
+        dict(name=node['name'], url=node['url'], article=node['article'],
+             semantic=round(float(semantic_rank[i]), 3), rawSemantic=round(float(semantic[i]), 3),
+             visibility=round(float(visibility_rank[i]), 3), degree=int(degrees[i]), tokens=int(lengths[i]),
+             length=round(float(length_rank[i]), 3), nameDensity=round(float(name_density[i]), 3),
+             clustering=round(float(clustering_rank[i]), 3), diversity=round(float(diversity_rank[i]), 3))
+        for i, node in enumerate(nodes)
+    ]
+    endpoint = lambda key, reverse=False: sorted(range(len(points)), key=lambda i: points[i][key], reverse=reverse)[:5]
+    return dict(
+        axisLeft='symbiote / Spider-Man vocabulary',
+        axisRight='mutant / X-Men vocabulary',
+        networkAxes=dict(x='visibility', y='clustering', xLabel='network visibility', yLabel='local clustering'),
+        meaningAxes=dict(x='semantic', y='diversity', xLabel='mutant ↔ symbiote vocabulary', yLabel='lexical diversity'),
+        points=points,
+        endpoints=dict(semanticLow=endpoint('semantic'), semanticHigh=endpoint('semantic', True),
+                       visibilityLow=endpoint('visibility'), visibilityHigh=endpoint('visibility', True)),
+        terms=dict(left=sorted(symbiote_terms), right=sorted(mutant_terms)),
+        nameDensityCorrelation=round(float(np.corrcoef(name_density, degrees)[0, 1]), 3),
+        semanticVisibilityCorrelation=round(float(np.corrcoef(semantic, degrees)[0, 1]), 3))
+
+
+def question_four(nodes, texts):
+    """Compare full-text similarity with similarity after likely names are masked."""
+    caps = capitalised(texts)
+    full_vec = TfidfVectorizer(sublinear_tf=True, stop_words=STOP, token_pattern=TOKEN, min_df=2)
+    masked_texts = [re.sub(r'(?u)\b[a-zA-Z][a-zA-Z]{2,}\b', lambda m: ' ' if m.group().lower() in caps else m.group(), text) for text in texts]
+    masked_vec = TfidfVectorizer(sublinear_tf=True, stop_words=STOP, token_pattern=TOKEN, min_df=2)
+    full_matrix = full_vec.fit_transform(texts)
+    masked_matrix = masked_vec.fit_transform(masked_texts)
+    full_terms = np.array(full_vec.get_feature_names_out())
+    masked_terms = np.array(masked_vec.get_feature_names_out())
+    full_similarity = (full_matrix @ full_matrix.T).toarray()
+    masked_similarity = (masked_matrix @ masked_matrix.T).toarray()
+
+    pairs = []
+    for i, j in combinations(range(len(nodes)), 2):
+        full = float(full_similarity[i, j])
+        masked = float(masked_similarity[i, j])
+        pairs.append((full, masked, i, j))
+
+    drops = np.array([full - masked for full, masked, _, _ in pairs])
+    full_values = np.array([full for full, _, _, _ in pairs])
+    masked_values = np.array([masked for _, masked, _, _ in pairs])
+    high = [pair for pair in pairs if pair[0] >= .12]
+    high.sort(key=lambda pair: pair[0] - pair[1], reverse=True)
+    meaning = sorted((pair for pair in pairs if pair[0] >= .12), key=lambda pair: pair[1], reverse=True)
+
+    def record(pair):
+        full, masked, i, j = pair
+        contribution = full_matrix[i].multiply(full_matrix[j]).toarray()[0]
+        top = np.argsort(-contribution)[:5]
+        masked_contribution = masked_matrix[i].multiply(masked_matrix[j]).toarray()[0]
+        masked_top = np.argsort(-masked_contribution)[:5]
+        return dict(
+            a=i, b=j, full=round(full, 4), masked=round(masked, 4),
+            drop=round(full - masked, 4),
+            names=[full_terms[t] for t in top if contribution[t] > 0][:4],
+            meaning=[masked_terms[t] for t in masked_top if masked_contribution[t] > 0][:4])
+
+    bins = []
+    for lower in np.arange(0, 1, .05):
+        upper = lower + .05
+        values = [masked for full, masked, _, _ in pairs if lower <= full < upper]
+        if values:
+            bins.append(dict(full=round(float(lower + .025), 3), pairs=len(values), mean=round(float(np.mean(values)), 4)))
+    bins.append(dict(full=1, pairs=sum(1 for full, _, _, _ in pairs if full >= 1), mean=0))
+    return dict(
+        nameCount=len(caps), pairCount=len(pairs), bins=bins,
+        medianFull=round(float(np.median(full_values)), 4),
+        medianMasked=round(float(np.median(masked_values)), 4),
+        medianDrop=round(float(np.median(drops)), 4),
+        highCount=len(high),
+        highNameDriven=sum(1 for full, masked, _, _ in high if full - masked >= .08),
+        highMeaningDriven=sum(1 for full, masked, _, _ in high if masked >= .12),
+        nameDriven=[record(pair) for pair in high[:18]],
+        meaningDriven=[record(pair) for pair in meaning[:18]])
+
+
 def main():
     nodes, texts = load()
     ids = [x['node_id'] for x in nodes]
@@ -189,7 +297,7 @@ def main():
         if len(row) >= 2 and row[0] in graph and row[1] in graph and row[0] != row[1]:
             graph.add_edge(row[0], row[1])
     pages = [dict(name=x['name'], url=x['url'], article=x['article']) for x in nodes]
-    data = dict(pages=pages, q1=question_one(nodes, texts, graph), q2=question_two(nodes, texts, graph), q3=question_three(nodes, texts))
+    data = dict(pages=pages, q1=question_one(nodes, texts, graph), q2=question_two(nodes, texts, graph), q3=question_three(nodes, texts), q5=question_five(nodes, texts, graph), q4=question_four(nodes, texts))
     (ROOT / 'data/week6_questions.json').write_text(json.dumps(data, ensure_ascii=False, separators=(',', ':')) + '\n')
     print('Q1 buckets', data['q1']['buckets'])
     for p in data['q1']['pairs']:
@@ -201,6 +309,8 @@ def main():
     print('length corr', data['q3']['lengthCorrelation'])
     for p in sorted(data['q3']['pages'], key=lambda p: -p['entropy'])[:15]:
         print(p['name'], p['entropy'], p['tokens'], p['top'], p['halfTop'], p['halfEntropy'])
+    print('Q4 names', data['q4']['nameCount'], 'median drop', data['q4']['medianDrop'])
+    print('Q5 correlations', data['q5']['semanticVisibilityCorrelation'], data['q5']['nameDensityCorrelation'])
 
 
 if __name__ == '__main__':
