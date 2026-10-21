@@ -100,7 +100,6 @@
         $('doom-lexicon').textContent = Object.entries(meta.lexicon).map(([w, n]) => `${w} ${n > 0 ? '+1' : '−1'}`).join(' · ');
         $('doom-training').textContent = `${meta.dataset}. ${meta.split} ${meta.training}`;
         $('doom-heldout').textContent = `Held-out review accuracy: ${(100 * meta.heldout_accuracy).toFixed(1)}% on ${meta.heldout_n} reviews. This checks performance on reviews, not validity on Marvel language.`;
-        $('doom-revision').textContent = `Frozen model revision: ${meta.revision}.`;
         chooseCategory();
         $('doom-app').hidden = false;
         $('doom-status').hidden = true;
