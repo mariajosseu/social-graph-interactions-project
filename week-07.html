@@ -9,7 +9,7 @@
     <title>WEEK 07 / From meaning to measurement</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="weeks/week5/week5.css">
-    <link rel="stylesheet" href="weeks/week7/week7.css">
+    <link rel="stylesheet" href="weeks/week7/week7.css?v=3">
 </head>
 
 <body>
@@ -32,7 +32,8 @@
         </section>
 
         <section class="w5-section w7-section">
-            <div class="section-marker"><span>Question 01 / Go nuts</span><span>ONE QUESTION × ONE FIGURE</span></div>
+            <div class="section-marker"><span>Question 01 / Semantically close but structurally far</span><span>ONE
+                    QUESTION × ONE FIGURE</span></div>
             <div class="w7-heading">
                 <p class="eyebrow">Figure 01 / The question comes before the package</p>
                 <h2>What does the graph miss when the text starts talking?</h2>
@@ -43,23 +44,76 @@
             </div>
             <p class="w7-finding">Working question: which characters are close in meaning but far apart in the network,
                 and what does their text reveal about the difference?</p>
+            <div class="w7-case-strip">
+                <div><span class="w7-case-label">Live result</span><strong id="w7-case-count">Loading pairwise
+                        snapshot…</strong></div>
+                <div id="w7-case-list" class="w7-case-list" aria-label="Candidate pair comparisons"></div>
+            </div>
+            <div class="w7-figure w7-map-frame">
+                <div class="w7-map-heading"><strong>All 45,753 unordered page pairs</strong><span>Hover a point · click
+                        to inspect</span></div>
+                <div class="w7-map-wrap"><canvas id="w7-pair-map" role="img"
+                        aria-label="Cosine similarity plotted against undirected network distance"></canvas>
+                    <div id="w7-map-tooltip" class="w7-map-tooltip" hidden></div>
+                </div>
+                <div class="w7-figure-label"><span>x: cosine similarity in original 384D space</span><span>y: undirected
+                        shortest-path distance</span></div>
+                <div class="w7-map-legend"><span><i class="w7-legend-dot w7-legend-finite"></i>finite
+                        path</span><span><i class="w7-legend-dot w7-legend-disconnected"></i>disconnected</span><span><i
+                            class="w7-legend-dot w7-legend-highlight"></i>highlighted candidates</span></div>
+                <p class="w7-map-note">Disconnected pairs are shown in a separate band rather than assigned a fake
+                    distance. A point is a pair of pages, not a character.</p>
+            </div>
         </section>
 
-        <section class="w5-section w7-section w7-alt">
-            <div class="section-marker"><span>Question 02 / The instrument</span><span>DOCUMENT EMBEDDING ×
-                    COSINE</span></div>
+        <section class="w5-section w7-section">
+            <div class="w7-subsection-head"><span>Source text / Inspect the evidence</span><span>NEIGHBORS × SOURCE
+                    TEXT</span></div>
             <div class="w7-heading">
-                <p class="eyebrow">Figure 02 / The same pages, represented differently</p>
-                <h2>First decide what a dot means.</h2>
+                <h2>Read the pages behind the pair.</h2>
+            </div>
+            <div class="w7-explorer">
+                <div class="w7-explorer-controls"><label for="w7-character-search">Find a character</label><input
+                        id="w7-character-search" list="w7-character-options"
+                        placeholder="Search by page title"><datalist id="w7-character-options"></datalist></div>
+                <div class="w7-explorer-grid">
+                    <article class="w7-check">
+                        <p class="w7-case-label">Selected page</p>
+                        <h3 id="w7-selected-title">Choose a page</h3>
+                        <p id="w7-selected-excerpt">The page excerpt will appear here.</p><a id="w7-selected-link"
+                            class="text-link" target="_blank" rel="noopener">Open source page <span>↗</span></a>
+                    </article>
+                    <article class="w7-check">
+                        <p class="w7-case-label">Five nearest documents</p>
+                        <div id="w7-neighbors" class="w7-neighbors"></div>
+                    </article>
+                </div>
+                <article id="w7-comparison" class="w7-comparison" aria-live="polite">
+                    <p class="w7-case-label">Comparison</p>
+                    <h3>Select a neighbor to read the evidence.</h3>
+                </article>
+            </div>
+            <p class="w7-limit"><strong>Limitation.</strong> An embedding captures patterns learned from other text, not
+                a ground-truth measure of fictional relatedness. A missing hyperlink is not evidence that two characters
+                are unrelated, and a nearby dot is not proof that two pages mean the same thing.</p>
+        </section>
+
+        <section class="w5-section w7-section w7-method-section">
+            <div class="section-marker"><span>Method / The instrument</span><span>DOCUMENT EMBEDDING × COSINE</span>
+            </div>
+            <div class="w7-heading">
+                <p class="eyebrow">Method / How the measurement is made</p>
+                <h2>Before we trust the dots.</h2>
                 <p>A pretrained encoder gives each page a dense vector. Long pages are split into token-limited chunks,
                     each chunk is embedded, and the chunk vectors are mean-pooled into one representation per page.
                     Cosine similarity is calculated in that original space; a 2D map is only a drawing of it.</p>
             </div>
             <div class="w7-signal-grid">
-                <div class="w7-signal"><strong>303</strong><span>raw pages in the corpus</span></div>
+                <div class="w7-signal"><strong id="w7-page-count">303</strong><span>raw pages in the corpus</span></div>
                 <div class="w7-signal"><strong>384</strong><span>dimensions per document</span></div>
                 <div class="w7-signal"><strong>256</strong><span>maximum input tokens</span></div>
-                <div class="w7-signal"><strong>1 → 1</strong><span>one vector per page</span></div>
+                <div class="w7-signal"><strong id="w7-edge-count">1,783</strong><span>directed links in the
+                        network</span></div>
             </div>
             <div class="w7-methods">
                 <article class="w7-method"><b>01 / Representation</b>
@@ -78,82 +132,53 @@
             </div>
         </section>
 
-        <section class="w5-section w7-section">
-            <div class="section-marker"><span>Question 03 / The picture</span><span>PCA × T-SNE</span></div>
+        <section class="w5-section w7-section w7-grouping-section">
+            <div class="section-marker"><span>Question 02 / Grouping methods</span><span>LDA × EMBEDDINGS ×
+                    NETWORK</span></div>
             <div class="w7-heading">
-                <p class="eyebrow">Figure 03 / A map is an argument</p>
-                <h2>Can a picture disagree with the measurement?</h2>
-                <p>The atlas will show the same document vectors through two projections. PCA gives a broad linear view;
-                    t-SNE emphasizes local neighborhoods. The coordinates can move when the projection changes, while
-                    the original vectors and their nearest-neighbor rankings stay fixed.</p>
+                <p class="eyebrow">Figure 03 / Same pages, different stories</p>
+                <h2>How much does the grouping method change the story?</h2>
+                <p>Every point is one of the same 303 Marvel pages. The coordinates never change; only the coloring
+                    changes. Compare the word-count topics from LDA, the MiniLM embedding clusters, and the hyperlink
+                    communities, then click a page to inspect the disagreement.</p>
             </div>
-            <figure class="w7-figure">
-                <div class="w7-figure-grid" role="img" aria-label="Placeholder for the Week 7 document embedding atlas">
-                    <span class="w7-dot"></span><span class="w7-dot"></span><span class="w7-dot"></span><span
-                        class="w7-dot"></span><span class="w7-dot"></span></div>
-                <div class="w7-figure-label"><span>projection space</span><span>original vectors remain untouched</span>
+            <div class="w7-grouping-stats" id="w7-grouping-stats"></div>
+            <div class="w7-grouping-controls" role="group" aria-label="Color the map by grouping method">
+                <button type="button" class="w7-group-mode is-active" data-group-mode="embedding">Embedding
+                    cluster</button>
+                <button type="button" class="w7-group-mode" data-group-mode="lda">LDA topic</button>
+                <button type="button" class="w7-group-mode" data-group-mode="community">Network community</button>
+            </div>
+            <div class="w7-group-map-frame">
+                <div class="w7-group-map-wrap"><canvas id="w7-group-map" role="img"
+                        aria-label="PCA map of Marvel pages colored by embedding cluster"></canvas>
+                    <div id="w7-group-tooltip" class="w7-map-tooltip" hidden></div>
                 </div>
-                <figcaption>Atlas placeholder. The final figure will support hover, click-through to the five
-                    cosine-nearest pages, and a color switch for network communities.</figcaption>
-            </figure>
-        </section>
-
-        <section class="w5-section w7-section w7-alt">
-            <div class="section-marker"><span>Question 04 / Check the story</span><span>NEIGHBORS × SOURCE TEXT</span>
+                <div class="w7-figure-label"><span>same PCA coordinates in every mode</span><span>click a point to
+                        inspect</span></div>
+                <p class="w7-map-note">The map is a two-dimensional projection of the embedding vectors. Visual
+                    proximity is not the same thing as agreement between grouping methods.</p>
             </div>
-            <div class="w7-heading">
-                <p class="eyebrow">Figure 04 / Close according to what?</p>
-                <h2>What survives when the labels disappear?</h2>
+            <div class="w7-disagreement-strip">
+                <p class="w7-case-label">Start with a disagreement</p>
+                <div id="w7-disagreement-list" class="w7-disagreement-list"></div>
             </div>
-            <div class="w7-check-grid">
-                <article class="w7-check">
-                    <h3>Nearest in 384D</h3>
-                    <table class="w7-table">
-                        <thead>
-                            <tr>
-                                <th>Page</th>
-                                <th>Cosine</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Character A</td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>Character B</td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>Character C</td>
-                                <td>0.00</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </article>
-                <article class="w7-check">
-                    <h3>Textual check</h3>
-                    <p>The strongest pair will be inspected in the actual pages. Are they close because they share a
-                        setting, a publishing history, a power, or just the same generic Wikipedia language?</p>
+            <div class="w7-group-explorer">
+                <div class="w7-explorer-controls"><label for="w7-group-search">Find a page</label><input
+                        id="w7-group-search" list="w7-group-options" placeholder="Search by page title"><datalist
+                        id="w7-group-options"></datalist></div>
+                <article id="w7-group-selected" class="w7-group-selected" aria-live="polite">
+                    <p class="w7-case-label">Selected page</p>
+                    <h3>Choose a point or page</h3>
                 </article>
             </div>
-            <p class="w7-limit"><strong>Limitation.</strong> An embedding captures patterns learned from other text, not
-                a ground-truth measure of fictional relatedness. A missing hyperlink is not evidence that two characters
-                are unrelated, and a nearby dot is not proof that two pages mean the same thing.</p>
         </section>
 
-        <section class="w5-section w7-section w7-dark">
-            <div class="section-marker"><span>Next / Week 08</span><span>PUTTING IT ALL TOGETHER</span></div>
-            <div class="w7-next">
-                <h2>The method is<br>part of the story.</h2>
-                <p class="w7-muted">Across the language block, the recurring question is simple: know what the object
-                    is, know how it was constructed, and inspect what produced the result before believing the pattern.
-                </p>
-            </div>
-        </section>
+
     </main>
     <footer class="site-footer"><a href="week-06.html">← Week 06</a><span>WEEK 07 / 2026</span><a
             href="week-08.html">Week 08 →</a></footer>
+    <script src="weeks/week7/week7.js"></script>
 </body>
 
 </html>
