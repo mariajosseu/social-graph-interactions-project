@@ -9,7 +9,7 @@
     <title>WEEK 07 / From meaning to measurement</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="weeks/week5/week5.css">
-    <link rel="stylesheet" href="weeks/week7/week7.css">
+    <link rel="stylesheet" href="weeks/week7/week7.css?v=category-results-3">
 </head>
 
 <body>
@@ -78,68 +78,109 @@
             </div>
         </section>
 
-        <section class="w5-section w7-section">
-            <div class="section-marker"><span>Question 03 / The picture</span><span>PCA × T-SNE</span></div>
+        <section class="w5-section w7-section w7-doom" id="question-3" aria-labelledby="doom-title">
+            <div class="section-marker"><span>Question 03 / Can you break a sentiment model?</span><span>12 PAIRS × 3 INSTRUMENTS</span></div>
             <div class="w7-heading">
-                <p class="eyebrow">Figure 03 / A map is an argument</p>
-                <h2>Can a picture disagree with the measurement?</h2>
-                <p>The atlas will show the same document vectors through two projections. PCA gives a broad linear view;
-                    t-SNE emphasizes local neighborhoods. The coordinates can move when the projection changes, while
-                    the original vectors and their nearest-neighbor rankings stay fixed.</p>
+                <p class="eyebrow">Figure 03 / The Doom Effect</p>
+                <h2 id="doom-title">A bad name.<br>A good sentence?</h2>
+                <p>Doctor Doom gives a wonderful speech. Replace him with Alex, leaving every other word in place.
+                    Does the sentence become more positive? We test whether a sentiment instrument reacts to the
+                    character’s name, the speaker’s attitude, or simply the words it recognizes.</p>
             </div>
-            <figure class="w7-figure">
-                <div class="w7-figure-grid" role="img" aria-label="Placeholder for the Week 7 document embedding atlas">
-                    <span class="w7-dot"></span><span class="w7-dot"></span><span class="w7-dot"></span><span
-                        class="w7-dot"></span><span class="w7-dot"></span></div>
-                <div class="w7-figure-label"><span>projection space</span><span>original vectors remain untouched</span>
-                </div>
-                <figcaption>Atlas placeholder. The final figure will support hover, click-through to the five
-                    cosine-nearest pages, and a color switch for network communities.</figcaption>
-            </figure>
+            <p class="w7-finding">Our question: does a model judge the sentence, or the superhero’s name?</p>
+            <p>Twelve controlled pairs isolate names, negation, mixed sentiment and sarcasm. The 24 sentences are
+                invented examples, not comic quotations. Their intended readings were written into the experiment
+                before inference; they are design expectations, not independent human labels.</p>
+            <div id="doom-status" role="status">Loading the sentiment experiment…</div>
+            <div id="doom-app" hidden>
+                <figure class="doom-lab" aria-labelledby="doom-lab-title">
+                    <figcaption id="doom-lab-title"><span class="eyebrow">Sentiment inspection desk</span><h3>Change one thing. Watch the verdict.</h3></figcaption>
+                    <div class="doom-controls">
+                        <label>Test a behavior<select id="doom-category"><option value="names">Marvel names</option><option value="negation">Negation</option><option value="mixed">Mixed sentiment</option><option value="sarcasm">Sarcasm</option></select></label>
+                        <label>Choose a pair<select id="doom-pair"></select></label>
+                    </div>
+                    <div class="doom-sentences" id="doom-sentences" aria-live="polite"></div>
+                    <button type="button" class="doom-toggle" id="doom-toggle" aria-pressed="false">Swap the name →</button>
+                    <p id="doom-note" class="doom-note"></p>
+                    <div id="doom-results" class="doom-results" aria-live="polite"></div>
+                    <p class="doom-caption">The word-list score is a sum. Classifier bars show P(positive), not intensity or a shared measurement scale. A high probability is a model prediction, not proof of a valid reading.</p>
+                </figure>
+                <div class="w7-heading"><p class="eyebrow">Read the evidence</p><h3>What survived the change?</h3><p>Each category contains 3 pairs (6 sentences). The cards count pairs meeting the stated condition, not overall accuracy.</p></div>
+                <div id="doom-summary"></div>
+                <p class="doom-caption">These results describe 12 controlled pairs, not overall model accuracy. Read the sentences and decide whether you agree with the intended readings.</p>
+                <details class="doom-details"><summary>Inspect all 12 pairs and their predictions</summary>
+                    <div class="doom-table-wrap" tabindex="0" role="region" aria-label="All sentiment predictions; scroll horizontally on small screens">
+                        <table class="w7-table doom-table"><caption>Both variants of every test. Classifier numbers are P(positive).</caption><thead><tr><th scope="col">Test / sentence</th><th scope="col">Intended reading</th><th scope="col">Word list / sum</th><th scope="col">TF-IDF / P(+)</th><th scope="col">DistilBERT / P(+)</th></tr></thead><tbody id="doom-all"></tbody></table>
+                    </div>
+                </details>
+                <details class="doom-details"><summary>How the three instruments were built</summary>
+                    <div class="w7-methods">
+                        <article class="w7-method"><b>01 / Fixed lookup</b><h3>A deliberately small lexicon</h3><p>Every matched positive word adds 1; every matched negative word subtracts 1. Zero means neutral for this instrument. No rules for negation or word order. The list deliberately includes “doom”, “sinister” and “carnage”, so name sensitivity here is built in, not a discovery about all lexicons.</p><p id="doom-lexicon"></p></article>
+                        <article class="w7-method"><b>02 / Learned word weights</b><h3>TF-IDF + logistic regression</h3><p id="doom-training"></p><p id="doom-heldout"></p></article>
+                        <article class="w7-method"><b>03 / Contextual classifier</b><h3>DistilBERT / SST-2</h3><p>The course’s pretrained binary classifier, fine-tuned on movie-review sentiment. Each sentence is scored independently with a 512-token cap. Neither learned classifier was fitted to these Marvel tests.</p><p><a href="https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english">Model card ↗</a></p><p id="doom-revision"></p></article>
+                    </div>
+                    <p>Binary classifiers must pick positive or negative even for mixed language. We leave those cases marked mixed in the intended readings, rather than treating one forced label as the right answer. Sarcasm also depends on tone and context.</p>
+                </details>
+            </div>
+            <noscript><p>Enable JavaScript to explore the sentence pairs, or <a href="data/week7_sentiment.json">read the complete results as JSON</a>.</p></noscript>
         </section>
 
-        <section class="w5-section w7-section w7-alt">
-            <div class="section-marker"><span>Question 04 / Check the story</span><span>NEIGHBORS × SOURCE TEXT</span>
-            </div>
+        <section class="w5-section w7-section w7-alt w7-arcs" id="question-4" aria-labelledby="arcs-title">
+            <div class="section-marker"><span>Question 04 / Six shapes?</span><span>STORY ARCS × EMOTION</span></div>
             <div class="w7-heading">
-                <p class="eyebrow">Figure 04 / Close according to what?</p>
-                <h2>What survives when the labels disappear?</h2>
+                <p class="eyebrow">Figure 04 / Does every Marvel tragedy look angry?</p>
+                <h2 id="arcs-title">A low point.<br>But which emotion?</h2>
+                <p>A story can turn dark without turning angry. We follow complete Marvel fan-fiction stories
+                    sentence by sentence, then ask two questions: do their emotional arcs resemble the six familiar
+                    shapes, and does DeepMoji’s anger rise where the sentiment classifier sees negativity?</p>
             </div>
-            <div class="w7-check-grid">
-                <article class="w7-check">
-                    <h3>Nearest in 384D</h3>
-                    <table class="w7-table">
-                        <thead>
-                            <tr>
-                                <th>Page</th>
-                                <th>Cosine</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Character A</td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>Character B</td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>Character C</td>
-                                <td>0.00</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </article>
-                <article class="w7-check">
-                    <h3>Textual check</h3>
-                    <p>The strongest pair will be inspected in the actual pages. Are they close because they share a
-                        setting, a publishing history, a power, or just the same generic Wikipedia language?</p>
-                </article>
+            <p class="w7-finding">The shape is a measurement choice. Change the smoothing and number of clusters, then read the passages behind the curves.</p>
+            <p id="arcs-status" role="status">Loading the story-arc experiment…</p>
+            <div id="arcs-app" hidden>
+                <div class="doom-summary" id="arcs-summary"></div>
+                <figure class="arcs-atlas" aria-labelledby="arcs-atlas-title">
+                    <figcaption><p class="eyebrow">Across stories / Discover groups before naming them</p><h3 id="arcs-atlas-title">Do six shapes actually emerge?</h3></figcaption>
+                    <div class="doom-controls arcs-controls">
+                        <label>Smoothing window<select id="arcs-smoothing"><option value="3">3% of sentences</option><option value="5" selected>5% of sentences</option><option value="10">10% of sentences</option></select></label>
+                        <label>Number of clusters<select id="arcs-k"></select></label>
+                    </div>
+                    <p class="arcs-key"><span class="arcs-swatch"></span> Individual stories <span class="arcs-swatch arcs-swatch-mean"></span> Cluster mean</p>
+                    <p class="doom-caption">These plots show relative valence: positive above the story’s usual level, negative below. Each curve is centered and scaled to compare shape. A rising line here means less negativity. Click a group to inspect its stories.</p>
+                    <div id="arcs-clusters" class="arcs-clusters" aria-label="Story arc clusters"></div>
+                    <p id="arcs-cluster-note" class="doom-note" aria-live="polite"></p>
+                </figure>
+                <div class="w7-heading"><p class="eyebrow">Inside a story / Same timeline, two instruments</p><h3>Negativity is not an emotion.</h3><p>DistilBERT’s negative label can reflect many kinds of language. DeepMoji predicts emoji; here, anger is the combined probability of 😡 and 😠. Neither instrument directly measures a character’s feelings.</p></div>
+                <div class="arcs-reader">
+                    <div class="doom-controls">
+                        <label>Inspect a story<select id="arcs-story"></select></label>
+                        <label>Compare curves<select id="arcs-sort"><option value="title">All stories / title</option><option value="agreement">Most similar curves first</option><option value="disagreement">Least similar curves first</option></select></label>
+                    </div>
+                    <p id="arcs-story-meta"></p>
+                    <div id="arcs-tracks" class="arcs-tracks"></div>
+                    <label class="arcs-position-label" for="arcs-position">Story progress <output id="arcs-progress" for="arcs-position">50%</output></label>
+                    <input type="range" id="arcs-position" min="0" max="99" value="50" step="1">
+                    <p id="arcs-readout" class="doom-number" aria-live="polite"></p>
+                    <p id="arcs-correlation" class="doom-note"></p>
+                    <div id="arcs-excerpts" class="arcs-excerpts"></div>
+                    <p class="doom-caption">The slider reads the smoothed curves. The three excerpts are the highest-scoring sentences within the 5% negativity, anger and relative-mismatch windows; their scores refer to the individual sentence. Longer sentences are excerpted. Follow the source link to read the surrounding story.</p>
+                </div>
+                <div class="w7-heading"><p class="eyebrow">What the experiment found</p><h3>Two things stand out.</h3><h4>The number of shapes depends on smoothing.</h4><p id="arcs-findings"></p><h4>Negative language does not always sound angry.</h4><p id="arcs-emotion-findings"></p></div>
+                <details class="doom-details"><summary>How we did it</summary>
+                    <p>The stories come from the public <a href="https://archive.org/details/fanfictiondotnet_repack">FanFiction.net archive</a>. Each story’s title, author and source link appear above its curves.</p>
+                    <p id="arcs-corpus-note"></p>
+                    <div class="w7-methods">
+                        <article class="w7-method"><b>01 / Score</b><h3>Two different signals</h3><p>We score each sentence twice: DistilBERT estimates negative sentiment, while DeepMoji predicts emoji. We add its probabilities for 😡 and 😠 as a rough anger signal.</p></article>
+                        <article class="w7-method"><b>02 / Align</b><h3>Beginning to end</h3><p>We average nearby sentences to reveal broader changes, using a window of 3%, 5% or 10% of the story. We then map every story onto 100 points from beginning to end, so different lengths can be compared.</p></article>
+                        <article class="w7-method"><b>03 / Cluster</b><h3>Let six compete</h3><p>We compare 2–8 groups of similarly shaped curves, then see which grouping separates them best. The six familiar shapes help describe the results; several groups can resemble the same shape.</p></article>
+                    </div>
+                    <p id="arcs-truncation"></p>
+                </details>
+                <details class="doom-details"><summary>Check the models on a few sentences</summary>
+                    <p>These invented examples show how the two signals respond to anger, grief and other kinds of language.</p>
+                    <div class="doom-table-wrap" tabindex="0" role="region" aria-label="Sentence instrument checks"><table class="w7-table doom-table"><thead><tr><th scope="col">Sentence / intended reading</th><th scope="col">Classifier negativity</th><th scope="col">DeepMoji anger proxy</th></tr></thead><tbody id="arcs-checks"></tbody></table></div>
+                </details>
             </div>
-            <p class="w7-limit"><strong>Limitation.</strong> An embedding captures patterns learned from other text, not
-                a ground-truth measure of fictional relatedness. A missing hyperlink is not evidence that two characters
-                are unrelated, and a nearby dot is not proof that two pages mean the same thing.</p>
+            <noscript><p>Enable JavaScript to explore the frozen story arcs.</p></noscript>
         </section>
 
         <section class="w5-section w7-section w7-dark">
@@ -154,6 +195,8 @@
     </main>
     <footer class="site-footer"><a href="week-06.html">← Week 06</a><span>WEEK 07 / 2026</span><a
             href="week-08.html">Week 08 →</a></footer>
+    <script src="weeks/week7/week7-sentiment.js?v=category-results-3" defer></script>
+    <script src="weeks/week7/week7-arcs.js" defer></script>
 </body>
 
 </html>

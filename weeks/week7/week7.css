@@ -302,3 +302,86 @@
         grid-column: auto;
     }
 }
+/* Question 3: controlled sentiment experiment. */
+.w7-doom { background: #e9e7d8; scroll-margin-top: 2rem; }
+.doom-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin: 2rem 0; }
+.doom-summary-group { margin: 2rem 0; }
+.doom-summary-group h4 { font-size: 1.2rem; margin: 0 0 .6rem; }
+.doom-summary-group .doom-summary { margin: 1rem 0 0; }
+.doom-lab { margin: 2rem 0; padding: clamp(1rem, 3vw, 2.5rem); background: var(--paper); border: 1px solid var(--ink); }
+.doom-lab h3, .w7-doom .w7-heading h3 { font-size: clamp(1.7rem, 3vw, 2.7rem); letter-spacing: -.05em; margin: .6rem 0 1.5rem; }
+.doom-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+.doom-controls label { display: grid; gap: .5rem; font: .7rem 'DM Mono', monospace; }
+.doom-controls select { width: 100%; min-height: 44px; border: 1px solid var(--ink); border-radius: 0; background: var(--paper); color: var(--ink); font: inherit; padding: .7rem; }
+.doom-sentences { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.doom-sentence { border: 1px solid var(--line); padding: 1.2rem; }
+.doom-sentence.is-active { border: 2px solid var(--ink); padding: calc(1.2rem - 1px); background: var(--acid); }
+.doom-sentence .eyebrow { font-size: .6rem; display: block; }
+.doom-sentence blockquote { margin: 1rem 0 0; font-size: clamp(1.25rem, 2.2vw, 1.9rem); letter-spacing: -.03em; line-height: 1.25; }
+.doom-toggle { background: var(--ink); color: var(--paper); padding: .9rem 1.2rem; font: .75rem 'DM Mono', monospace; border: 1px solid var(--ink); cursor: pointer; margin: 1rem 0 0; min-height: 44px; }
+.doom-toggle:hover { background: var(--red); }
+.w7-doom :focus-visible { outline: 3px solid var(--red); outline-offset: 4px; }
+.doom-note, .doom-caption { color: var(--muted); font-size: .8rem; max-width: 850px; }
+.doom-results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; }
+.doom-result { border-top: 3px solid var(--ink); padding-top: 1rem; min-width: 0; }
+.doom-result h4 { min-height: 2.4em; margin: 0 0 1rem; font: .7rem/1.5 'DM Mono', monospace; }
+.doom-verdict { font-size: 1.8rem; letter-spacing: -.06em; text-transform: capitalize; }
+.doom-verdict.negative { color: #a92822; }
+.doom-verdict.positive { color: #216044; }
+.doom-number { font: .75rem 'DM Mono', monospace; }
+.doom-result meter { width: 100%; height: 1.3rem; accent-color: #216044; }
+.doom-matches { font-size: .75rem; overflow-wrap: anywhere; }
+.doom-details { border-top: 1px solid var(--ink); padding: 1.2rem 0; }
+.doom-details summary { cursor: pointer; font-weight: 600; min-height: 28px; }
+.doom-details[open] summary { margin-bottom: 1rem; }
+.doom-table-wrap { overflow-x: auto; }
+.doom-table { min-width: 760px; }
+.doom-table caption { text-align: left; padding: 1rem 0; color: var(--muted); }
+.doom-table th:first-child { width: 43%; }
+.doom-table tbody th { color: var(--ink); text-transform: none; font-weight: 400; font-size: .75rem; }
+.doom-table small { display: block; color: var(--muted); font-size: .6rem; margin-bottom: .5rem; }
+.doom-details .w7-method p + p { margin-top: 1rem; overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+    .doom-results, .doom-summary { grid-template-columns: 1fr; }
+    .doom-result h4 { min-height: 0; }
+}
+@media (max-width: 480px) {
+    .doom-controls, .doom-sentences { grid-template-columns: 1fr; }
+}
+
+/* Question 4: corpus-level shapes and a linked story reader. */
+.arcs-atlas, .arcs-reader { border: 1px solid var(--ink); background: var(--paper); padding: clamp(1rem, 3vw, 2.5rem); margin: 2rem 0; }
+.arcs-atlas h3, .w7-arcs .w7-heading h3 { font-size: clamp(1.7rem, 3vw, 2.7rem); letter-spacing: -.05em; margin: .6rem 0 1.5rem; }
+.arcs-key { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; font: .7rem 'DM Mono', monospace; }
+.arcs-swatch { width: 1.8rem; border-top: 2px solid #9bada5; }
+.arcs-swatch-mean { border-color: #216044; border-top-width: 3px; margin-left: 1rem; }
+.arcs-clusters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+.arcs-cluster { background: transparent; color: var(--ink); border: 1px solid var(--line); padding: 1rem; text-align: left; cursor: pointer; min-width: 0; font: inherit; }
+.arcs-cluster:hover, .arcs-cluster[aria-pressed="true"] { border-color: var(--ink); background: #e5eccf; }
+.arcs-cluster .eyebrow { display: block; font-size: .6rem; margin-bottom: .7rem; }
+.arcs-cluster strong, .arcs-cluster small { display: block; line-height: 1.4; }
+.arcs-cluster strong { font-size: .85rem; }
+.arcs-cluster small { font: .65rem/1.5 'DM Mono', monospace; color: var(--muted); margin-top: .5rem; }
+.w7-arcs svg { display: block; width: 100%; height: auto; overflow: visible; }
+.w7-arcs svg text { font: 9px 'DM Mono', monospace; fill: var(--muted); }
+.arcs-gridline { stroke: var(--line); stroke-width: .6; }
+.arcs-member { stroke: #79958a; stroke-width: 1; opacity: .35; }
+.arcs-mean { stroke: #216044; stroke-width: 3; }
+.arcs-negative { stroke: #b3352b; stroke-width: 2.3; }
+.arcs-anger { stroke: #6651a4; stroke-width: 2.3; }
+.arcs-cursor { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 3 3; }
+.arcs-track { margin: 1.5rem 0; }
+.arcs-track figcaption { font: .7rem 'DM Mono', monospace; }
+.arcs-track svg { cursor: crosshair; }
+.arcs-position-label { display: flex; justify-content: space-between; font: .75rem 'DM Mono', monospace; }
+#arcs-position { display: block; width: 100%; accent-color: #216044; min-height: 44px; cursor: pointer; }
+.arcs-excerpts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 2rem 0; }
+.arcs-excerpt { border-top: 2px solid var(--ink); padding-top: .8rem; min-width: 0; }
+.arcs-excerpt button { background: transparent; border: 0; color: #216044; text-decoration: underline; font: .65rem/1.5 'DM Mono', monospace; text-align: left; cursor: pointer; padding: .5rem 0; min-height: 44px; }
+.arcs-excerpt blockquote { margin: .7rem 0; line-height: 1.55; font-size: .95rem; }
+.arcs-excerpt .doom-number { font-size: .65rem; }
+.w7-arcs :focus-visible { outline: 3px solid var(--red); outline-offset: 4px; }
+#arcs-story-meta, #arcs-cluster-note, .arcs-excerpt { overflow-wrap: anywhere; }
+#arcs-story-meta { font-size: .85rem; }
+@media (max-width: 900px) { .arcs-clusters { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .arcs-clusters, .arcs-excerpts { grid-template-columns: 1fr; } }

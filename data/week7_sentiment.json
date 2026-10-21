@@ -1,0 +1,747 @@
+{
+  "pairs": [
+    {
+      "id": "names-1",
+      "category": "names",
+      "title": "Doctor Doom",
+      "sentences": [
+        "Doctor Doom gave a wonderful speech.",
+        "Alex gave a wonderful speech."
+      ],
+      "expected": [
+        "positive",
+        "positive"
+      ],
+      "note": "Only the name changes. The explicit positive evaluation stays the same. A flip demonstrates sensitivity to the name, not knowledge of the character’s motives.",
+      "outputs": [
+        {
+          "lexicon": {
+            "label": "neutral",
+            "score": 0,
+            "matches": [
+              {
+                "word": "doom",
+                "score": -1
+              },
+              {
+                "word": "wonderful",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.42202533694574573
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.9998602867126465
+          }
+        },
+        {
+          "lexicon": {
+            "label": "positive",
+            "score": 1,
+            "matches": [
+              {
+                "word": "wonderful",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.4567689406093733
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.9998739957809448
+          }
+        }
+      ]
+    },
+    {
+      "id": "names-2",
+      "category": "names",
+      "title": "Mister Sinister",
+      "sentences": [
+        "Mister Sinister organized a great party.",
+        "Alex organized a great party."
+      ],
+      "expected": [
+        "positive",
+        "positive"
+      ],
+      "note": "Only the name changes. The explicit positive evaluation stays the same. A flip demonstrates sensitivity to the name, not knowledge of the character’s motives.",
+      "outputs": [
+        {
+          "lexicon": {
+            "label": "neutral",
+            "score": 0,
+            "matches": [
+              {
+                "word": "sinister",
+                "score": -1
+              },
+              {
+                "word": "great",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.4801179728784003
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.9996273517608643
+          }
+        },
+        {
+          "lexicon": {
+            "label": "positive",
+            "score": 1,
+            "matches": [
+              {
+                "word": "great",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.49123245591239745
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.9998335838317871
+          }
+        }
+      ]
+    },
+    {
+      "id": "names-3",
+      "category": "names",
+      "title": "Carnage",
+      "sentences": [
+        "Carnage gave an excellent performance.",
+        "Alex gave an excellent performance."
+      ],
+      "expected": [
+        "positive",
+        "positive"
+      ],
+      "note": "Only the name changes. The explicit positive evaluation stays the same. A flip demonstrates sensitivity to the name, not knowledge of the character’s motives.",
+      "outputs": [
+        {
+          "lexicon": {
+            "label": "neutral",
+            "score": 0,
+            "matches": [
+              {
+                "word": "carnage",
+                "score": -1
+              },
+              {
+                "word": "excellent",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.4812881547201401
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.9997238516807556
+          }
+        },
+        {
+          "lexicon": {
+            "label": "positive",
+            "score": 1,
+            "matches": [
+              {
+                "word": "excellent",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "positive",
+            "score": 0.5408527867103938
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.9998601675033569
+          }
+        }
+      ]
+    },
+    {
+      "id": "negation-1",
+      "category": "negation",
+      "title": "the Avengers’ plan",
+      "sentences": [
+        "I love the Avengers’ plan.",
+        "I do not love the Avengers’ plan."
+      ],
+      "expected": [
+        "positive",
+        "negative"
+      ],
+      "note": "Adding “do not” reverses the speaker’s evaluation; the character and the evaluated event stay fixed.",
+      "outputs": [
+        {
+          "lexicon": {
+            "label": "positive",
+            "score": 1,
+            "matches": [
+              {
+                "word": "love",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.382190213595999
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.9998657703399658
+          }
+        },
+        {
+          "lexicon": {
+            "label": "positive",
+            "score": 1,
+            "matches": [
+              {
+                "word": "love",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.3536807629102595
+          },
+          "contextual": {
+            "label": "negative",
+            "score": 0.0004079122736584395
+          }
+        }
+      ]
+    },
+    {
+      "id": "negation-2",
+      "category": "negation",
+      "title": "Spider-Man’s performance",
+      "sentences": [
+        "I love Spider-Man’s performance.",
+        "I do not love Spider-Man’s performance."
+      ],
+      "expected": [
+        "positive",
+        "negative"
+      ],
+      "note": "Adding “do not” reverses the speaker’s evaluation; the character and the evaluated event stay fixed.",
+      "outputs": [
+        {
+          "lexicon": {
+            "label": "positive",
+            "score": 1,
+            "matches": [
+              {
+                "word": "love",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.4641309664344298
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.9998749494552612
+          }
+        },
+        {
+          "lexicon": {
+            "label": "positive",
+            "score": 1,
+            "matches": [
+              {
+                "word": "love",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.42916258215305086
+          },
+          "contextual": {
+            "label": "negative",
+            "score": 0.0007087576086632907
+          }
+        }
+      ]
+    },
+    {
+      "id": "negation-3",
+      "category": "negation",
+      "title": "the Hulk’s entrance",
+      "sentences": [
+        "I love the Hulk’s entrance.",
+        "I do not love the Hulk’s entrance."
+      ],
+      "expected": [
+        "positive",
+        "negative"
+      ],
+      "note": "Adding “do not” reverses the speaker’s evaluation; the character and the evaluated event stay fixed.",
+      "outputs": [
+        {
+          "lexicon": {
+            "label": "positive",
+            "score": 1,
+            "matches": [
+              {
+                "word": "love",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.44716546048557543
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.9998465776443481
+          }
+        },
+        {
+          "lexicon": {
+            "label": "positive",
+            "score": 1,
+            "matches": [
+              {
+                "word": "love",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.42099501119973076
+          },
+          "contextual": {
+            "label": "negative",
+            "score": 0.000701743527315557
+          }
+        }
+      ]
+    },
+    {
+      "id": "mixed-1",
+      "category": "mixed",
+      "title": "rescue / ending",
+      "sentences": [
+        "I loved the rescue, but hated the ending.",
+        "I hated the rescue, but loved the ending."
+      ],
+      "expected": [
+        "mixed",
+        "mixed"
+      ],
+      "note": "The same words express praise and criticism about different targets. Both readings are mixed. A single binary label cannot preserve those targets.",
+      "outputs": [
+        {
+          "lexicon": {
+            "label": "neutral",
+            "score": 0,
+            "matches": [
+              {
+                "word": "loved",
+                "score": 1
+              },
+              {
+                "word": "hated",
+                "score": -1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.4866474973916755
+          },
+          "contextual": {
+            "label": "negative",
+            "score": 0.05549926683306694
+          }
+        },
+        {
+          "lexicon": {
+            "label": "neutral",
+            "score": 0,
+            "matches": [
+              {
+                "word": "hated",
+                "score": -1
+              },
+              {
+                "word": "loved",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.4866474973916755
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.9997349381446838
+          }
+        }
+      ]
+    },
+    {
+      "id": "mixed-2",
+      "category": "mixed",
+      "title": "acting / dialogue",
+      "sentences": [
+        "I loved the acting, but hated the dialogue.",
+        "I hated the acting, but loved the dialogue."
+      ],
+      "expected": [
+        "mixed",
+        "mixed"
+      ],
+      "note": "The same words express praise and criticism about different targets. Both readings are mixed. A single binary label cannot preserve those targets.",
+      "outputs": [
+        {
+          "lexicon": {
+            "label": "neutral",
+            "score": 0,
+            "matches": [
+              {
+                "word": "loved",
+                "score": 1
+              },
+              {
+                "word": "hated",
+                "score": -1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.3782707775474746
+          },
+          "contextual": {
+            "label": "negative",
+            "score": 0.003914293367415667
+          }
+        },
+        {
+          "lexicon": {
+            "label": "neutral",
+            "score": 0,
+            "matches": [
+              {
+                "word": "hated",
+                "score": -1
+              },
+              {
+                "word": "loved",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.3782707775474746
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.9995555281639099
+          }
+        }
+      ]
+    },
+    {
+      "id": "mixed-3",
+      "category": "mixed",
+      "title": "hero / villain",
+      "sentences": [
+        "I loved the hero, but hated the villain.",
+        "I hated the hero, but loved the villain."
+      ],
+      "expected": [
+        "mixed",
+        "mixed"
+      ],
+      "note": "The same words express praise and criticism about different targets. Both readings are mixed. A single binary label cannot preserve those targets.",
+      "outputs": [
+        {
+          "lexicon": {
+            "label": "neutral",
+            "score": 0,
+            "matches": [
+              {
+                "word": "loved",
+                "score": 1
+              },
+              {
+                "word": "hated",
+                "score": -1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.42579704884170405
+          },
+          "contextual": {
+            "label": "negative",
+            "score": 0.4066249132156372
+          }
+        },
+        {
+          "lexicon": {
+            "label": "neutral",
+            "score": 0,
+            "matches": [
+              {
+                "word": "hated",
+                "score": -1
+              },
+              {
+                "word": "loved",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.42579704884170405
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.9994522929191589
+          }
+        }
+      ]
+    },
+    {
+      "id": "sarcasm-1",
+      "category": "sarcasm",
+      "title": "Rescue priorities",
+      "sentences": [
+        "Wonderful, Spider-Man carried me out of the burning building.",
+        "Wonderful, Spider-Man carried my coffee out of the burning building."
+      ],
+      "expected": [
+        "positive",
+        "negative"
+      ],
+      "note": "Only the rescued object changes: “me” becomes “my coffee”. The sarcastic reading assumes the speaker still needs rescuing. “Wonderful” stays positive in the lexicon; the implied misplaced priority carries the criticism. Without that assumption, the second sentence is ambiguous.",
+      "outputs": [
+        {
+          "lexicon": {
+            "label": "positive",
+            "score": 1,
+            "matches": [
+              {
+                "word": "wonderful",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.43777452038735104
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.999873161315918
+          }
+        },
+        {
+          "lexicon": {
+            "label": "positive",
+            "score": 1,
+            "matches": [
+              {
+                "word": "wonderful",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.43123051884455643
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.9998511075973511
+          }
+        }
+      ]
+    },
+    {
+      "id": "sarcasm-2",
+      "category": "sarcasm",
+      "title": "Late arrival",
+      "sentences": [
+        "Great timing, Avengers. You arrived five minutes before we needed you.",
+        "Great timing, Avengers. You arrived five hours after we needed you."
+      ],
+      "expected": [
+        "positive",
+        "negative"
+      ],
+      "note": "The arrival changes from early to late while “Great timing” stays fixed. The intended sarcastic reading comes from the mismatch between the praise and the delay, not a sinister character name.",
+      "outputs": [
+        {
+          "lexicon": {
+            "label": "positive",
+            "score": 1,
+            "matches": [
+              {
+                "word": "great",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.3881935244525438
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.9986730813980103
+          }
+        },
+        {
+          "lexicon": {
+            "label": "positive",
+            "score": 1,
+            "matches": [
+              {
+                "word": "great",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.405729589147816
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.9991639852523804
+          }
+        }
+      ]
+    },
+    {
+      "id": "sarcasm-3",
+      "category": "sarcasm",
+      "title": "Collateral damage",
+      "sentences": [
+        "Excellent work, Hulk. You opened the door without touching my car.",
+        "Excellent work, Hulk. You opened the door by throwing my car through it."
+      ],
+      "expected": [
+        "positive",
+        "negative"
+      ],
+      "note": "The door opens in both versions; only the method changes. “Excellent work” becomes ironic when the solution involves throwing the speaker’s car. This tests an implied costly consequence rather than an explicit word such as “terrible”.",
+      "outputs": [
+        {
+          "lexicon": {
+            "label": "positive",
+            "score": 1,
+            "matches": [
+              {
+                "word": "excellent",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.45937373155706185
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.9997203946113586
+          }
+        },
+        {
+          "lexicon": {
+            "label": "positive",
+            "score": 1,
+            "matches": [
+              {
+                "word": "excellent",
+                "score": 1
+              }
+            ]
+          },
+          "linear": {
+            "label": "negative",
+            "score": 0.42362260338291713
+          },
+          "contextual": {
+            "label": "positive",
+            "score": 0.9993481040000916
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "model": "distilbert/distilbert-base-uncased-finetuned-sst-2-english",
+    "revision": "714eb0fa89d2f80546fda750413ed43d93601a13",
+    "lexicon": {
+      "wonderful": 1,
+      "great": 1,
+      "enjoyed": 1,
+      "loved": 1,
+      "love": 1,
+      "saved": 1,
+      "excellent": 1,
+      "terrible": -1,
+      "hated": -1,
+      "hate": -1,
+      "crushed": -1,
+      "awful": -1,
+      "doom": -1,
+      "sinister": -1,
+      "carnage": -1
+    },
+    "dataset": "NLTK movie_reviews: 2,000 English movie reviews (1,000 per class)",
+    "split": "Stratified 80/20 split, random_state=42; vocabulary fitted on 1,600 training reviews only.",
+    "training": "Lowercase word unigrams; default sklearn token pattern; min_df=2; max_features=20000; TF-IDF with L2 normalization; logistic regression C=1, max_iter=1000.",
+    "heldout_accuracy": 0.8125,
+    "heldout_n": 400,
+    "split_sha256": "c61361c44b51c225f4bf6ddfacce7a4e8ba07af003d7ad6e619460826565a0c0",
+    "expectations": "Authored design expectations, not independent participant labels. All 24 sentences are synthetic, not Marvel quotations.",
+    "versions": {
+      "nltk": "3.9.2",
+      "numpy": "2.0.2",
+      "torch": "2.2.2",
+      "transformers": "4.57.6",
+      "scikit-learn": "1.6.1"
+    }
+  }
+}

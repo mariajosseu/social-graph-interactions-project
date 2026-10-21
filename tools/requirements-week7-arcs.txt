@@ -1,0 +1,8 @@
+# Tested with Python 3.9; use a separate Python 3.9–3.11 virtual environment.
+numpy==1.26.4
+nltk==3.9.2
+scikit-learn==1.6.1
+torch==2.2.2
+transformers==4.57.6
+emoji==0.6.0
+text-unidecode==1.3
