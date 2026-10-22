@@ -1,0 +1,37 @@
+/* Questions 5 and 6: text-built network and retrieval comparison. */
+.net-summary { grid-template-columns: repeat(4, 1fr); }
+.net-controls { grid-template-columns: repeat(3, 1fr); }
+.net-controls select:disabled { opacity: .45; }
+.net-bar { display: flex; min-height: 3rem; border: 1px solid var(--ink); margin: 0 0 .8rem; }
+.net-seg { display: flex; align-items: center; justify-content: center; min-width: 2px; overflow: hidden; font: .7rem 'DM Mono', monospace; }
+.net-seg-link { background: var(--paper); color: var(--ink); }
+.net-seg-both { background: var(--ink); color: var(--paper); }
+.net-seg-text { background: var(--red); color: var(--paper); }
+.net-key { font: .65rem 'DM Mono', monospace; color: var(--muted); margin: 0 0 1rem; }
+.net-list, .ret-list { list-style: none; margin: 1rem 0; padding: 0; display: grid; gap: 1rem; }
+.net-edge { background: var(--paper); border-left: 3px solid var(--red); padding: .9rem 1.1rem; }
+.net-edge-head { font-weight: 700; }
+.net-edge-head a { color: inherit; }
+.net-edge-meta { display: block; font: .65rem 'DM Mono', monospace; color: var(--muted); margin-top: .25rem; }
+.net-evidence { margin: .6rem 0 0; font-size: .85rem; line-height: 1.5; }
+.net-evidence cite { color: var(--muted); font-size: .75rem; }
+blockquote.net-evidence { padding-left: .8rem; border-left: 1px solid var(--line); }
+
+.ret-summary { grid-template-columns: repeat(4, 1fr); }
+.ret-controls { grid-template-columns: 1fr; }
+.ret-verdict { background: var(--paper); border-left: 3px solid var(--red); padding: 1rem 1.2rem; margin: 1rem 0; max-width: 900px; }
+.ret-badge { text-transform: uppercase; font: .7rem 'DM Mono', monospace; letter-spacing: .04em; }
+.ret-sparse { color: var(--red); }
+.ret-dense { color: var(--ink); text-decoration: underline; }
+.ret-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.ret-col h4 { margin: 0; font: .75rem 'DM Mono', monospace; text-transform: uppercase; border-bottom: 2px solid var(--ink); padding-bottom: .4rem; }
+.ret-list li { background: var(--paper); padding: .8rem 1rem; }
+.ret-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .4rem; }
+.ret-meta { font: .6rem 'DM Mono', monospace; color: var(--muted); }
+.ret-snippet { margin: .4rem 0 0; font-size: .85rem; line-height: 1.5; }
+.ret-snippet mark { background: var(--acid); color: var(--ink); }
+
+@media (max-width: 800px) {
+    .net-summary, .ret-summary, .net-controls { grid-template-columns: repeat(2, 1fr); }
+    .ret-cols { grid-template-columns: 1fr; }
+}

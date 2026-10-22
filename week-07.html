@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="weeks/week5/week5.css">
     <link rel="stylesheet" href="weeks/week7/week7.css?v=category-results-3">
+    <link rel="stylesheet" href="weeks/week7/week7-extra.css">
 </head>
 
 <body>
@@ -280,6 +281,62 @@
 
         </section>
 
+        <section class="w5-section w7-section" id="question-5" aria-labelledby="net-title">
+            <div class="section-marker"><span>Question 05 / Can text build a useful network?</span><span>CO-MENTIONS × HYPERLINKS</span></div>
+            <div class="w7-heading">
+                <p class="eyebrow">Figure 05 / Two ways to say “these characters are connected”</p>
+                <h2 id="net-title">Linked, or merely mentioned together?</h2>
+                <p>We scan all 303 pages for the names of the other characters. Two characters become connected when
+                    their names appear in the same sentence on any page. Then we lay this text network over the Wikipedia
+                    hyperlink network and read the edges that only one of them has.</p>
+            </div>
+            <p class="w7-finding">Working question: what does a co-mention capture that a hyperlink does not, and the other way round?</p>
+            <p id="net-status" role="status">Loading the text network…</p>
+            <div id="net-app" hidden>
+                <div class="doom-controls net-controls">
+                    <label>Count a text edge when names share<select id="net-threshold"></select></label>
+                    <label>Edges to read<select id="net-category"></select></label>
+                    <label>Text-only source<select id="net-third"><option value="all">Any page</option><option value="third">Third character’s page</option><option value="own">One of the two pages</option></select></label>
+                </div>
+                <div class="doom-summary net-summary" id="net-summary"></div>
+                <div id="net-bar" class="net-bar" role="img"></div>
+                <p class="net-key">Left to right: hyperlink only · in both · text only</p>
+                <p id="net-readout" class="doom-number" aria-live="polite"></p>
+                <p id="net-list-count" class="doom-note"></p>
+                <ul id="net-list" class="net-list"></ul>
+                <div class="w7-heading"><p class="eyebrow">What the comparison found</p><h3>Different questions, different edges.</h3><p id="net-findings"></p></div>
+                <details class="doom-details"><summary>How we did it</summary>
+                    <p id="net-method-note"></p>
+                    <p>Name variants that belong to more than one page are resolved to the page without a qualifier (for example “Spider-Man”) or dropped. Sentence splitting is rule-based. Every quoted sentence comes from the page named under it.</p>
+                </details>
+            </div>
+            <noscript><p>Enable JavaScript to explore the text network.</p></noscript>
+        </section>
+
+        <section class="w5-section w7-section w7-alt" id="question-6" aria-labelledby="ret-title">
+            <div class="section-marker"><span>Question 06 / Semantic search versus keyword search</span><span>BM25 × EMBEDDINGS</span></div>
+            <div class="w7-heading">
+                <p class="eyebrow">Figure 06 / Same query, two retrievers</p>
+                <h2 id="ret-title">When does meaning beat words?</h2>
+                <p>Eight queries were designed to pull keyword search (BM25) and embedding search apart: a rare name, a
+                    paraphrase, a vocabulary mismatch, a negation and an event described in many ways. Pick a query and
+                    read the pages each method returns. Words from the query are highlighted.</p>
+            </div>
+            <p class="w7-finding">Embeddings are not simply better: they win when the page uses other words, and lose when the exact word is the point.</p>
+            <p id="ret-status" role="status">Loading the retrieval experiment…</p>
+            <div id="ret-app" hidden>
+                <div class="doom-summary ret-summary" id="ret-summary"></div>
+                <div class="doom-controls ret-controls"><label>Query<select id="ret-query"></select></label></div>
+                <p id="ret-note" class="doom-note"></p>
+                <p id="ret-verdict" class="ret-verdict" aria-live="polite"></p>
+                <p id="ret-overlap" class="doom-caption"></p>
+                <div id="ret-cols" class="ret-cols"></div>
+                <details class="doom-details"><summary>How we did it</summary>
+                    <p id="ret-method"></p>
+                </details>
+            </div>
+            <noscript><p>Enable JavaScript to explore the retrieval comparison.</p></noscript>
+        </section>
 
     </main>
     <footer class="site-footer"><a href="week-06.html">← Week 06</a><span>WEEK 07 / 2026</span><a
@@ -287,6 +344,8 @@
     <script src="weeks/week7/week7.js" defer></script>
     <script src="weeks/week7/week7-sentiment.js?v=category-results-3" defer></script>
     <script src="weeks/week7/week7-arcs.js" defer></script>
+    <script src="weeks/week7/week7-network.js" defer></script>
+    <script src="weeks/week7/week7-retrieval.js" defer></script>
 </body>
 
 </html>
