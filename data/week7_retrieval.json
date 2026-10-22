@@ -1,0 +1,1007 @@
+{
+ "version": 1,
+ "topK": 5,
+ "model": "sentence-transformers/all-MiniLM-L6-v2",
+ "pages": 303,
+ "sparse": "BM25 (k1=1.5, b=0.75), lowercase tokens, English stop words removed, no stemming",
+ "dense": "Max cosine similarity between the query and any ~254-token chunk of the page",
+ "queries": [
+  {
+   "kind": "rare-name",
+   "query": "Wakanda",
+   "note": "A rare exact word: sparse retrieval should be at home.",
+   "winner": "sparse",
+   "verdict": "Ranks 1–2 agree. Sparse’s other three hits (Storm, John Jameson, Doom 2099) really mention Wakanda; dense fills places 3–5 with Dragon Lord, Gwenpool and Silhouette, whose snippets are not about Wakanda.",
+   "overlap": 2,
+   "matchingPages": 19,
+   "sparse": [
+    {
+     "id": "Shuri_(character)",
+     "name": "Shuri (character)",
+     "score": 6.459,
+     "otherRank": 1,
+     "snippet": "Shuri is the princess of the fictional African nation of Wakanda.",
+     "matched": [
+      "wakanda"
+     ]
+    },
+    {
+     "id": "Black_Panther_(character)",
+     "name": "Black Panther (character)",
+     "score": 6.42,
+     "otherRank": 2,
+     "snippet": "Born T'Challa, son of the previous Black Panther T'Chaka, he is the king and protector of the fictional African nation of Wakanda, a technologically advanced society sustained by deposits of the fictional metal vibranium.",
+     "matched": [
+      "wakanda"
+     ]
+    },
+    {
+     "id": "Storm_(Marvel_Comics)",
+     "name": "Storm (Marvel Comics)",
+     "score": 4.622,
+     "otherRank": 159,
+     "snippet": "While she was married to him, she was also made queen consort of the African nation of Wakanda.",
+     "matched": [
+      "wakanda"
+     ]
+    },
+    {
+     "id": "John_Jameson_(character)",
+     "name": "John Jameson (character)",
+     "score": 4.51,
+     "otherRank": 25,
+     "snippet": "Jameson as the Man-Wolf joins the Agents of Wakanda.",
+     "matched": [
+      "wakanda"
+     ]
+    },
+    {
+     "id": "Doom_2099",
+     "name": "Doom 2099",
+     "score": 4.345,
+     "otherRank": 126,
+     "snippet": "One Nation Under Doom Doom sets out to conquer the United States, but has lost several of his allies: Wire's body had died, though his mind lived on in cyberspace; Poet died battling drug-traders; and Xandra had left to train in Wakanda.",
+     "matched": [
+      "wakanda"
+     ]
+    }
+   ],
+   "dense": [
+    {
+     "id": "Shuri_(character)",
+     "name": "Shuri (character)",
+     "score": 0.473,
+     "otherRank": 1,
+     "snippet": "Shuri is the princess of the fictional African nation of Wakanda.",
+     "matched": [
+      "wakanda"
+     ]
+    },
+    {
+     "id": "Black_Panther_(character)",
+     "name": "Black Panther (character)",
+     "score": 0.409,
+     "otherRank": 2,
+     "snippet": "Wakanda experiences a national crisis as a result of its economic and political difficulties, loss of life, and the blow to their pride as a historically undefeated nation.",
+     "matched": [
+      "wakanda"
+     ]
+    },
+    {
+     "id": "Dragon_Lord_(character)",
+     "name": "Dragon Lord (character)",
+     "score": 0.24,
+     "otherRank": 89,
+     "snippet": "Tako Shamara In his first appearance the character battled a huge dragon from the past called a Wani, a monster that destroyed his ancestors' villages in 1582.",
+     "matched": []
+    },
+    {
+     "id": "Gwenpool",
+     "name": "Gwenpool",
+     "score": 0.227,
+     "otherRank": 122,
+     "snippet": "Upon gaining the ability to manipulate the borders of the fourth wall from an attempt to return her to reality, allowing her to travel in time, Gwen retcons the Marvel Universe into believing her to be a mutant after being given the idea by Kamala Khan, allowing her to enter the gates of Krakoa.",
+     "matched": []
+    },
+    {
+     "id": "Silhouette_(comics)",
+     "name": "Silhouette (comics)",
+     "score": 0.224,
+     "otherRank": 239,
+     "snippet": "Miyami was a member of the cult Dragon's Breath, which was based in an ancient temple in Cambodia.",
+     "matched": []
+    }
+   ]
+  },
+  {
+   "kind": "rare-name",
+   "query": "Asgard",
+   "note": "Another exact place name that many unrelated pages use in passing.",
+   "winner": "tie",
+   "verdict": "Both find Fandral, Balder and Hrimhari. Sparse adds Beta Ray Bill and Thor Girl, both Asgard stories; dense adds Ares (the Siege of Asgard) but also Blackwulf, whose snippet does not mention it.",
+   "overlap": 3,
+   "matchingPages": 19,
+   "sparse": [
+    {
+     "id": "Fandral",
+     "name": "Fandral",
+     "score": 6.395,
+     "otherRank": 2,
+     "snippet": "Fictional character biography Fandral is a warrior of Asgard and an adventurer.",
+     "matched": [
+      "asgard"
+     ]
+    },
+    {
+     "id": "Hrimhari",
+     "name": "Hrimhari",
+     "score": 6.356,
+     "otherRank": 3,
+     "snippet": "Hrimhari encounters the New Mutants while they are in Asgard and quickly bonds with Wolfsbane, a member of the group who possesses similar abilities to his own.",
+     "matched": [
+      "asgard"
+     ]
+    },
+    {
+     "id": "Balder_the_Brave",
+     "name": "Balder the Brave",
+     "score": 6.29,
+     "otherRank": 1,
+     "snippet": "Fictional character biography Balder is the son of Odin, the ruler of the Norse gods of Asgard, and the half-brother of Thor.",
+     "matched": [
+      "asgard"
+     ]
+    },
+    {
+     "id": "Beta_Ray_Bill",
+     "name": "Beta Ray Bill",
+     "score": 5.81,
+     "otherRank": 10,
+     "snippet": "Once Skuttlebutt arrives on Earth, Bill easily defeats an approaching S.H.I.E.L.D. team and is then transported to Asgard by the King of the Norse gods, Odin, who mistakes Bill for Thor.",
+     "matched": [
+      "asgard"
+     ]
+    },
+    {
+     "id": "Thor_Girl",
+     "name": "Thor Girl",
+     "score": 4.969,
+     "otherRank": 15,
+     "snippet": "She is quite confused about why Odin took all of the Asgardians back to the Asgard Realm, and is still deciding as to whether she should join them.",
+     "matched": [
+      "asgard"
+     ]
+    }
+   ],
+   "dense": [
+    {
+     "id": "Balder_the_Brave",
+     "name": "Balder the Brave",
+     "score": 0.495,
+     "otherRank": 3,
+     "snippet": "Balder then assumes the throne of Asgard.",
+     "matched": [
+      "asgard"
+     ]
+    },
+    {
+     "id": "Fandral",
+     "name": "Fandral",
+     "score": 0.404,
+     "otherRank": 1,
+     "snippet": "He helped defend Asgard from the Destroyer.",
+     "matched": [
+      "asgard"
+     ]
+    },
+    {
+     "id": "Hrimhari",
+     "name": "Hrimhari",
+     "score": 0.379,
+     "otherRank": 2,
+     "snippet": "He is highly respected by the people of Asgard, and is said to be a true friend of Hogun.",
+     "matched": [
+      "asgard"
+     ]
+    },
+    {
+     "id": "Blackwulf",
+     "name": "Blackwulf",
+     "score": 0.371,
+     "otherRank": 45,
+     "snippet": "He has guardian mythology behind, you know, Thor.",
+     "matched": []
+    },
+    {
+     "id": "Ares_(Marvel_Comics)",
+     "name": "Ares (Marvel Comics)",
+     "score": 0.332,
+     "otherRank": 6,
+     "snippet": "Once the Siege of Asgard begins, as the battle intensifies, Ares finds himself battling Balder and learns from Heimdall about Osborn's deceptions.",
+     "matched": [
+      "asgard"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "paraphrase",
+   "query": "a hero who lost his memory and does not know who he is",
+   "note": "Amnesia is the concept; the pages may never say “lost his memory”.",
+   "winner": "neither",
+   "verdict": "No overlap and no page about amnesia. Sparse matches “know”, “lost” and “who” in unrelated sentences; dense returns generic hero pages. Either the corpus rarely says this or both representations miss it.",
+   "overlap": 0,
+   "matchingPages": 210,
+   "sparse": [
+    {
+     "id": "Speed_(character)",
+     "name": "Speed (character)",
+     "score": 8.262,
+     "otherRank": 134,
+     "snippet": "His story sees him discovering that he and the magical teen hero Wiccan are long-lost twin brothers, and that the pair are the reincarnations of the illusory sons of the Scarlet Witch and her former husband Vision.",
+     "matched": [
+      "does",
+      "hero",
+      "know",
+      "lost",
+      "memory"
+     ]
+    },
+    {
+     "id": "Spider-Woman_(Jessica_Drew)",
+     "name": "Spider-Woman (Jessica Drew)",
+     "score": 7.325,
+     "otherRank": 294,
+     "snippet": "You know, years ago we brought out Wonder Man, and [DC Comics] sued us because they had Wonder Woman, and...",
+     "matched": [
+      "does",
+      "hero",
+      "know",
+      "lost",
+      "memory"
+     ]
+    },
+    {
+     "id": "U.S._Agent",
+     "name": "U.S. Agent",
+     "score": 6.728,
+     "otherRank": 61,
+     "snippet": "What Fisk does not know is that the U.S.",
+     "matched": [
+      "does",
+      "hero",
+      "know",
+      "lost",
+      "memory"
+     ]
+    },
+    {
+     "id": "Hellion_(character)",
+     "name": "Hellion (character)",
+     "score": 6.529,
+     "otherRank": 218,
+     "snippet": "Now he doesn't know where he's headed anymore and that makes him lash out.",
+     "matched": [
+      "does",
+      "hero",
+      "know",
+      "lost",
+      "memory"
+     ]
+    },
+    {
+     "id": "Ghost_Rider_(Johnny_Blaze)",
+     "name": "Ghost Rider (Johnny Blaze)",
+     "score": 6.03,
+     "otherRank": 40,
+     "snippet": "Any damage he does take is quickly recovered, as Ghost Rider is made of pure hellfire, which he can use to immediately regenerate any lost limbs or holes in his body.",
+     "matched": [
+      "does",
+      "hero",
+      "know",
+      "lost",
+      "memory"
+     ]
+    }
+   ],
+   "dense": [
+    {
+     "id": "Ursa_Major_(character)",
+     "name": "Ursa Major (character)",
+     "score": 0.341,
+     "otherRank": 172,
+     "snippet": "The character has been depicted as a member of the Soviet Super-Soldiers.",
+     "matched": [
+      "does"
+     ]
+    },
+    {
+     "id": "Illuminator_(Marvel_Comics)",
+     "name": "Illuminator (Marvel Comics)",
+     "score": 0.34,
+     "otherRank": 252,
+     "snippet": "He initially assumes the powers must have been granted by extraterrestrials, but after returning home he saves himself and his brother from a demonic possessed man, and an elderly biker named Gus who witnessed the ordeal recognizes the powers as being divine in nature.",
+     "matched": []
+    },
+    {
+     "id": "Isaiah_Bradley",
+     "name": "Isaiah Bradley",
+     "score": 0.312,
+     "otherRank": 131,
+     "snippet": "The character is an early product of the United States' Super Soldier program (codenamed Project: Rebirth) during World War II.",
+     "matched": [
+      "does",
+      "hero"
+     ]
+    },
+    {
+     "id": "Crippler_(character)",
+     "name": "Crippler (character)",
+     "score": 0.304,
+     "otherRank": 228,
+     "snippet": "Fictional character biography Carl Stricklan was once a U.S.",
+     "matched": []
+    },
+    {
+     "id": "Moon_Knight",
+     "name": "Moon Knight",
+     "score": 0.304,
+     "otherRank": 68,
+     "snippet": "Profile, an information broker with the ability to instantly analyze anyone he observes, and Morpheus, a man transformed by sleep deprivation experiments, are among the villains whose abilities relate to psychology and perception, themes associated with Moon Knight's portrayal as a character with dissociative identity ",
+     "matched": [
+      "does",
+      "hero",
+      "know"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "paraphrase",
+   "query": "a teenager who gets spider-like abilities after an accident",
+   "note": "A description with no character names.",
+   "winner": "dense",
+   "verdict": "Dense returns five spider-themed pages (Spider-Man, Steel Spider, Mayday Parker, Silk, Gwen Stacy). Sparse matches filler words (“gets”, “abilities”, “accident”) and surfaces Bob, Black Cat and the Hulk.",
+   "overlap": 1,
+   "matchingPages": 291,
+   "sparse": [
+    {
+     "id": "Bob,_Agent_of_Hydra",
+     "name": "Bob, Agent of Hydra",
+     "score": 8.018,
+     "otherRank": 209,
+     "snippet": "However, the trio gets kidnapped by MODOK, interested in Shiklah's succubus powers.",
+     "matched": [
+      "abilities",
+      "accident",
+      "gets",
+      "spider"
+     ]
+    },
+    {
+     "id": "Spider-Man",
+     "name": "Spider-Man",
+     "score": 7.363,
+     "otherRank": 1,
+     "snippet": "In his origin story, Peter gets his superhuman spider-powers and abilities after he was bitten by a radioactive spider.",
+     "matched": [
+      "abilities",
+      "accident",
+      "gets",
+      "like",
+      "spider",
+      "teenager"
+     ]
+    },
+    {
+     "id": "Black_Cat_(Marvel_Comics)",
+     "name": "Black Cat (Marvel Comics)",
+     "score": 6.63,
+     "otherRank": 21,
+     "snippet": "Smith has stated, \"While I have zero defense for my lateness (particularly when folks like [Brian Michael] Bendis turn out great stories in multiple books on a monthly basis), I will say this: it's a much better story now than it would've been had I completed it back in '02.\" In the mid-2000s, she starred alongside Spi",
+     "matched": [
+      "abilities",
+      "accident",
+      "gets",
+      "like",
+      "spider",
+      "teenager"
+     ]
+    },
+    {
+     "id": "Hulk",
+     "name": "Hulk",
+     "score": 6.62,
+     "otherRank": 90,
+     "snippet": "Commonly portrayed as a raging savage, the Hulk has been represented with other alter egos like a gangster (Joe Fixit), a merged personality (Professor Hulk), a brilliant warrior (Green Scar), Banner's inner child (Big Guy), Big Guy's self-hating father figure (Devil Hulk), a genius scientist in his own right (Doc Gree",
+     "matched": [
+      "abilities",
+      "gets",
+      "like",
+      "spider",
+      "teenager"
+     ]
+    },
+    {
+     "id": "Will_o'_the_Wisp_(comics)",
+     "name": "Will o' the Wisp (comics)",
+     "score": 6.334,
+     "otherRank": 8,
+     "snippet": "He is a physicist who gained control over the electromagnetic attraction between his body's molecules, allowing him to adjust his density (like the Vision).",
+     "matched": [
+      "abilities",
+      "accident",
+      "like",
+      "spider"
+     ]
+    }
+   ],
+   "dense": [
+    {
+     "id": "Spider-Man",
+     "name": "Spider-Man",
+     "score": 0.515,
+     "otherRank": 2,
+     "snippet": "Powers, skills, and equipment Peter Parker was bitten by a radioactive spider and subsequently developed spider-powers such as the ability to stick to walls and climb surfaces, the proportionate strength, speed, agility, and reflexes of a spider, and a \"spider-sense\" that warns him of danger.",
+     "matched": [
+      "abilities",
+      "accident",
+      "gets",
+      "like",
+      "spider",
+      "teenager"
+     ]
+    },
+    {
+     "id": "Steel_Spider",
+     "name": "Steel Spider",
+     "score": 0.491,
+     "otherRank": 11,
+     "snippet": "Having retained the use of the Steel Spider identity, he modifies his suit into a powerful exoskeleton and becomes a highly respected superhero.",
+     "matched": [
+      "abilities",
+      "spider",
+      "teenager"
+     ]
+    },
+    {
+     "id": "Mayday_Parker",
+     "name": "Mayday Parker",
+     "score": 0.475,
+     "otherRank": 6,
+     "snippet": "Despite her parents' hopes, May began developing versions of her father's spider-powers when she was 15.",
+     "matched": [
+      "abilities",
+      "gets",
+      "like",
+      "spider",
+      "teenager"
+     ]
+    },
+    {
+     "id": "Silk_(character)",
+     "name": "Silk (character)",
+     "score": 0.472,
+     "otherRank": 22,
+     "snippet": "Cindy of Earth-65 almost had a similar spider bite accident to the main one, but a teacher swatted it with a newspaper.",
+     "matched": [
+      "abilities",
+      "accident",
+      "like",
+      "spider"
+     ]
+    },
+    {
+     "id": "Spider-Woman_(Gwen_Stacy)",
+     "name": "Spider-Woman (Gwen Stacy)",
+     "score": 0.471,
+     "otherRank": 18,
+     "snippet": "An alternate-universe version of Gwen Stacy from Spider-Man stories, she lives on Earth-65, where she was bitten by a radioactive spider as a teenager and became Spider-Woman, developing some of the classic Spider-Man personality, conflicts, tribulations, powers and abilities.",
+     "matched": [
+      "abilities",
+      "gets",
+      "like",
+      "spider",
+      "teenager"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "vocabulary",
+   "query": "artificial intelligence that becomes self-aware",
+   "note": "Pages may say android, robot, sentient or synthezoid instead.",
+   "winner": "dense",
+   "verdict": "Dense finds Machine Man (robots achieving sentience) and Iron Lad (Vision’s software), though it also returns noise (Nightmask, Bird-Brain). Sparse is mostly noise apart from Baymax and Human Torch (android).",
+   "overlap": 0,
+   "matchingPages": 146,
+   "sparse": [
+    {
+     "id": "Baymax",
+     "name": "Baymax",
+     "score": 9.759,
+     "otherRank": 23,
+     "snippet": "However, prior to the project's completion, Hiro's father died and the young inventor programmed Baymax's artificial intelligence using the brain engrams of his recently deceased father.",
+     "matched": [
+      "artificial",
+      "intelligence",
+      "self"
+     ]
+    },
+    {
+     "id": "Hank_Pym",
+     "name": "Hank Pym",
+     "score": 9.003,
+     "otherRank": 75,
+     "snippet": "Powers and abilities Hank Pym is a scientific genius with PhDs in biochemistry and nanotechnology and expertise in the fields of quantum physics, robotics/cybernetics, artificial intelligence, and entomology.",
+     "matched": [
+      "artificial",
+      "aware",
+      "intelligence",
+      "self"
+     ]
+    },
+    {
+     "id": "Scatterbrain_(Morituri)",
+     "name": "Scatterbrain (Morituri)",
+     "score": 8.687,
+     "otherRank": 185,
+     "snippet": "Subsequent issues saw appearances of what appeared to be his ghost, until, in the Strikeforce: Morituri: Electric Undertow miniseries, it was revealed to be a sentient artificial intelligence modeled after Scatterbrain.",
+     "matched": [
+      "artificial",
+      "intelligence"
+     ]
+    },
+    {
+     "id": "Shatterstar",
+     "name": "Shatterstar",
+     "score": 6.104,
+     "otherRank": 49,
+     "snippet": "An early mystery about the character concerned his similarities to the mutant hero Longshot, which was later resolved in a 2010s storyline that explained Shatterstar is the son of Longshot and Dazzler, sent a century back in time by his future self.",
+     "matched": [
+      "artificial",
+      "intelligence",
+      "self"
+     ]
+    },
+    {
+     "id": "Human_Torch_(android)",
+     "name": "Human Torch (android)",
+     "score": 5.702,
+     "otherRank": 52,
+     "snippet": "He has the capacity for creative intelligence, unlimited self-motivated activity, and human-like emotions.",
+     "matched": [
+      "artificial",
+      "intelligence",
+      "self"
+     ]
+    }
+   ],
+   "dense": [
+    {
+     "id": "Machine_Man",
+     "name": "Machine Man",
+     "score": 0.188,
+     "otherRank": 32,
+     "snippet": "The previous 50 experimental robots went mad as they achieved sentience and became psychotic due to a lack of identity.",
+     "matched": [
+      "intelligence",
+      "self"
+     ]
+    },
+    {
+     "id": "Nightmask",
+     "name": "Nightmask",
+     "score": 0.157,
+     "otherRank": 24,
+     "snippet": "He can project illusions into another person's mind, as well as travel between dimensions to some extent.",
+     "matched": [
+      "artificial",
+      "self"
+     ]
+    },
+    {
+     "id": "Illuminator_(Marvel_Comics)",
+     "name": "Illuminator (Marvel Comics)",
+     "score": 0.155,
+     "otherRank": 85,
+     "snippet": "Illuminator is a fictional Christian superhero appearing in American comic books published by Marvel Comics, which debuted during a collaboration with Thomas Nelson.",
+     "matched": [
+      "self"
+     ]
+    },
+    {
+     "id": "Bird-Brain_(Marvel_Comics)",
+     "name": "Bird-Brain (Marvel Comics)",
+     "score": 0.153,
+     "otherRank": 156,
+     "snippet": "Bird-Brain befriends New Mutants member Cypher, who is able to comprehend his language and is ultimately killed in a mission to free the Ani-Mates from the Ani-Mator's custody.",
+     "matched": []
+    },
+    {
+     "id": "Iron_Lad",
+     "name": "Iron Lad",
+     "score": 0.141,
+     "otherRank": 64,
+     "snippet": "He leaves behind his armor, which has activated Vision's operating software and becomes a sentient being called Jonas.",
+     "matched": [
+      "self"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "vocabulary",
+   "query": "controls the weather",
+   "note": "Concept words (storm, lightning, climate) may replace “weather”.",
+   "winner": "sparse",
+   "verdict": "Both rank Storm first. Sparse’s next hits (Straw Man, Dargo Ktor, Thor Girl) literally say “control the weather”. Dense drifts to other elemental control, such as Human Torch controlling fire.",
+   "overlap": 1,
+   "matchingPages": 14,
+   "sparse": [
+    {
+     "id": "Storm_(Marvel_Comics)",
+     "name": "Storm (Marvel Comics)",
+     "score": 8.295,
+     "otherRank": 1,
+     "snippet": "She is able to control the weather and atmosphere and is considered to be one of the most powerful mutants on the planet.",
+     "matched": [
+      "weather"
+     ]
+    },
+    {
+     "id": "Straw_Man_(comics)",
+     "name": "Straw Man (comics)",
+     "score": 6.696,
+     "otherRank": 91,
+     "snippet": "Powers and abilities The Straw Man possesses superhuman strength, plant and weather manipulation, the ability to command crows, the ability to create portals and the ability to induce fear in others.",
+     "matched": [
+      "weather"
+     ]
+    },
+    {
+     "id": "Dargo_Ktor",
+     "name": "Dargo Ktor",
+     "score": 6.678,
+     "otherRank": 74,
+     "snippet": "Powers and abilities Dargo Ktor is worthy of Mjolnir and hence possesses a portion of all of Thor's powers and abilities, such as superhuman strength, speed, durability, electric and weather manipulation.",
+     "matched": [
+      "weather"
+     ]
+    },
+    {
+     "id": "Thor_Girl",
+     "name": "Thor Girl",
+     "score": 5.972,
+     "otherRank": 53,
+     "snippet": "She can use it to fly, fire energy beams, control the weather, and traverse dimensional barriers, such as from Earth to Asgard.",
+     "matched": [
+      "weather"
+     ]
+    },
+    {
+     "id": "Frog-Man",
+     "name": "Frog-Man",
+     "score": 4.876,
+     "otherRank": 149,
+     "snippet": "The story features the villains White Rabbit (who now sees Frog-Man as her arch-enemy) and the Walrus, who join forces as \"the Terrible Two.\" At the end of the story, Vincent presents a new version of the frog-suit that now has a strength-enhancing exoskeleton and more accurate leaping controls.",
+     "matched": [
+      "controls"
+     ]
+    }
+   ],
+   "dense": [
+    {
+     "id": "Storm_(Marvel_Comics)",
+     "name": "Storm (Marvel Comics)",
+     "score": 0.157,
+     "otherRank": 1,
+     "snippet": "Storm possesses the psionic ability to control all forms of weather over vast areas.",
+     "matched": [
+      "weather"
+     ]
+    },
+    {
+     "id": "Breeze_Barton",
+     "name": "Breeze Barton",
+     "score": 0.13,
+     "otherRank": 51,
+     "snippet": "(Altered-Reality Monitoring and Operational Response) leader Howard the Duck and S.H.I.E.L.D.",
+     "matched": []
+    },
+    {
+     "id": "Human_Torch",
+     "name": "Human Torch",
+     "score": 0.115,
+     "otherRank": 133,
+     "snippet": "Even when not engulfed in flame himself, Storm has the ability to control any fire within his immediate range of vision, causing it to increase or decrease in intensity or to move in a pattern directed by his thoughts.",
+     "matched": []
+    },
+    {
+     "id": "Human_Torch_(android)",
+     "name": "Human Torch (android)",
+     "score": 0.093,
+     "otherRank": 134,
+     "snippet": "The Torch has the ability to control ambient heat energy in his immediate environment, which allows him to control flames not of his own generation, makes him immune to the effects of external heat and to absorb heat from other sources.",
+     "matched": []
+    },
+    {
+     "id": "Illuminator_(Marvel_Comics)",
+     "name": "Illuminator (Marvel Comics)",
+     "score": 0.089,
+     "otherRank": 138,
+     "snippet": "During a night at summer camp a light envelops him, it gives him the power of flight, luminescence, and durability.",
+     "matched": []
+    }
+   ]
+  },
+  {
+   "kind": "negation",
+   "query": "heroes who are not human",
+   "note": "Sparse sees “human” and dense may see the concept; neither handles “not” reliably.",
+   "winner": "neither",
+   "verdict": "Neither understands “not”. Dense’s Human Torch (android) is a good hit that sparse also finds, but sparse reaches Human Torch through the word “human” in the name and then returns pages that are simply about humans.",
+   "overlap": 1,
+   "matchingPages": 232,
+   "sparse": [
+    {
+     "id": "Human_Torch",
+     "name": "Human Torch",
+     "score": 2.474,
+     "otherRank": 95,
+     "snippet": "The Human Torch appears in Fantastic Four: World's Greatest Heroes, voiced by Christopher Jacot.",
+     "matched": [
+      "heroes",
+      "human"
+     ]
+    },
+    {
+     "id": "Human_Torch_(android)",
+     "name": "Human Torch (android)",
+     "score": 2.339,
+     "otherRank": 2,
+     "snippet": "The Human Torch, also known as Jim Hammond, is a superhero appearing in American comic books published by Marvel Comics.",
+     "matched": [
+      "heroes",
+      "human"
+     ]
+    },
+    {
+     "id": "Killpower",
+     "name": "Killpower",
+     "score": 2.27,
+     "otherRank": 148,
+     "snippet": "Oonagh Mullarkey using human and animal DNA and was designed as an expendable super-soldier, maturing at a rapid rate.",
+     "matched": [
+      "heroes",
+      "human"
+     ]
+    },
+    {
+     "id": "Jeffrey_Mace",
+     "name": "Jeffrey Mace",
+     "score": 2.227,
+     "otherRank": 9,
+     "snippet": "As the Patriot, he first appeared in Human Torch Comics #4 (March 1941; mis-numbered #3 on cover), published by Marvel's 1940s precursor, Timely Comics.",
+     "matched": [
+      "heroes",
+      "human"
+     ]
+    },
+    {
+     "id": "Jack_Frost_(Marvel_Comics)",
+     "name": "Jack Frost (Marvel Comics)",
+     "score": 2.17,
+     "otherRank": 286,
+     "snippet": "Heroes Meet!\" In this story, there's a gathering at the home of Dan Kane (also known as the superhero Captain Terror) of that issue's heroes: Jack Frost, Rockman, the Whizzer, the Defender and the Vagabond.",
+     "matched": [
+      "heroes",
+      "human"
+     ]
+    }
+   ],
+   "dense": [
+    {
+     "id": "Rikki_Barnes",
+     "name": "Rikki Barnes",
+     "score": 0.422,
+     "otherRank": 139,
+     "snippet": "Created by writer Jeph Loeb and artist Rob Liefeld, the character first appeared in Heroes Reborn #½ (September 1996), where she was established as the Counter-Earth granddaughter of Bucky Barnes during the 1996 \"Heroes Reborn\" storyline.",
+     "matched": [
+      "heroes"
+     ]
+    },
+    {
+     "id": "Human_Torch_(android)",
+     "name": "Human Torch (android)",
+     "score": 0.41,
+     "otherRank": 2,
+     "snippet": "This concept of a living, artificial human made of synthetic flesh and blood was unique in comics, as opposed to the more common theme of a mechanical automaton that only externally resembles a human being.",
+     "matched": [
+      "heroes",
+      "human"
+     ]
+    },
+    {
+     "id": "Crippler_(character)",
+     "name": "Crippler (character)",
+     "score": 0.389,
+     "otherRank": 103,
+     "snippet": "The Wild Pack searched for Deathlok's human body, and battled the Cyberwarriors.",
+     "matched": [
+      "human"
+     ]
+    },
+    {
+     "id": "Hrimhari",
+     "name": "Hrimhari",
+     "score": 0.388,
+     "otherRank": 111,
+     "snippet": "Back with Wolfsbane Hrimhari is killed during the events of Ragnarök, but is later resurrected and gains the ability to assume a human form.",
+     "matched": [
+      "human"
+     ]
+    },
+    {
+     "id": "Nova_(Richard_Rider)",
+     "name": "Nova (Richard Rider)",
+     "score": 0.384,
+     "otherRank": 82,
+     "snippet": "He and two other deceased heroes, Ms.",
+     "matched": [
+      "heroes",
+      "human"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "history",
+   "query": "fought Nazis in World War II",
+   "note": "Event described in many wordings across many pages.",
+   "winner": "dense",
+   "verdict": "Dense finds Blue Bullet, Spitfire, Citizen V and Shear, all World War II characters. Sparse gets Blue Bullet and Junior Juniper but also vague matches such as Spider-Man Noir.",
+   "overlap": 2,
+   "matchingPages": 238,
+   "sparse": [
+    {
+     "id": "Junior_Juniper",
+     "name": "Junior Juniper",
+     "score": 12.725,
+     "otherRank": 5,
+     "snippet": "Fury and His Howling Commandos Had Fought World War II In Outer Space?.",
+     "matched": [
+      "fought",
+      "ii",
+      "nazis",
+      "war",
+      "world"
+     ]
+    },
+    {
+     "id": "Union_Jack_(Marvel_Comics)",
+     "name": "Union Jack (Marvel Comics)",
+     "score": 10.803,
+     "otherRank": 9,
+     "snippet": "Fry III featured Brian Falsworth in a World War II-era story for Midnight Sons Unlimited #9 (May 1995); in the story he teams up with the Blazing Skull to defend a fundraiser he is hosting from a Nazi attack. 2000s publications Lord Falsworth appears as a supporting character in Fabian Nicieza and Lewis LaRosa's Citize",
+     "matched": [
+      "fought",
+      "ii",
+      "nazis",
+      "war",
+      "world"
+     ]
+    },
+    {
+     "id": "Blue_Bullet",
+     "name": "Blue Bullet",
+     "score": 10.723,
+     "otherRank": 1,
+     "snippet": "This time, the Golem was forced to attack the Invaders in Doctor Death’s plan to force the USA out of involvement in World War II.",
+     "matched": [
+      "fought",
+      "ii",
+      "nazis",
+      "war",
+      "world"
+     ]
+    },
+    {
+     "id": "Scarlet_Scarab",
+     "name": "Scarlet Scarab",
+     "score": 9.84,
+     "otherRank": 77,
+     "snippet": "Fictional character biography Abdul Faoul Abdul Faoul was a famous archaeologist during World War II.",
+     "matched": [
+      "fought",
+      "ii",
+      "nazis",
+      "war",
+      "world"
+     ]
+    },
+    {
+     "id": "Spider-Man_Noir",
+     "name": "Spider-Man Noir",
+     "score": 9.402,
+     "otherRank": 52,
+     "snippet": "After Osborn's defeat, Spider-Man Noir continues his vigilante life for years and opposes the forces of Nazi Germany even before the United States enters World War II.",
+     "matched": [
+      "fought",
+      "ii",
+      "nazis",
+      "war",
+      "world"
+     ]
+    }
+   ],
+   "dense": [
+    {
+     "id": "Blue_Bullet",
+     "name": "Blue Bullet",
+     "score": 0.409,
+     "otherRank": 3,
+     "snippet": "When the Nazis learned of his project in 1943, they captured his brother Jacob and ordered John to betray the USA and kill the superhuman Invaders in exchange for Jacob’s life.",
+     "matched": [
+      "fought",
+      "ii",
+      "nazis",
+      "war",
+      "world"
+     ]
+    },
+    {
+     "id": "Spitfire_(character)",
+     "name": "Spitfire (character)",
+     "score": 0.286,
+     "otherRank": 7,
+     "snippet": "Life during World War II As a teenager during World War II, she met the superhuman team the Invaders.",
+     "matched": [
+      "fought",
+      "ii",
+      "nazis",
+      "war",
+      "world"
+     ]
+    },
+    {
+     "id": "Citizen_V",
+     "name": "Citizen V",
+     "score": 0.273,
+     "otherRank": 43,
+     "snippet": "He led a group of freedom fighters called the V-Battalion.",
+     "matched": [
+      "ii",
+      "war",
+      "world"
+     ]
+    },
+    {
+     "id": "Shear_(character)",
+     "name": "Shear (character)",
+     "score": 0.262,
+     "otherRank": 130,
+     "snippet": "Fictional character biography Walther Feyzioglu was born in Germany, the son of Turkish immigrants.",
+     "matched": [
+      "war",
+      "world"
+     ]
+    },
+    {
+     "id": "Junior_Juniper",
+     "name": "Junior Juniper",
+     "score": 0.259,
+     "otherRank": 1,
+     "snippet": "The group was surrounded by Nazis.",
+     "matched": [
+      "fought",
+      "ii",
+      "nazis",
+      "war",
+      "world"
+     ]
+    }
+   ]
+  }
+ ]
+}
